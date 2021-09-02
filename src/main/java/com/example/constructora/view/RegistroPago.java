@@ -1,6 +1,7 @@
 package com.example.constructora.view;
 
 import com.example.constructora.JDBCRepository.*;
+import com.example.constructora.Utils;
 import com.example.constructora.domain.CategoriaLaboral;
 import com.example.constructora.domain.Pago;
 import com.example.constructora.domain.Trabajador;
@@ -15,6 +16,7 @@ import java.awt.event.InputMethodEvent;
 import java.awt.event.InputMethodListener;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 public class RegistroPago extends JFrame
         implements ActionListener {
@@ -46,39 +48,7 @@ public class RegistroPago extends JFrame
     private final JLabel res;
     private final JTextArea resadd;
 
-    private String days[]
-            = {"1", "2", "3", "4", "5",
-            "6", "7", "8", "9", "10",
-            "11", "12", "13", "14", "15",
-            "16", "17", "18", "19", "20",
-            "21", "22", "23", "24", "25",
-            "26", "27", "28", "29", "30",
-            "31"};
 
-    private String months[]
-            = {"Jan", "feb", "Mar", "Apr",
-            "May", "Jun", "July", "Aug",
-            "Sup", "Oct", "Nov", "Dec"};
-
-    private String years[]
-            = { "2018", "2019", "2020", "2021",
-            "2022", "2023", "2024", "2025",
-            "2026", "2027", "2028", "2029",
-            "2030", "2031", "2032", "2033"};
-
-    private final String[] listadoCatLab
-            = {"Peón", "Albañil 1", "Albañil 2", "Maestro Obra"};
-
-
-//    private String workersDniList1[]= {"43233344P", "1996", "1997", "1998",
-//            "1999", "2000", "2001", "2002",
-//            "2003", "2004", "2005", "2006",
-//            "2007", "2008", "2009", "2010",
-//            "2011", "2012", "2013", "2014",
-//            "2015", "2016", "2017", "2018",
-//            "2019", "2020", "2021"};
-//
-//    private Long obrasIdList1[]= { 4566849560204362158L, 2L, 3L, 14L, 1200L };
 
     private Long[] loadObrasIDs() {
         List<Long> obrasList = obrasServiceJDBC.getObrasIDs();
@@ -140,19 +110,19 @@ public class RegistroPago extends JFrame
         beginningDate.setLocation(100, 100);
         c.add(beginningDate);
 
-        date = new JComboBox<>(days);
+        date = new JComboBox<>(Utils.DAYS);
         date.setFont(new Font("Arial", Font.PLAIN, 15));
         date.setSize(50, 20);
         date.setLocation(200, 100);
         c.add(date);
 
-        month = new JComboBox<>(months);
+        month = new JComboBox<>(Utils.MONTHS);
         month.setFont(new Font("Arial", Font.PLAIN, 15));
         month.setSize(60, 20);
         month.setLocation(260, 100);
         c.add(month);
 
-        year = new JComboBox<>(years);
+        year = new JComboBox<>(Utils.COMINGYEARS);
         year.setFont(new Font("Arial", Font.PLAIN, 15));
         year.setSize(60, 20);
         year.setLocation(330, 100);
@@ -164,8 +134,8 @@ public class RegistroPago extends JFrame
         trabajador.setLocation(100, 150);
         c.add(trabajador);
 
-        String[] workersDniList = loadWorkersNames();
-        trabajadorName = new JComboBox<>(workersDniList);
+        String[] workersNamesList = loadWorkersNames();
+        trabajadorName = new JComboBox<>(workersNamesList);
         trabajadorName.setFont(new Font("Arial", Font.PLAIN, 15));
         trabajadorName.setSize(190, 20);
         trabajadorName.setLocation(200, 150);
@@ -199,6 +169,13 @@ public class RegistroPago extends JFrame
                     System.out.println("desde registro :" + workersPerNameList.get(0).getCatLaboral());
                     tDNI.setText(workersPerNameList.get(0).getTrabajador_dni());
                     tCatLaboral.setText(workersPerNameList.get(0).getCatLaboral().getNombreCategoria());
+
+                    if(!Objects.equals(thoras.getText(), "")) {
+                        float toPay = Float.parseFloat(thoras.getText()) * catLaboralServiceJDBC.getPrecioHora(trabajadorServiceJDBC.getCategoriaLaboral(tDNI.getText()));
+                        System.out.println("DESDE action " + toPay);
+                        tcantidad.setText(String.valueOf(toPay));
+                    }
+
                 }
 
             }
@@ -348,10 +325,10 @@ public class RegistroPago extends JFrame
                     + "\n";
             String data1 = "";
             int horas = 0;
-            int cantidad = 0;
+            float cantidad = 0;
             try {
                 horas = Integer.parseInt(thoras.getText());
-                cantidad = Integer.parseInt(tcantidad.getText());
+                cantidad = Float.parseFloat(tcantidad.getText());
                 data1 = "Horas : " + horas + " \n A pagar : " + cantidad + " € \n";
             } catch (Exception exception) {
                 System.out.println("Cantidad incorrecta");

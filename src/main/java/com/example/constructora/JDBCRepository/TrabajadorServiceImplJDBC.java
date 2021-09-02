@@ -27,13 +27,13 @@ public class TrabajadorServiceImplJDBC implements TrabajadorServiceJDBC {
              PreparedStatement stmt = conn.prepareStatement(QUERY)) {
 //            stmt.setLong(1, trabajador.getId());
             stmt.setString(1, trabajador.getTrabajador_dni());
-            stmt.setString(2, trabajador.getCatLaboral().getNombreCategoria());
-            stmt.setString(3, trabajador.getDireccion());
-            stmt.setString(4, trabajador.getEmail());
-            stmt.setDate(5, Date.valueOf(trabajador.getFechaNacimiento()));
-            stmt.setString(6, trabajador.getGenero().getNombreGenero());
-            stmt.setString(7, trabajador.getNombre());
-            stmt.setInt(8, trabajador.getTelefono());
+            stmt.setString(2, trabajador.getDireccion());
+            stmt.setString(3, trabajador.getEmail());
+            stmt.setDate(4, Date.valueOf(trabajador.getFechaNacimiento()));
+            stmt.setString(5, trabajador.getNombre());
+            stmt.setInt(6, trabajador.getTelefono());
+            stmt.setString(7, trabajador.getCatLaboral().getNombreCategoria());
+            stmt.setString(8, trabajador.getGenero().getNombreGenero());
 
 
             int rowAffected = stmt.executeUpdate();
