@@ -40,4 +40,39 @@ public class Utils {
             "2026", "2027", "2028", "2029",
             "2030", "2031", "2032", "2033",
     };
+
+
+    public static final String[] COLUMN_WORKER_NAMES = {
+            "DNI",
+            "Nombre",
+            "Genero",
+            "telefono",
+            "email",
+            "FDN",
+            "direccion",
+            "CatLaboral",
+            "Actualizar",
+            "Eliminar"
+    };
+
+    public static final String[] COLUMN_OBRAS_NAMES = {
+            "id",
+            "Ubicación",
+            "Fecha Inicio",
+            "Fecha Fin",
+            "Descriptor",
+            "Actualizar",
+            "Eliminar"
+    };
+
+    public static final String[] COLUMN_PAGOS_NAMES = {
+            "TrabajadorDNI",
+            "nombreTrabajador",
+            "idObra",
+            "fechaPago",
+            "horas",
+            "cantidad",
+            "Actualizar",
+            "Eliminar"
+    };
 }

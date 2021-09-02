@@ -1,134 +1,165 @@
 package com.example.constructora.view;
 
 
-import com.example.constructora.JDBCRepository.PagosServiceImplJDBC;
-import com.example.constructora.JDBCRepository.PagosServiceJDBC;
-import com.example.constructora.JDBCRepository.TrabajadorServiceImplJDBC;
-import com.example.constructora.JDBCRepository.TrabajadorServiceJDBC;
-import com.example.constructora.domain.Pago;
-import com.example.constructora.domain.Trabajador;
-import jdk.swing.interop.SwingInterOpUtils;
+import com.example.constructora.Utils;
 
 import javax.swing.*;
-import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
-import java.util.List;
-
-public class ConsultaPagosView implements ActionListener {
 
 
-    private final PagosServiceJDBC pagosServiceJDBC = new PagosServiceImplJDBC();
-    private final TrabajadorServiceJDBC trabajadorServiceJDBC = new TrabajadorServiceImplJDBC();
+public class ConsultaPagosView extends JFrame implements ActionListener {
 
-    private JFrame f;
-    private JLabel title;
+    private JTable tablaPagos;
     private JButton backButton;
-    private JButton editButton;
-    private JTable tablaTrabajadores;
-
-    private TableCellRenderer tableRenderer;
-
-
-    String[] columnNames = {
-            "TrabajadorDNI",
-            "nombreTrabajador",
-            "idObra",
-            "fechaPago",
-            "horas",
-            "cantidad",
-            "Editar"
-    };
-
-    Object[][] listaPagos; //lista información de la BD
-
-    private void loadPagos() {
-        List<Pago> pagosListDB = pagosServiceJDBC.getPagos();
-        if (pagosListDB.size() > 0) {
-
-
-            listaPagos = new Object[pagosListDB.size()][columnNames.length];
-
-            for (int i = 0; i < pagosListDB.size(); i++) {
-
-                Trabajador trabajador = trabajadorServiceJDBC.findByDNI(pagosListDB.get(i).getTrabajadorPago().getTrabajador_dni());
-
-                listaPagos[i][0] = pagosListDB.get(i).getTrabajadorPago().getTrabajador_dni();
-                listaPagos[i][1] = trabajador.getNombre();
-                listaPagos[i][2] = pagosListDB.get(i).getIdObra();
-                listaPagos[i][3] = pagosListDB.get(i).getFechaPago();
-                listaPagos[i][4] = pagosListDB.get(i).getHoras();
-                listaPagos[i][5] = pagosListDB.get(i).getCantidad();
-                listaPagos[i][6] = "editButton";
-
-            }
-
-            System.out.println("DESDE ARRAY");
-            System.out.println(listaPagos[0][0]);
-        } else {
-            listaPagos = new Object[0][0];
-        }
-
-
-    }
+    Table t = new Table();
 
 
     public ConsultaPagosView() throws HeadlessException {
-        f = new JFrame();
-        JPanel listPane = new JPanel();
-//        editButton = new JButton("edit");
-//        editButton.setFont(new Font("Arial", Font.BOLD, 12));
-//        editButton.setSize(20, 20);
-//        editButton.addActionListener(this);
+        initComponents();
+        t.showTable(tablaPagos, 3);
+        this.setVisible(true);
+    }
 
-        loadPagos();
+    private void initComponents() {
+        JScrollPane jScrollPane1 = new JScrollPane();
+        tablaPagos = new JTable();
 
-        f.setSize( 1280, 900);
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JLabel title = new JLabel("Pagos");
+        title.setFont(new Font("Arial", Font.BOLD, 26));
+        title.setSize(250, 30);
+        title.setLocation(130, 15);
+        this.add(title);
 
-        Rectangle r = f.getBounds();
 
-        int height = r.height;
-        int width = r.width;
-        System.out.println("klk");
-        System.out.println(height + " x " + width);
-        listPane.setLayout(new BoxLayout(listPane, BoxLayout.PAGE_AXIS));
+        JTextField tname = new HintTextField("Buscar trabajador...");
+        tname.setFont(new Font("Arial", Font.PLAIN, 13));
+        tname.setSize(190, 30);
+        tname.setLocation(335, 15);
+        this.add(tname);
 
-        title = new JLabel("PAGOS");
-        title.setFont(new Font("Arial", Font.BOLD, 36));
-        title.setSize(300, 30);
-        title.setLocation(width/3, 50);
-        // f.add(title);
-        listPane.add(title);
-        f.add(listPane,BorderLayout.PAGE_START);
+        JButton btnGetText = new JButton("Get text");
+        btnGetText.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String message = String.format("searchName='%s'",
+                        tname.getText());
+                JOptionPane.showMessageDialog(ConsultaPagosView.this, message);
+            }
+        });
+        this.add(btnGetText);
 
-        tablaTrabajadores = new JTable(listaPagos, columnNames);
-        tablaTrabajadores.setBounds(100, 100, 1000, 800);
+        JLabel initialDate = new JLabel("Desde : ");
+        initialDate.setFont(new Font("Arial", Font.PLAIN, 20));
+        initialDate.setSize(100, 20);
+        initialDate.setLocation(570, 21);
+        this.add(initialDate);
 
-        JScrollPane sp = new JScrollPane(tablaTrabajadores);
+        JComboBox<String> dateI = new JComboBox<>(Utils.DAYS);
+        dateI.setFont(new Font("Arial", Font.PLAIN, 15));
+        dateI.setSize(60, 20);
+        dateI.setLocation(650, 21);
+        this.add(dateI);
 
-        f.add(sp,BorderLayout.CENTER);
+        JComboBox<String> monthI = new JComboBox<>(Utils.MONTHS);
+        monthI.setFont(new Font("Arial", Font.PLAIN, 15));
+        monthI.setSize(60, 20);
+        monthI.setLocation(720, 21);
+        this.add(monthI);
 
+        JComboBox<String> yearI = new JComboBox<>(Utils.COMINGYEARS);
+        yearI.setFont(new Font("Arial", Font.PLAIN, 15));
+        yearI.setSize(60, 20);
+        yearI.setLocation(790, 21);
+        this.add(yearI);
+
+
+        JLabel endDate = new JLabel("Hasta : ");
+        endDate.setFont(new Font("Arial", Font.PLAIN, 20));
+        endDate.setSize(100, 20);
+        endDate.setLocation(920, 21);
+        this.add(endDate);
+
+        JComboBox<String> dateE = new JComboBox<>(Utils.DAYS);
+        dateE.setFont(new Font("Arial", Font.PLAIN, 15));
+        dateE.setSize(60, 20);
+        dateE.setLocation(1000, 21);
+        this.add(dateE);
+
+        JComboBox<String> monthE = new JComboBox<>(Utils.MONTHS);
+        monthE.setFont(new Font("Arial", Font.PLAIN, 15));
+        monthE.setSize(60, 20);
+        monthE.setLocation(1070, 21);
+        this.add(monthE);
+
+        JComboBox<String> yearE = new JComboBox<>(Utils.COMINGYEARS);
+        yearE.setFont(new Font("Arial", Font.PLAIN, 15));
+        yearE.setSize(60, 20);
+        yearE.setLocation(1140, 21);
+        this.add(yearE);
 
         backButton = new JButton("VOLVER");
-        backButton.setFont(new Font("Arial", Font.BOLD, 14));
-        backButton.setSize(120, 40);
-        backButton.setLocation(width/3, 820);
+        backButton.setFont(new Font("Arial", Font.BOLD, 12));
+        backButton.setSize(85, 38);
+        backButton.setLocation(8, 14);
         backButton.addActionListener(this);
+        this.add(backButton);
 
-        JPanel buttonPane = new JPanel();
-        buttonPane.setLayout(new BoxLayout(buttonPane, BoxLayout.LINE_AXIS));
-        buttonPane.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
-        buttonPane.add(Box.createHorizontalGlue());
-        buttonPane.add(backButton);
+        // TODO FOR CONSULTAPAGOSVIEW
+//        String[] workersNamesList = loadWorkersNames();
+//        JComboBox<String> trabajadorName = new JComboBox<>(workersNamesList);
+//        trabajadorName.setFont(new Font("Arial", Font.PLAIN, 15));
+//        trabajadorName.setSize(190, 20);
+//        trabajadorName.setLocation(400, 15);
+//        this.add(trabajadorName);
 
-        //f.add(backButton);
-        f.add(buttonPane,BorderLayout.PAGE_END);
+        jScrollPane1.setBorder(BorderFactory.createEmptyBorder(50,10,70,10));
 
-        f.setVisible(true);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Pagos registrados");
+
+        tablaPagos.setModel(new javax.swing.table.DefaultTableModel(
+                new Object [][] {
+                        {null, null, null, null, null},
+                        {null, null, null, null, null},
+                        {null, null, null, null, null},
+                        {null, null, null, null, null},
+                        {null, null, null, null, null}
+                },
+                new String [] {
+                        "Title 1", "Title 2", "Title 3", "Title 4", "Title 5"
+                }
+        ));
+        tablaPagos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                System.out.println("hola");
+            }
+        });
+        jScrollPane1.setViewportView(tablaPagos);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addContainerGap(14, Short.MAX_VALUE)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap())
+        );
+
+        pack();
+        setLocationRelativeTo(null);
+
     }
+
 
 
     @Override
@@ -136,7 +167,7 @@ public class ConsultaPagosView implements ActionListener {
         if (e.getSource() == backButton) {
             SecondaryMenu secondaryMenu = new SecondaryMenu("Pago");
             secondaryMenu.setVisible(true);
-            f.dispose();
+            this.dispose();
         }
     }
 }

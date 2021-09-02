@@ -1,20 +1,17 @@
 package com.example.constructora.view;
 
-import com.example.constructora.JDBCRepository.TrabajadorServiceImplJDBC;
-import com.example.constructora.JDBCRepository.TrabajadorServiceJDBC;
 import com.example.constructora.Utils;
 
 
+
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicArrowButton;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
+
 
 public class ConsultaTrabajadoresView extends JFrame implements ActionListener {
 
-    private final TrabajadorServiceJDBC trabajadorServiceJDBC = new TrabajadorServiceImplJDBC();
     private JTable tablaTrabajadores;
     private JButton backButton;
     Table t = new Table();
@@ -22,7 +19,7 @@ public class ConsultaTrabajadoresView extends JFrame implements ActionListener {
 
     public ConsultaTrabajadoresView() throws HeadlessException {
         initComponents();
-        t.showTable(tablaTrabajadores);
+        t.showTable(tablaTrabajadores, 1);
         this.setVisible(true);
     }
 
@@ -57,50 +54,50 @@ public class ConsultaTrabajadoresView extends JFrame implements ActionListener {
         JLabel initialDate = new JLabel("Desde : ");
         initialDate.setFont(new Font("Arial", Font.PLAIN, 20));
         initialDate.setSize(100, 20);
-        initialDate.setLocation(570, 24);
+        initialDate.setLocation(570, 21);
         this.add(initialDate);
 
         JComboBox<String> dateI = new JComboBox<>(Utils.DAYS);
         dateI.setFont(new Font("Arial", Font.PLAIN, 15));
         dateI.setSize(60, 20);
-        dateI.setLocation(650, 24);
+        dateI.setLocation(650, 21);
         this.add(dateI);
 
         JComboBox<String> monthI = new JComboBox<>(Utils.MONTHS);
         monthI.setFont(new Font("Arial", Font.PLAIN, 15));
         monthI.setSize(60, 20);
-        monthI.setLocation(720, 24);
+        monthI.setLocation(720, 21);
         this.add(monthI);
 
         JComboBox<String> yearI = new JComboBox<>(Utils.DOBYEARS);
         yearI.setFont(new Font("Arial", Font.PLAIN, 15));
-        yearI.setSize(60, 26);
-        yearI.setLocation(790, 24);
+        yearI.setSize(60, 20);
+        yearI.setLocation(790, 21);
         this.add(yearI);
 
 
         JLabel endDate = new JLabel("Hasta : ");
         endDate.setFont(new Font("Arial", Font.PLAIN, 20));
         endDate.setSize(100, 20);
-        endDate.setLocation(920, 24);
+        endDate.setLocation(920, 21);
         this.add(endDate);
 
         JComboBox<String> dateE = new JComboBox<>(Utils.DAYS);
         dateE.setFont(new Font("Arial", Font.PLAIN, 15));
         dateE.setSize(60, 20);
-        dateE.setLocation(1000, 24);
+        dateE.setLocation(1000, 21);
         this.add(dateE);
 
         JComboBox<String> monthE = new JComboBox<>(Utils.MONTHS);
         monthE.setFont(new Font("Arial", Font.PLAIN, 15));
         monthE.setSize(60, 20);
-        monthE.setLocation(1070, 24);
+        monthE.setLocation(1070, 21);
         this.add(monthE);
 
         JComboBox<String> yearE = new JComboBox<>(Utils.DOBYEARS);
         yearE.setFont(new Font("Arial", Font.PLAIN, 15));
         yearE.setSize(60, 20);
-        yearE.setLocation(1140, 24);
+        yearE.setLocation(1140, 21);
         this.add(yearE);
 
         backButton = new JButton("VOLVER");
@@ -174,15 +171,4 @@ public class ConsultaTrabajadoresView extends JFrame implements ActionListener {
         }
     }
 
-    private String[] loadWorkersNames() {
-        List<String> workersList = trabajadorServiceJDBC.getTrabajadoresNames();
-
-        String[] workersArray = new String[workersList.size()];
-        workersArray = workersList.toArray(workersArray);
-
-        for(String s : workersArray)
-            System.out.println(s);
-
-        return workersArray;
-    }
 }
