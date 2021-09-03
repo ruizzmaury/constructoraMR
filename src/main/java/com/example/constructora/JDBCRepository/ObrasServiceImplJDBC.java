@@ -50,8 +50,6 @@ public class ObrasServiceImplJDBC implements ObrasServiceJDBC {
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(QUERY);) {
 
-
-            int i = 0;
             // Extract data from result set
             while (rs.next()) {
                 // Retrieve by column name
@@ -63,15 +61,6 @@ public class ObrasServiceImplJDBC implements ObrasServiceJDBC {
                                 rs.getDate("fecha_inicio").toLocalDate(),
                                 rs.getDate("fecha_fin").toLocalDate()
                         ));
-
-                System.out.println("OBRA: ");
-                System.out.println("ID: " + receivedObras.get(i).getId());
-                System.out.println("Ubicacion: " + receivedObras.get(i).getUbicacion());
-                System.out.println("Descripcion: " + receivedObras.get(i).getDescriptor());
-                System.out.println("FechaInicio: " + receivedObras.get(i).getFechaInicio());
-                System.out.println("FechaFinal: " + receivedObras.get(i).getFechaFin());
-                System.out.println("--------------------------------------------------");
-                i++;
 
             }
             return receivedObras;

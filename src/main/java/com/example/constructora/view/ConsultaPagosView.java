@@ -5,12 +5,18 @@ import com.example.constructora.view.utils.DateFilter;
 import com.example.constructora.view.utils.ViewUtils;
 import com.example.constructora.view.utils.HintTextField;
 import com.example.constructora.view.utils.Table;
+import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.Objects;
 
 
@@ -20,14 +26,8 @@ public class ConsultaPagosView extends JFrame implements ActionListener {
     private JButton backButton;
     private DateFilter dateFilter = null;
     private String searchFilter = "";
-
-    JComboBox<String> dateI = new JComboBox<>(ViewUtils.DAYS);
-    JComboBox<String> monthI = new JComboBox<>(ViewUtils.MONTHS);
-    JComboBox<String> yearI = new JComboBox<>(ViewUtils.COMINGYEARS);
-
-    JComboBox<String> dateE = new JComboBox<>(ViewUtils.DAYS);
-    JComboBox<String> monthE = new JComboBox<>(ViewUtils.MONTHS);
-    JComboBox<String> yearE = new JComboBox<>(ViewUtils.COMINGYEARS);
+    JDateChooser initialDateChooser = new JDateChooser();
+    JDateChooser endDateChooser = new JDateChooser();
     Table t = new Table();
 
 
@@ -50,71 +50,85 @@ public class ConsultaPagosView extends JFrame implements ActionListener {
 
         JTextField tname = new HintTextField("Buscar trabajador...");
         tname.setFont(new Font("Arial", Font.PLAIN, 13));
-        tname.setSize(190, 30);
+        tname.setSize(160, 30);
         tname.setLocation(335, 15);
         this.add(tname);
 
-        JButton btnGetText = new JButton("Get text");
-        btnGetText.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String message = String.format("searchName='%s'",
-                        tname.getText());
-                JOptionPane.showMessageDialog(ConsultaPagosView.this, message);
-            }
+
+        JButton btnGetText = new JButton();
+        btnGetText.setSize(28, 30);
+        btnGetText.setLocation(495, 15);
+        btnGetText.addActionListener(e -> {
+//            String message = String.format("searchName='%s'",
+//                    tname.getText());
+//            JOptionPane.showMessageDialog(ConsultaTrabajadoresView.this, message);
+            searchFilter = tname.getText();
+            dateFilter = new DateFilter();
+            t.showTable(tablaPagos, 3, searchFilter, dateFilter);
         });
+        ImageIcon searchIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/searchIcon.png")));
+        btnGetText.setIcon(searchIcon);
         this.add(btnGetText);
 
-        JLabel initialDate = new JLabel("Desde : ");
-        initialDate.setFont(new Font("Arial", Font.PLAIN, 20));
-        initialDate.setSize(100, 20);
-        initialDate.setLocation(570, 21);
-        this.add(initialDate);
+
+        JLabel initialDateText = new JLabel("Desde : ");
+        initialDateText.setFont(new Font("Arial", Font.PLAIN, 20));
+        initialDateText.setSize(100, 20);
+        initialDateText.setLocation(600, 21);
+        this.add(initialDateText);
+
+        initialDateChooser.setBounds(680, 15, 100, 30);
+        this.getContentPane().add(initialDateChooser);
+        initialDateChooser.setDateFormatString("yyyy-MM-dd");
 
 
-        dateI.setFont(new Font("Arial", Font.PLAIN, 15));
-        dateI.setSize(60, 20);
-        dateI.setLocation(650, 21);
-        this.add(dateI);
+        JLabel endDateText = new JLabel("Hasta : ");
+        endDateText.setFont(new Font("Arial", Font.PLAIN, 20));
+        endDateText.setSize(100, 20);
+        endDateText.setLocation(840, 21);
+        this.add(endDateText);
 
-        monthI.setFont(new Font("Arial", Font.PLAIN, 15));
-        monthI.setSize(60, 20);
-        monthI.setLocation(720, 21);
-        this.add(monthI);
+        endDateChooser.setBounds(920, 15, 100, 30);
+        this.getContentPane().add(endDateChooser);
+        endDateChooser.setDateFormatString("yyyy-MM-dd");
 
-        yearI.setFont(new Font("Arial", Font.PLAIN, 15));
-        yearI.setSize(60, 20);
-        yearI.setLocation(790, 21);
-        this.add(yearI);
+        initialDateChooser.getDateEditor().addPropertyChangeListener(
+                e -> {
 
+                    if ("date".equals(e.getPropertyName())) {
+                        if (endDateChooser.getDate() == null) { // si no hay fecha final,
+                            // únicamente filtramos fecha inicial hacia delante indefinidamente
+                            dateFilter = new DateFilter(
+                                    initialDateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
+                                    null
+                            );
+                        } else {
+                            loadFullDateFilter(initialDateChooser, endDateChooser);
+                        }
+                        t.showTable(tablaPagos, 3, searchFilter, dateFilter);
+                    }
 
-        JLabel endDate = new JLabel("Hasta : ");
-        endDate.setFont(new Font("Arial", Font.PLAIN, 20));
-        endDate.setSize(100, 20);
-        endDate.setLocation(920, 21);
-        this.add(endDate);
-
-
-        dateE.setFont(new Font("Arial", Font.PLAIN, 15));
-        dateE.setSize(60, 20);
-        dateE.setLocation(1000, 21);
-        this.add(dateE);
-
-
-        monthE.setFont(new Font("Arial", Font.PLAIN, 15));
-        monthE.setSize(60, 20);
-        monthE.setLocation(1070, 21);
-        this.add(monthE);
+                }
+        );
 
 
-        yearE.setFont(new Font("Arial", Font.PLAIN, 15));
-        yearE.setSize(60, 20);
-        yearE.setLocation(1140, 21);
-        this.add(yearE);
+        endDateChooser.getDateEditor().addPropertyChangeListener(
+                e -> {
+                    if ("date".equals(e.getPropertyName())) {
+                        if (initialDateChooser.getDate() == null) {// si no hay fecha inicial,
+                            // únicamente filtramos fecha final hacia atrás indefinidamente
+                            dateFilter = new DateFilter(
+                                    null,
+                                    endDateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+                            );
+                        } else {
+                            loadFullDateFilter(initialDateChooser, endDateChooser);
+                        }
+                        t.showTable(tablaPagos, 3, searchFilter, dateFilter);
+                    }
 
-        dateFilterActionListener(yearE);
-
-
+                }
+        );
 
 
         backButton = new JButton("VOLVER");
@@ -124,36 +138,25 @@ public class ConsultaPagosView extends JFrame implements ActionListener {
         backButton.addActionListener(this);
         this.add(backButton);
 
-        // TODO FOR CONSULTAPAGOSVIEW
-//        String[] workersNamesList = loadWorkersNames();
-//        JComboBox<String> trabajadorName = new JComboBox<>(workersNamesList);
-//        trabajadorName.setFont(new Font("Arial", Font.PLAIN, 15));
-//        trabajadorName.setSize(190, 20);
-//        trabajadorName.setLocation(400, 15);
-//        this.add(trabajadorName);
 
-        jScrollPane1.setBorder(BorderFactory.createEmptyBorder(50,10,70,10));
+        jScrollPane1.setBorder(BorderFactory.createEmptyBorder(50, 10, 70, 10));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Pagos registrados");
 
         tablaPagos.setModel(new javax.swing.table.DefaultTableModel(
-                new Object [][] {
+                new Object[][]{
                         {null, null, null, null, null},
                         {null, null, null, null, null},
                         {null, null, null, null, null},
                         {null, null, null, null, null},
                         {null, null, null, null, null}
                 },
-                new String [] {
+                new String[]{
                         "Title 1", "Title 2", "Title 3", "Title 4", "Title 5"
                 }
         ));
-        tablaPagos.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                System.out.println("hola");
-            }
-        });
+
         jScrollPane1.setViewportView(tablaPagos);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -178,35 +181,12 @@ public class ConsultaPagosView extends JFrame implements ActionListener {
 
     }
 
-    private void dateFilterActionListener(JComboBox<String> filterDateBox) {
-        filterDateBox.addActionListener(e -> {
-            DateFilter dateFilter;
-            if (Objects.equals(yearE.getSelectedItem(), ViewUtils.INIT_VALUE)) {
-                dateFilter = new DateFilter(
-                        LocalDate.of(
-                                Integer.parseInt(Objects.requireNonNull(yearI.getSelectedItem()).toString()),
-                                monthI.getSelectedIndex() + 1,
-                                Integer.parseInt(Objects.requireNonNull(dateI.getSelectedItem()).toString())
-                        ),
-                        null
-                );
 
-            } else {
-                dateFilter = new DateFilter(
-                        LocalDate.of(
-                                Integer.parseInt(Objects.requireNonNull(yearI.getSelectedItem()).toString()),
-                                monthI.getSelectedIndex() + 1,
-                                Integer.parseInt(Objects.requireNonNull(dateI.getSelectedItem()).toString())
-                        ),
-                        LocalDate.of(
-                                Integer.parseInt(Objects.requireNonNull(yearE.getSelectedItem()).toString()),
-                                monthE.getSelectedIndex() + 1,
-                                Integer.parseInt(Objects.requireNonNull(dateE.getSelectedItem()).toString())
-                        )
-                );
-            }
-            t.showTable(tablaPagos, 3, searchFilter, dateFilter);
-        });
+    private void loadFullDateFilter(JDateChooser initialDateChooser, JDateChooser endDateChooser) {
+        dateFilter = new DateFilter(
+                initialDateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
+                endDateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+        );
     }
 
 

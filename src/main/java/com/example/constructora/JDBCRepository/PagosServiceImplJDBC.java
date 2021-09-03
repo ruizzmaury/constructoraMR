@@ -28,7 +28,6 @@ public class PagosServiceImplJDBC implements PagosServiceJDBC {
         final String QUERY = "INSERT INTO pago VALUES " +
                 "(?, ?, ?, ?, ?, ?)";
 
-        System.out.println("DNI trabajador registro: " + trabajador_dni);
         // Open a connection
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
              PreparedStatement stmt = conn.prepareStatement(QUERY)) {
@@ -42,8 +41,6 @@ public class PagosServiceImplJDBC implements PagosServiceJDBC {
             int rowAffected = stmt.executeUpdate();
 
             System.out.println(String.format("Row affected %d", rowAffected));
-            System.out.println("PAGO CON ID " + pago.getId() + " CREADO CON ÉXITO... ");
-            System.out.println("--------------------------------------------------");
 
             stmt.close();
             return pago;
@@ -166,7 +163,129 @@ public class PagosServiceImplJDBC implements PagosServiceJDBC {
                                 rs.getFloat("cantidad")
                         )
                 );
-                System.out.println("--------------------------------------------------");
+
+            }
+            return receivedPayments;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public List<Pago> findByDateForward(LocalDate fechaInicioFilter) {
+        List<Pago> receivedPayments = new ArrayList<>();
+
+        final String QUERY = "SELECT * FROM pago WHERE pago.fecha_pago >= ?";  // Obras empezadas o finalizadas entre las dos fechas especificadas
+
+        // Open a connection
+        try (Connection conn = DriverManager.getConnection(Utils.DB_URL, Utils.USER, Utils.PASS);
+             PreparedStatement stmt = conn.prepareStatement(QUERY);
+        ) {
+
+            stmt.setDate(1, Date.valueOf(fechaInicioFilter));
+
+            ResultSet rs = stmt.executeQuery();
+
+            // Extract data from result set
+            while (rs.next()) {
+                Trabajador referencedTrabajador = trabajadorServiceJDBC.getTrabajador(rs.getString("trabajador_dni"));
+                // Retrieve by column name
+                receivedPayments.add(
+                        new Pago(
+                                rs.getInt("horas"),
+                                referencedTrabajador,
+                                rs.getLong("obra_id"),
+                                rs.getDate("fecha_pago").toLocalDate(),
+                                rs.getFloat("cantidad")
+                        )
+                );
+
+            }
+            return receivedPayments;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public List<Pago> findByDateBackward(LocalDate fechaFinFilter) {
+        List<Pago> receivedPayments = new ArrayList<>();
+
+        final String QUERY = "SELECT * FROM pago WHERE pago.fecha_pago <= ?";  // Obras empezadas o finalizadas entre las dos fechas especificadas
+
+        // Open a connection
+        try (Connection conn = DriverManager.getConnection(Utils.DB_URL, Utils.USER, Utils.PASS);
+             PreparedStatement stmt = conn.prepareStatement(QUERY);
+        ) {
+
+            stmt.setDate(1, Date.valueOf(fechaFinFilter));
+
+            ResultSet rs = stmt.executeQuery();
+
+            // Extract data from result set
+            while (rs.next()) {
+                Trabajador referencedTrabajador = trabajadorServiceJDBC.getTrabajador(rs.getString("trabajador_dni"));
+                // Retrieve by column name
+                receivedPayments.add(
+                        new Pago(
+                                rs.getInt("horas"),
+                                referencedTrabajador,
+                                rs.getLong("obra_id"),
+                                rs.getDate("fecha_pago").toLocalDate(),
+                                rs.getFloat("cantidad")
+                        )
+                );
+
+            }
+            return receivedPayments;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<Pago> findByNameAndDate(String workerName, LocalDate fechaInicioFilter, LocalDate fechaFinFilter) {
+        List<Pago> receivedPayments = new ArrayList<>();
+
+        String QUERY =
+                "SELECT pago.* FROM pago " +
+                "JOIN trabajador ON trabajador.trabajador_dni=pago.trabajador_dni AND trabajador.nombre LIKE ?";
+        if (fechaInicioFilter != null && fechaFinFilter != null) {
+            QUERY = QUERY + "WHERE pago.fecha_pago >= ? AND pago.fecha_pago <= ?";
+        } else if (fechaInicioFilter != null){
+            QUERY = QUERY + "WHERE pago.fecha_pago >= ? ";
+        } else if (fechaFinFilter != null) {
+            QUERY = QUERY + "WHERE pago.fecha_pago <= ?";
+        }
+
+        // Open a connection
+        try (Connection conn = DriverManager.getConnection(Utils.DB_URL, Utils.USER, Utils.PASS);
+             PreparedStatement stmt = conn.prepareStatement(QUERY);
+        ) {
+            stmt.setString(1, "%" + workerName + "%");
+
+            if (fechaInicioFilter != null)
+            stmt.setDate(2, Date.valueOf(fechaInicioFilter));
+            if (fechaFinFilter != null)
+            stmt.setDate(3, Date.valueOf(fechaFinFilter));
+
+            ResultSet rs = stmt.executeQuery();
+
+            // Extract data from result set
+            while (rs.next()) {
+                Trabajador referencedTrabajador = trabajadorServiceJDBC.getTrabajador(rs.getString("trabajador_dni"));
+                // Retrieve by column name
+                receivedPayments.add(
+                        new Pago(
+                                rs.getInt("horas"),
+                                referencedTrabajador,
+                                rs.getLong("obra_id"),
+                                rs.getDate("fecha_pago").toLocalDate(),
+                                rs.getFloat("cantidad")
+                        )
+                );
 
             }
             return receivedPayments;

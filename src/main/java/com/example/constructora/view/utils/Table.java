@@ -4,11 +4,15 @@ import com.example.constructora.JDBCRepository.*;
 import com.example.constructora.domain.Obra;
 import com.example.constructora.domain.Pago;
 import com.example.constructora.domain.Trabajador;
+import com.example.constructora.view.SecondaryMenu;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.List;
 import java.util.Objects;
 
@@ -30,21 +34,13 @@ public class Table {
         ImageIcon updateIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/updateIcon.png")));
         btnUpdate.setIcon(updateIcon);
         btnUpdate.setName("m");
+
         JButton btnDelete = new JButton();
         ImageIcon deleteIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/deleteIcon.png")));
         btnDelete.setIcon(deleteIcon);
         btnDelete.setName("e");
 
-//         if (o.equals(Trabajador.class))  {
-//             System.out.println("ENTRO EN WORKERS");
-//             jTable.setModel(loadTrabajadores(btnUpdate, btnDelete));
-//        } else if (o.equals(Obra.class)) {
-//             System.out.println("ENTRO EN OBRAS");
-//             jTable.setModel(loadObras(btnUpdate, btnDelete));
-//         } else {
-//             System.out.println("ENTRO EN PAYMENTS");
-//             jTable.setModel(loadPagos(btnUpdate, btnDelete));
-//         }
+
         switch (selectedView) {
             case 1 -> {
                 System.out.println("ENTRO EN WORKERS");
@@ -158,15 +154,20 @@ public class Table {
         List<Pago> pagosListDB;
 
         if (searchFilter.isEmpty()) {
-            if (dateFilter == null) {
+            if (dateFilter == null) { // no busca ni por nombre ni por fechas
                 pagosListDB = pagosServiceJDBC.getPagos();
-            } else {
-                pagosListDB = pagosServiceJDBC.findBetweenDates(dateFilter.getInitialDate(), dateFilter.getEndDate());
+            } else { // no busca por nombre pero sí por fechas
+                if (dateFilter.getInitialDate() != null && dateFilter.getEndDate() != null ) { // intervalo de fechas
+                    pagosListDB = pagosServiceJDBC.findBetweenDates(dateFilter.getInitialDate(), dateFilter.getEndDate());
+                } else if (dateFilter.getInitialDate() != null && dateFilter.getEndDate() == null ) { // inicial hacia delante
+                    pagosListDB = pagosServiceJDBC.findByDateForward(dateFilter.getInitialDate());
+                } else { // final hacia atrás
+                    pagosListDB = pagosServiceJDBC.findByDateBackward(dateFilter.getEndDate());
+                }
             }
-
         } else {
             //pagosListDB = pagosServiceJDBC.findByWorkerNameStartingWith(searchFilter);
-            pagosListDB = pagosServiceJDBC.getPagos();
+            pagosListDB = pagosServiceJDBC.findByNameAndDate(searchFilter, dateFilter.getInitialDate(), dateFilter.getEndDate());
             System.out.println("pagosServiceJDBC.findByWorkerNameStartingWith(searchFilter);");
         }
 
@@ -193,5 +194,6 @@ public class Table {
 
         return listaPagos;
     }
+
 
 }

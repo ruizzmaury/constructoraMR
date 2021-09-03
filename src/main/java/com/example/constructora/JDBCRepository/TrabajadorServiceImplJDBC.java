@@ -58,8 +58,6 @@ public class TrabajadorServiceImplJDBC implements TrabajadorServiceJDBC {
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(QUERY);) {
 
-
-            int i = 0;
             // Extract data from result set
             while (rs.next()) {
                 // Retrieve by column name
@@ -78,18 +76,6 @@ public class TrabajadorServiceImplJDBC implements TrabajadorServiceJDBC {
                                         catLaboralServiceJDBC.getPrecioHora((rs.getString("cat_laboral")))
                                 )
                         ));
-
-                System.out.println("TRABAJADOR: ");
-//                System.out.println("ID: " + receivedTrabajadores.get(i).getId());
-                System.out.println("DNI: " + receivedTrabajadores.get(i).getTrabajador_dni());
-                System.out.println("Nombre: " + receivedTrabajadores.get(i).getNombre());
-                System.out.println("Email: " + receivedTrabajadores.get(i).getEmail());
-                System.out.println("Telefono: " + receivedTrabajadores.get(i).getTelefono());
-                System.out.println("Categoria Laboral: " + receivedTrabajadores.get(i).getCatLaboral());
-                System.out.println("Género: " + receivedTrabajadores.get(i).getGenero());
-                System.out.println("Fecha Nacimiento: " + receivedTrabajadores.get(i).getFechaNacimiento());
-                System.out.println("--------------------------------------------------");
-                i++;
 
             }
             return receivedTrabajadores;
@@ -110,14 +96,13 @@ public class TrabajadorServiceImplJDBC implements TrabajadorServiceJDBC {
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(QUERY);) {
 
-            int i = 0;
             // Extract data from result set
             while (rs.next()) {
                 // Retrieve by column name
                 receivedTrabajadoresDNIs.add(
                         rs.getString("trabajador_dni")
                 );
-                i++;
+
             }
             return receivedTrabajadoresDNIs;
         } catch (SQLException e) {
@@ -165,18 +150,7 @@ public class TrabajadorServiceImplJDBC implements TrabajadorServiceJDBC {
 
             ResultSet rs = stmt.executeQuery();
             rs.next();
-            System.out.println("TRABAJADOR: ");
-//            System.out.println("ID: " + rs.getLong("trabajador_id"));
-            System.out.println("Nombre: " + rs.getString("nombre"));
-            System.out.println("Email: " + rs.getString("email"));
-            System.out.println("Telefono: " + rs.getInt("telefono"));
-            System.out.println("Categoria Laboral: " + rs.getString("cat_laboral"));
-            System.out.println("Género: " + rs.getString("genero"));
-            System.out.println("Fecha Nacimiento: " + rs.getDate("fecha_nacimiento").toLocalDate());
-            System.out.println("Direccion: " + rs.getString("direccion"));
 
-            System.out.println("GUARDADO CON ÉXITO... ");
-            System.out.println("--------------------------------------------------");
 
             return new Trabajador(
 //                    rs.getLong("trabajador_id"),
@@ -229,18 +203,6 @@ public class TrabajadorServiceImplJDBC implements TrabajadorServiceJDBC {
 
             ResultSet rs = stmt.executeQuery();
             rs.next();
-            System.out.println("TRABAJADOR: ");
-//            System.out.println("ID: " + rs.getLong("trabajador_id"));
-            System.out.println("Nombre: " + rs.getString("nombre"));
-            System.out.println("Email: " + rs.getString("email"));
-            System.out.println("Telefono: " + rs.getInt("telefono"));
-            System.out.println("Categoria Laboral: " + rs.getString("cat_laboral"));
-            System.out.println("Género: " + rs.getString("genero"));
-            System.out.println("Fecha Nacimiento: " + rs.getDate("fecha_nacimiento").toLocalDate());
-            System.out.println("Direccion: " + rs.getString("direccion"));
-
-            System.out.println("GUARDADO CON ÉXITO... ");
-            System.out.println("--------------------------------------------------");
 
             return new Trabajador(
 //                    rs.getLong("trabajador_id"),
@@ -276,7 +238,6 @@ public class TrabajadorServiceImplJDBC implements TrabajadorServiceJDBC {
             stmt.setString(1, "%" + nombre + "%");
             ResultSet rs = stmt.executeQuery();
 
-            int i = 0;
             // Extract data from result set
             while (rs.next()) {
 
@@ -297,17 +258,6 @@ public class TrabajadorServiceImplJDBC implements TrabajadorServiceJDBC {
                                 )
                         ));
 
-                System.out.println("TRABAJADOR: ");
-//                System.out.println("ID: " + receivedTrabajadores.get(i).getId());
-                System.out.println("Nombre: " + receivedTrabajadores.get(i).getNombre());
-                System.out.println("Email: " + receivedTrabajadores.get(i).getEmail());
-                System.out.println("Telefono: " + receivedTrabajadores.get(i).getTelefono());
-                System.out.println("Categoria Laboral: " + receivedTrabajadores.get(i).getCatLaboral());
-                System.out.println("Género: " + receivedTrabajadores.get(i).getGenero());
-                System.out.println("Fecha Nacimiento: " + receivedTrabajadores.get(i).getFechaNacimiento());
-                System.out.println("GUARDADO CON ÉXITO... ");
-                System.out.println("--------------------------------------------------");
-                i++;
 
             }
             return receivedTrabajadores;

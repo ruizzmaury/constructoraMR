@@ -15,7 +15,6 @@ public class CategoriaLaboralConfig {
 
     @Bean
     CommandLineRunner commandLineRunnerCatLaboral (CatLaboralRepository catLaboralRepository) {
-        System.out.println("HOLA DESDE EL COMMANDLINE CATLABORAL");
 
         return args -> {
             CategoriaLaboral peon = new CategoriaLaboral(
@@ -38,9 +37,6 @@ public class CategoriaLaboralConfig {
             catLaboralRepository.saveAll(
                     List.of(peon, albanyil1, albanyil2, maestroObra)
             );
-
-            System.out.println("-----------------------------------------------------------------------");
-
 
 
 

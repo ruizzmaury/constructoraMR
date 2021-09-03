@@ -63,68 +63,30 @@ public class ConsultaTrabajadoresView extends JFrame implements ActionListener {
         btnGetText.setIcon(searchIcon);
         this.add(btnGetText);
 
-        JLabel initialDate = new JLabel("Desde : ");
-        initialDate.setFont(new Font("Arial", Font.PLAIN, 20));
-        initialDate.setSize(100, 20);
-        initialDate.setLocation(600, 21);
-        this.add(initialDate);
+        JLabel initialDateText = new JLabel("Desde : ");
+        initialDateText.setFont(new Font("Arial", Font.PLAIN, 20));
+        initialDateText.setSize(100, 20);
+        initialDateText.setLocation(600, 21);
+        this.add(initialDateText);
 
         JDateChooser initialDateChooser = new JDateChooser();
         initialDateChooser.setBounds(680, 15,100,30);
         this.getContentPane().add(initialDateChooser);
         initialDateChooser.setDateFormatString("yyyy-MM-dd");
 
-//        JComboBox<String> dateI = new JComboBox<>(ViewUtils.DAYS);
-//        dateI.setFont(new Font("Arial", Font.PLAIN, 15));
-//        dateI.setSize(60, 20);
-//        dateI.setLocation(650, 21);
-//        this.add(dateI);
-//
-//        JComboBox<String> monthI = new JComboBox<>(ViewUtils.MONTHS);
-//        monthI.setFont(new Font("Arial", Font.PLAIN, 15));
-//        monthI.setSize(60, 20);
-//        monthI.setLocation(720, 21);
-//        this.add(monthI);
-//
-//        JComboBox<String> yearI = new JComboBox<>(ViewUtils.DOBYEARS);
-//        yearI.setFont(new Font("Arial", Font.PLAIN, 15));
-//        yearI.setSize(60, 20);
-//        yearI.setLocation(790, 21);
-//        this.add(yearI);
-//
-//        yearI.addActionListener(e -> {
-//            DateFilter dateFilter = new DateFilter();
-//        });
 
-
-        JLabel endDate = new JLabel("Hasta : ");
-        endDate.setFont(new Font("Arial", Font.PLAIN, 20));
-        endDate.setSize(100, 20);
-        endDate.setLocation(840, 21);
-        this.add(endDate);
+        JLabel endDateText = new JLabel("Hasta : ");
+        endDateText.setFont(new Font("Arial", Font.PLAIN, 20));
+        endDateText.setSize(100, 20);
+        endDateText.setLocation(840, 21);
+        this.add(endDateText);
 
         JDateChooser endDateChooser = new JDateChooser();
         endDateChooser.setBounds(920, 15,100,30);
         this.getContentPane().add(endDateChooser);
         endDateChooser.setDateFormatString("yyyy-MM-dd");
 
-//        JComboBox<String> dateE = new JComboBox<>(ViewUtils.DAYS);
-//        dateE.setFont(new Font("Arial", Font.PLAIN, 15));
-//        dateE.setSize(60, 20);
-//        dateE.setLocation(1000, 21);
-//        this.add(dateE);
-//
-//        JComboBox<String> monthE = new JComboBox<>(ViewUtils.MONTHS);
-//        monthE.setFont(new Font("Arial", Font.PLAIN, 15));
-//        monthE.setSize(60, 20);
-//        monthE.setLocation(1070, 21);
-//        this.add(monthE);
-//
-//        JComboBox<String> yearE = new JComboBox<>(ViewUtils.DOBYEARS);
-//        yearE.setFont(new Font("Arial", Font.PLAIN, 15));
-//        yearE.setSize(60, 20);
-//        yearE.setLocation(1140, 21);
-//        this.add(yearE);
+
 
         backButton = new JButton("VOLVER");
         backButton.setFont(new Font("Arial", Font.BOLD, 12));
