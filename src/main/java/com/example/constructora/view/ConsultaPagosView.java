@@ -1,24 +1,39 @@
 package com.example.constructora.view;
 
 
-import com.example.constructora.Utils;
+import com.example.constructora.view.utils.DateFilter;
+import com.example.constructora.view.utils.ViewUtils;
+import com.example.constructora.view.utils.HintTextField;
+import com.example.constructora.view.utils.Table;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.util.Objects;
 
 
 public class ConsultaPagosView extends JFrame implements ActionListener {
 
     private JTable tablaPagos;
     private JButton backButton;
+    private DateFilter dateFilter = null;
+    private String searchFilter = "";
+
+    JComboBox<String> dateI = new JComboBox<>(ViewUtils.DAYS);
+    JComboBox<String> monthI = new JComboBox<>(ViewUtils.MONTHS);
+    JComboBox<String> yearI = new JComboBox<>(ViewUtils.COMINGYEARS);
+
+    JComboBox<String> dateE = new JComboBox<>(ViewUtils.DAYS);
+    JComboBox<String> monthE = new JComboBox<>(ViewUtils.MONTHS);
+    JComboBox<String> yearE = new JComboBox<>(ViewUtils.COMINGYEARS);
     Table t = new Table();
 
 
     public ConsultaPagosView() throws HeadlessException {
         initComponents();
-        t.showTable(tablaPagos, 3);
+        t.showTable(tablaPagos, 3, searchFilter, dateFilter);
         this.setVisible(true);
     }
 
@@ -56,19 +71,17 @@ public class ConsultaPagosView extends JFrame implements ActionListener {
         initialDate.setLocation(570, 21);
         this.add(initialDate);
 
-        JComboBox<String> dateI = new JComboBox<>(Utils.DAYS);
+
         dateI.setFont(new Font("Arial", Font.PLAIN, 15));
         dateI.setSize(60, 20);
         dateI.setLocation(650, 21);
         this.add(dateI);
 
-        JComboBox<String> monthI = new JComboBox<>(Utils.MONTHS);
         monthI.setFont(new Font("Arial", Font.PLAIN, 15));
         monthI.setSize(60, 20);
         monthI.setLocation(720, 21);
         this.add(monthI);
 
-        JComboBox<String> yearI = new JComboBox<>(Utils.COMINGYEARS);
         yearI.setFont(new Font("Arial", Font.PLAIN, 15));
         yearI.setSize(60, 20);
         yearI.setLocation(790, 21);
@@ -81,23 +94,28 @@ public class ConsultaPagosView extends JFrame implements ActionListener {
         endDate.setLocation(920, 21);
         this.add(endDate);
 
-        JComboBox<String> dateE = new JComboBox<>(Utils.DAYS);
+
         dateE.setFont(new Font("Arial", Font.PLAIN, 15));
         dateE.setSize(60, 20);
         dateE.setLocation(1000, 21);
         this.add(dateE);
 
-        JComboBox<String> monthE = new JComboBox<>(Utils.MONTHS);
+
         monthE.setFont(new Font("Arial", Font.PLAIN, 15));
         monthE.setSize(60, 20);
         monthE.setLocation(1070, 21);
         this.add(monthE);
 
-        JComboBox<String> yearE = new JComboBox<>(Utils.COMINGYEARS);
+
         yearE.setFont(new Font("Arial", Font.PLAIN, 15));
         yearE.setSize(60, 20);
         yearE.setLocation(1140, 21);
         this.add(yearE);
+
+        dateFilterActionListener(yearE);
+
+
+
 
         backButton = new JButton("VOLVER");
         backButton.setFont(new Font("Arial", Font.BOLD, 12));
@@ -160,6 +178,36 @@ public class ConsultaPagosView extends JFrame implements ActionListener {
 
     }
 
+    private void dateFilterActionListener(JComboBox<String> filterDateBox) {
+        filterDateBox.addActionListener(e -> {
+            DateFilter dateFilter;
+            if (Objects.equals(yearE.getSelectedItem(), ViewUtils.INIT_VALUE)) {
+                dateFilter = new DateFilter(
+                        LocalDate.of(
+                                Integer.parseInt(Objects.requireNonNull(yearI.getSelectedItem()).toString()),
+                                monthI.getSelectedIndex() + 1,
+                                Integer.parseInt(Objects.requireNonNull(dateI.getSelectedItem()).toString())
+                        ),
+                        null
+                );
+
+            } else {
+                dateFilter = new DateFilter(
+                        LocalDate.of(
+                                Integer.parseInt(Objects.requireNonNull(yearI.getSelectedItem()).toString()),
+                                monthI.getSelectedIndex() + 1,
+                                Integer.parseInt(Objects.requireNonNull(dateI.getSelectedItem()).toString())
+                        ),
+                        LocalDate.of(
+                                Integer.parseInt(Objects.requireNonNull(yearE.getSelectedItem()).toString()),
+                                monthE.getSelectedIndex() + 1,
+                                Integer.parseInt(Objects.requireNonNull(dateE.getSelectedItem()).toString())
+                        )
+                );
+            }
+            t.showTable(tablaPagos, 3, searchFilter, dateFilter);
+        });
+    }
 
 
     @Override

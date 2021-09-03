@@ -1,4 +1,4 @@
-package com.example.constructora.view;
+package com.example.constructora.view.utils;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;

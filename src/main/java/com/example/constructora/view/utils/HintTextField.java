@@ -1,10 +1,10 @@
-package com.example.constructora.view;
+package com.example.constructora.view.utils;
 
 import javax.swing.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
-class HintTextField extends JTextField implements FocusListener {
+public class HintTextField extends JTextField implements FocusListener {
 
     private final String hint;
     private boolean showingHint;

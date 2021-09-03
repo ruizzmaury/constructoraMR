@@ -22,6 +22,8 @@ public interface PagosServiceJDBC {
 
     List<Pago> findByDate(LocalDate fechaPago);
 
+    List<Pago> findBetweenDates(LocalDate fechaInicioFilter, LocalDate fechaFinFilter);
+
     Pago update(Pago pago);
 
     void delete(long pago_id);

@@ -1,6 +1,9 @@
 package com.example.constructora.view;
 
-import com.example.constructora.Utils;
+import com.example.constructora.view.utils.DateFilter;
+import com.example.constructora.view.utils.ViewUtils;
+import com.example.constructora.view.utils.HintTextField;
+import com.example.constructora.view.utils.Table;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,12 +14,14 @@ public class ConsultaObrasView extends JFrame implements ActionListener {
 
     private JTable tablaObras;
     private JButton backButton;
+    private DateFilter dateFilter = null;
+    private String searchFilter = "";
     Table t = new Table();
 
 
     public ConsultaObrasView() throws HeadlessException {
         initComponents();
-        t.showTable(tablaObras, 2);
+        t.showTable(tablaObras, 2, searchFilter, dateFilter);
         this.setVisible(true);
     }
 
@@ -54,19 +59,19 @@ public class ConsultaObrasView extends JFrame implements ActionListener {
         initialDate.setLocation(570, 21);
         this.add(initialDate);
 
-        JComboBox<String> dateI = new JComboBox<>(Utils.DAYS);
+        JComboBox<String> dateI = new JComboBox<>(ViewUtils.DAYS);
         dateI.setFont(new Font("Arial", Font.PLAIN, 15));
         dateI.setSize(60, 20);
         dateI.setLocation(650, 21);
         this.add(dateI);
 
-        JComboBox<String> monthI = new JComboBox<>(Utils.MONTHS);
+        JComboBox<String> monthI = new JComboBox<>(ViewUtils.MONTHS);
         monthI.setFont(new Font("Arial", Font.PLAIN, 15));
         monthI.setSize(60, 20);
         monthI.setLocation(720, 21);
         this.add(monthI);
 
-        JComboBox<String> yearI = new JComboBox<>(Utils.DOBYEARS);
+        JComboBox<String> yearI = new JComboBox<>(ViewUtils.DOBYEARS);
         yearI.setFont(new Font("Arial", Font.PLAIN, 15));
         yearI.setSize(60, 20);
         yearI.setLocation(790, 21);
@@ -79,19 +84,19 @@ public class ConsultaObrasView extends JFrame implements ActionListener {
         endDate.setLocation(920, 21);
         this.add(endDate);
 
-        JComboBox<String> dateE = new JComboBox<>(Utils.DAYS);
+        JComboBox<String> dateE = new JComboBox<>(ViewUtils.DAYS);
         dateE.setFont(new Font("Arial", Font.PLAIN, 15));
         dateE.setSize(60, 20);
         dateE.setLocation(1000, 21);
         this.add(dateE);
 
-        JComboBox<String> monthE = new JComboBox<>(Utils.MONTHS);
+        JComboBox<String> monthE = new JComboBox<>(ViewUtils.MONTHS);
         monthE.setFont(new Font("Arial", Font.PLAIN, 15));
         monthE.setSize(60, 20);
         monthE.setLocation(1070, 21);
         this.add(monthE);
 
-        JComboBox<String> yearE = new JComboBox<>(Utils.DOBYEARS);
+        JComboBox<String> yearE = new JComboBox<>(ViewUtils.DOBYEARS);
         yearE.setFont(new Font("Arial", Font.PLAIN, 15));
         yearE.setSize(60, 20);
         yearE.setLocation(1140, 21);

@@ -1,8 +1,7 @@
 package com.example.constructora.view;
 
 import com.example.constructora.JDBCRepository.*;
-import com.example.constructora.Utils;
-import com.example.constructora.domain.CategoriaLaboral;
+import com.example.constructora.view.utils.ViewUtils;
 import com.example.constructora.domain.Pago;
 import com.example.constructora.domain.Trabajador;
 
@@ -12,8 +11,6 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.InputMethodEvent;
-import java.awt.event.InputMethodListener;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
@@ -110,19 +107,19 @@ public class RegistroPago extends JFrame
         beginningDate.setLocation(100, 100);
         c.add(beginningDate);
 
-        date = new JComboBox<>(Utils.DAYS);
+        date = new JComboBox<>(ViewUtils.DAYS);
         date.setFont(new Font("Arial", Font.PLAIN, 15));
         date.setSize(50, 20);
         date.setLocation(200, 100);
         c.add(date);
 
-        month = new JComboBox<>(Utils.MONTHS);
+        month = new JComboBox<>(ViewUtils.MONTHS);
         month.setFont(new Font("Arial", Font.PLAIN, 15));
         month.setSize(60, 20);
         month.setLocation(260, 100);
         c.add(month);
 
-        year = new JComboBox<>(Utils.COMINGYEARS);
+        year = new JComboBox<>(ViewUtils.COMINGYEARS);
         year.setFont(new Font("Arial", Font.PLAIN, 15));
         year.setSize(60, 20);
         year.setLocation(330, 100);

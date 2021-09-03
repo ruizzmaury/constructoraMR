@@ -1,7 +1,6 @@
-package com.example.constructora.view;
+package com.example.constructora.view.utils;
 
 import com.example.constructora.JDBCRepository.*;
-import com.example.constructora.Utils;
 import com.example.constructora.domain.Obra;
 import com.example.constructora.domain.Pago;
 import com.example.constructora.domain.Trabajador;
@@ -24,7 +23,7 @@ public class Table {
 
 
 
-    public void showTable(JTable jTable, int i) {
+    public void showTable(JTable jTable, int selectedView, String searchFilter, DateFilter dateFilter) {
         jTable.setDefaultRenderer(Object.class, new TableIcon());
 
         JButton btnUpdate = new JButton();
@@ -46,18 +45,18 @@ public class Table {
 //             System.out.println("ENTRO EN PAYMENTS");
 //             jTable.setModel(loadPagos(btnUpdate, btnDelete));
 //         }
-        switch (i) {
+        switch (selectedView) {
             case 1 -> {
                 System.out.println("ENTRO EN WORKERS");
-                jTable.setModel(loadTrabajadores(btnUpdate, btnDelete));
+                jTable.setModel(loadTrabajadores(btnUpdate, btnDelete, searchFilter, dateFilter));
             }
             case 2 -> {
                 System.out.println("ENTRO EN OBRAS");
-                jTable.setModel(loadObras(btnUpdate, btnDelete));
+                jTable.setModel(loadObras(btnUpdate, btnDelete, searchFilter, dateFilter));
             }
             case 3 -> {
                 System.out.println("ENTRO EN PAYMENTS");
-                jTable.setModel(loadPagos(btnUpdate, btnDelete));
+                jTable.setModel(loadPagos(btnUpdate, btnDelete, searchFilter, dateFilter));
             }
         }
 
@@ -66,12 +65,12 @@ public class Table {
     }
 
 
-    private TableModel loadTrabajadores(JButton btnUpdate, JButton btnDelete) {
+    private TableModel loadTrabajadores(JButton btnUpdate, JButton btnDelete, String searchFilter, DateFilter dateFilter) {
 
         return new DefaultTableModel
                 (
-                        loadWorkersRows(btnUpdate, btnDelete),
-                        Utils.COLUMN_WORKER_NAMES
+                        loadWorkersRows(btnUpdate, btnDelete, searchFilter, dateFilter),
+                        ViewUtils.COLUMN_WORKER_NAMES
                 )
         {
             public boolean isCellEditable(int row, int column){
@@ -80,12 +79,12 @@ public class Table {
         };
     }
 
-    private TableModel loadObras(JButton btnUpdate, JButton btnDelete) {
+    private TableModel loadObras(JButton btnUpdate, JButton btnDelete,String searchFilter, DateFilter dateFilter) {
 
         return new DefaultTableModel
                 (
-                        loadObrasRows(btnUpdate, btnDelete),
-                        Utils.COLUMN_OBRAS_NAMES
+                        loadObrasRows(btnUpdate, btnDelete, searchFilter, dateFilter),
+                        ViewUtils.COLUMN_OBRAS_NAMES
                 )
         {
             public boolean isCellEditable(int row, int column){
@@ -94,12 +93,12 @@ public class Table {
         };
     }
 
-    private TableModel loadPagos(JButton btnUpdate, JButton btnDelete) {
+    private TableModel loadPagos(JButton btnUpdate, JButton btnDelete, String searchFilter, DateFilter dateFilter) {
 
         return new DefaultTableModel
                 (
-                        loadPaymentsRows(btnUpdate, btnDelete),
-                        Utils.COLUMN_PAGOS_NAMES
+                        loadPaymentsRows(btnUpdate, btnDelete, searchFilter, dateFilter),
+                        ViewUtils.COLUMN_PAGOS_NAMES
                 )
         {
             public boolean isCellEditable(int row, int column){
@@ -110,10 +109,16 @@ public class Table {
 
 
 
-    private Object[][] loadWorkersRows(JButton btnUpdate, JButton btnDelete) {
-        List<Trabajador> trabajadoresListDB = trabajadorServiceJDBC.getTrabajadores();
+    private Object[][] loadWorkersRows(JButton btnUpdate, JButton btnDelete, String searchFilter, DateFilter dateFilter) {
+        List<Trabajador> trabajadoresListDB;
 
-        listaTrabajadores = new Object[trabajadoresListDB.size()][Utils.COLUMN_WORKER_NAMES.length];
+        if (searchFilter.isEmpty()) {
+            trabajadoresListDB = trabajadorServiceJDBC.getTrabajadores();
+        } else {
+            trabajadoresListDB = trabajadorServiceJDBC.findByNombreStartingWith(searchFilter);
+        }
+
+        listaTrabajadores = new Object[trabajadoresListDB.size()][ViewUtils.COLUMN_WORKER_NAMES.length];
 
         for (int i = 0; i < trabajadoresListDB.size(); i++) {
             listaTrabajadores[i][0] = trabajadoresListDB.get(i).getTrabajador_dni();
@@ -132,10 +137,10 @@ public class Table {
         return listaTrabajadores;
     }
 
-    private Object[][] loadObrasRows(JButton btnUpdate, JButton btnDelete) {
+    private Object[][] loadObrasRows(JButton btnUpdate, JButton btnDelete, String searchFilter, DateFilter dateFilter) {
         List<Obra> obrasListDB = obrasServiceJDBC.getObras();
 
-        listaObras = new Object[obrasListDB.size()][Utils.COLUMN_OBRAS_NAMES.length];
+        listaObras = new Object[obrasListDB.size()][ViewUtils.COLUMN_OBRAS_NAMES.length];
 
         for (int i = 0; i < obrasListDB.size(); i++) {
             listaObras[i][0] = obrasListDB.get(i).getId();
@@ -149,11 +154,24 @@ public class Table {
         return listaObras;
     }
 
-    private Object[][] loadPaymentsRows(JButton btnUpdate, JButton btnDelete) {
-        List<Pago> pagosListDB = pagosServiceJDBC.getPagos();
+    private Object[][] loadPaymentsRows(JButton btnUpdate, JButton btnDelete, String searchFilter, DateFilter dateFilter) {
+        List<Pago> pagosListDB;
+
+        if (searchFilter.isEmpty()) {
+            if (dateFilter == null) {
+                pagosListDB = pagosServiceJDBC.getPagos();
+            } else {
+                pagosListDB = pagosServiceJDBC.findBetweenDates(dateFilter.getInitialDate(), dateFilter.getEndDate());
+            }
+
+        } else {
+            //pagosListDB = pagosServiceJDBC.findByWorkerNameStartingWith(searchFilter);
+            pagosListDB = pagosServiceJDBC.getPagos();
+            System.out.println("pagosServiceJDBC.findByWorkerNameStartingWith(searchFilter);");
+        }
 
         if (pagosListDB.size() > 0) {
-            listaPagos = new Object[pagosListDB.size()][Utils.COLUMN_PAGOS_NAMES.length];
+            listaPagos = new Object[pagosListDB.size()][ViewUtils.COLUMN_PAGOS_NAMES.length];
 
             for (int i = 0; i < pagosListDB.size(); i++) {
 

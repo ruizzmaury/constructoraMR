@@ -1,5 +1,6 @@
 package com.example.constructora.JDBCRepository;
 
+import com.example.constructora.Utils;
 import com.example.constructora.domain.Obra;
 
 import java.sql.*;
@@ -9,18 +10,13 @@ import java.util.List;
 
 public class ObrasServiceImplJDBC implements ObrasServiceJDBC {
 
-    final String DB_URL = "jdbc:postgresql://localhost:5432/constructorabd";
-    final String USER = "constructora";
-    final String PASS = "constructora";
-
-
     @Override
     public Obra create(Obra obra) {
         final String QUERY = "INSERT INTO obra VALUES " +
                 "(?, ?, ?, ?, ?)";
 
         // Open a connection
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+        try (Connection conn = DriverManager.getConnection(Utils.DB_URL, Utils.USER, Utils.PASS);
              PreparedStatement stmt = conn.prepareStatement(QUERY)) {
 
             stmt.setLong(1, obra.getId());
@@ -50,7 +46,7 @@ public class ObrasServiceImplJDBC implements ObrasServiceJDBC {
         final String QUERY = "SELECT * FROM obra";
 
         // Open a connection
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+        try (Connection conn = DriverManager.getConnection(Utils.DB_URL, Utils.USER, Utils.PASS);
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(QUERY);) {
 
@@ -93,7 +89,7 @@ public class ObrasServiceImplJDBC implements ObrasServiceJDBC {
         final String QUERY = "SELECT obra.obra_id FROM obra";
 
         // Open a connection
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+        try (Connection conn = DriverManager.getConnection(Utils.DB_URL, Utils.USER, Utils.PASS);
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(QUERY);) {
 
@@ -121,7 +117,7 @@ public class ObrasServiceImplJDBC implements ObrasServiceJDBC {
         final String QUERY = "SELECT obra.descriptor FROM obra";
 
         // Open a connection
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+        try (Connection conn = DriverManager.getConnection(Utils.DB_URL, Utils.USER, Utils.PASS);
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(QUERY);) {
 
@@ -147,7 +143,7 @@ public class ObrasServiceImplJDBC implements ObrasServiceJDBC {
         final String QUERY = "SELECT * FROM obra WHERE obra.obra_id= ?";
 
         // Open a connection
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+        try (Connection conn = DriverManager.getConnection(Utils.DB_URL, Utils.USER, Utils.PASS);
              PreparedStatement stmt = conn.prepareStatement(QUERY)) {
             stmt.setLong(1, id);
 
@@ -185,7 +181,7 @@ public class ObrasServiceImplJDBC implements ObrasServiceJDBC {
         final String QUERY = "SELECT * FROM obra WHERE obra.ubicacion LIKE ?";
         System.out.println("OBRAS CON UBICACIÓN EMPEZADA POR " + ubicacion);
         // Open a connection
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+        try (Connection conn = DriverManager.getConnection(Utils.DB_URL, Utils.USER, Utils.PASS);
              PreparedStatement stmt = conn.prepareStatement(QUERY);
         ) {
 
@@ -231,7 +227,7 @@ public class ObrasServiceImplJDBC implements ObrasServiceJDBC {
         final String QUERY = "SELECT * FROM obra WHERE obra.descriptor LIKE ?";
         System.out.println("OBRAS CON DESCRIPTOR EMPEZADO POR " + descriptor);
         // Open a connection
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+        try (Connection conn = DriverManager.getConnection(Utils.DB_URL, Utils.USER, Utils.PASS);
              PreparedStatement stmt = conn.prepareStatement(QUERY);
         ) {
 
@@ -277,7 +273,7 @@ public class ObrasServiceImplJDBC implements ObrasServiceJDBC {
         final String QUERY = "SELECT * FROM obra WHERE obra.fecha_inicio OR obra.fecha_fin >= ? AND" +
                 " obra.fecha_inicio OR obra.fecha_fin <= ?";  // Obras empezadas o finalizadas entre las dos fechas especificadas
 // Open a connection
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+        try (Connection conn = DriverManager.getConnection(Utils.DB_URL, Utils.USER, Utils.PASS);
              PreparedStatement stmt = conn.prepareStatement(QUERY);
         ) {
 
@@ -328,7 +324,7 @@ public class ObrasServiceImplJDBC implements ObrasServiceJDBC {
                 "WHERE obra_id = ?";
 
         // Open a connection
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+        try (Connection conn = DriverManager.getConnection(Utils.DB_URL, Utils.USER, Utils.PASS);
              PreparedStatement stmt = conn.prepareStatement(QUERY)) {
 
             stmt.setString(1, obra.getUbicacion());
@@ -357,7 +353,7 @@ public class ObrasServiceImplJDBC implements ObrasServiceJDBC {
         final String QUERY = "DELETE FROM obra WHERE obra.obra_id = ?";
 
         // Open a connection
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+        try (Connection conn = DriverManager.getConnection(Utils.DB_URL, Utils.USER, Utils.PASS);
              PreparedStatement stmt = conn.prepareStatement(QUERY)) {
             stmt.setLong(1, obra_id);
 
