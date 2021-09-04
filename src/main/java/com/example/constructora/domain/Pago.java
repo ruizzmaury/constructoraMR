@@ -1,6 +1,5 @@
 package com.example.constructora.domain;
 
-import com.example.constructora.exception.TrabajadorAlreadyExistsException;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -31,8 +30,8 @@ public class Pago {
     private Trabajador trabajadorPago;
 
     @ManyToOne(targetEntity = Obra.class)
-    @JoinColumn(name = "obra_id")
-    private Long idObra;
+    @JoinColumn(name = "obra_descriptor")
+    private String obraDescriptor;
 
     private LocalDate fechaPago;
 
@@ -42,19 +41,19 @@ public class Pago {
     }
 
 
-    public Pago(int horas, Long idObra, LocalDate fechaPago, float cantidad) {
+    public Pago(int horas, String obraDescriptor, LocalDate fechaPago, float cantidad) {
         this.id = UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
         this.horas = horas;
-        this.idObra = idObra;
+        this.obraDescriptor = obraDescriptor;
         this.fechaPago = fechaPago;
         this.cantidad = cantidad;
     }
 
-    public Pago(int horas, Trabajador trabajadorPago, Long idObra, LocalDate fechaPago, float cantidad) {
+    public Pago(int horas, Trabajador trabajadorPago, String obraDescriptor, LocalDate fechaPago, float cantidad) {
         this.id = UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
         this.horas = horas;
         this.trabajadorPago = trabajadorPago;
-        this.idObra = idObra;
+        this.obraDescriptor = obraDescriptor;
         this.fechaPago = fechaPago;
         this.cantidad = cantidad;
     }

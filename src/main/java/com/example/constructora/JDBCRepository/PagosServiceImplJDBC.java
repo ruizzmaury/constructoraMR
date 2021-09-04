@@ -4,7 +4,6 @@ import com.example.constructora.Utils;
 import com.example.constructora.domain.Obra;
 import com.example.constructora.domain.Pago;
 import com.example.constructora.domain.Trabajador;
-import jdk.swing.interop.SwingInterOpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.Valid;
@@ -13,6 +12,7 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class PagosServiceImplJDBC implements PagosServiceJDBC {
 
@@ -36,7 +36,7 @@ public class PagosServiceImplJDBC implements PagosServiceJDBC {
             stmt.setFloat(2, pago.getCantidad());
             stmt.setDate(3, Date.valueOf(pago.getFechaPago()));
             stmt.setInt(4, pago.getHoras());
-            stmt.setLong(5, pago.getIdObra());
+            stmt.setString(5, pago.getObraDescriptor());
             stmt.setString(6, trabajador_dni);
             int rowAffected = stmt.executeUpdate();
 
@@ -71,7 +71,7 @@ public class PagosServiceImplJDBC implements PagosServiceJDBC {
                         new Pago(
                                 rs.getInt("horas"),
                                 referencedTrabajador,
-                                rs.getLong("obra_id"),
+                                rs.getString("obra_descriptor"),
                                 rs.getDate("fecha_pago").toLocalDate(),
                                 rs.getFloat("cantidad")
                         ));
@@ -108,7 +108,7 @@ public class PagosServiceImplJDBC implements PagosServiceJDBC {
             return new Pago(
                     rs.getInt("horas"),
                     referencedTrabajador,
-                    rs.getLong("obra_id"),
+                    rs.getString("obra_descriptor"),
                     rs.getDate("fecha_pago").toLocalDate(),
                     rs.getFloat("cantidad")
             );
@@ -158,7 +158,7 @@ public class PagosServiceImplJDBC implements PagosServiceJDBC {
                         new Pago(
                                 rs.getInt("horas"),
                                 referencedTrabajador,
-                                rs.getLong("obra_id"),
+                                rs.getString("obra_descriptor"),
                                 rs.getDate("fecha_pago").toLocalDate(),
                                 rs.getFloat("cantidad")
                         )
@@ -195,7 +195,7 @@ public class PagosServiceImplJDBC implements PagosServiceJDBC {
                         new Pago(
                                 rs.getInt("horas"),
                                 referencedTrabajador,
-                                rs.getLong("obra_id"),
+                                rs.getString("obra_descriptor"),
                                 rs.getDate("fecha_pago").toLocalDate(),
                                 rs.getFloat("cantidad")
                         )
@@ -232,7 +232,7 @@ public class PagosServiceImplJDBC implements PagosServiceJDBC {
                         new Pago(
                                 rs.getInt("horas"),
                                 referencedTrabajador,
-                                rs.getLong("obra_id"),
+                                rs.getString("obra_descriptor"),
                                 rs.getDate("fecha_pago").toLocalDate(),
                                 rs.getFloat("cantidad")
                         )
@@ -253,11 +253,11 @@ public class PagosServiceImplJDBC implements PagosServiceJDBC {
                 "SELECT pago.* FROM pago " +
                 "JOIN trabajador ON trabajador.trabajador_dni=pago.trabajador_dni AND trabajador.nombre LIKE ?";
         if (fechaInicioFilter != null && fechaFinFilter != null) {
-            QUERY = QUERY + "WHERE pago.fecha_pago >= ? AND pago.fecha_pago <= ?";
+            QUERY = QUERY + " WHERE pago.fecha_pago >= ? AND pago.fecha_pago <= ?";
         } else if (fechaInicioFilter != null){
-            QUERY = QUERY + "WHERE pago.fecha_pago >= ? ";
+            QUERY = QUERY + " WHERE pago.fecha_pago >= ? ";
         } else if (fechaFinFilter != null) {
-            QUERY = QUERY + "WHERE pago.fecha_pago <= ?";
+            QUERY = QUERY + " WHERE pago.fecha_pago <= ?";
         }
 
         // Open a connection
@@ -266,12 +266,15 @@ public class PagosServiceImplJDBC implements PagosServiceJDBC {
         ) {
             stmt.setString(1, "%" + workerName + "%");
 
-            if (fechaInicioFilter != null)
-            stmt.setDate(2, Date.valueOf(fechaInicioFilter));
-            if (fechaFinFilter != null)
-            stmt.setDate(3, Date.valueOf(fechaFinFilter));
+            if (fechaInicioFilter != null || fechaFinFilter != null) {
+                if (fechaInicioFilter != null && fechaFinFilter != null) {
+                    stmt.setDate(2, Date.valueOf(fechaInicioFilter));
+                    stmt.setDate(3, Date.valueOf(fechaFinFilter));
 
+                } else stmt.setDate(2, Date.valueOf(Objects.requireNonNullElse(fechaInicioFilter, fechaFinFilter)));
+            }
             ResultSet rs = stmt.executeQuery();
+
 
             // Extract data from result set
             while (rs.next()) {
@@ -281,7 +284,7 @@ public class PagosServiceImplJDBC implements PagosServiceJDBC {
                         new Pago(
                                 rs.getInt("horas"),
                                 referencedTrabajador,
-                                rs.getLong("obra_id"),
+                                rs.getString("obra_descriptor"),
                                 rs.getDate("fecha_pago").toLocalDate(),
                                 rs.getFloat("cantidad")
                         )
@@ -302,8 +305,8 @@ public class PagosServiceImplJDBC implements PagosServiceJDBC {
                 "fecha_pago = ?, " +
                 "horas = ?, " +
                 "trabajador_dni = ?, " +
-                "obra_id = ? " +
-                "WHERE obra_id = ?";
+                "obra_descriptor = ? " +
+                "WHERE obra_descriptor = ?";
 
         // Open a connection
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
@@ -315,7 +318,7 @@ public class PagosServiceImplJDBC implements PagosServiceJDBC {
             stmt.setDate(2, Date.valueOf(pago.getFechaPago()));
             stmt.setInt(3, pago.getHoras());
             stmt.setString(4, referencedTrabajador.getTrabajador_dni());
-            stmt.setLong(5, pago.getIdObra());
+            stmt.setString(5, pago.getObraDescriptor());
             stmt.setLong(6, pago.getId());
 
             int rowAffected = stmt.executeUpdate();

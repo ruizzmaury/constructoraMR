@@ -17,9 +17,8 @@ public class ObraConfiguration {
     CommandLineRunner commandLineRunnerObra (ObraRepository obraRepository) {
         return args -> {
             Obra obra1 = new Obra(
-                    4566849560204362158L,
                     "Cala Millor",
-                    "CALA MILLOR ZONA SUR",
+                    "CALA MILLOR SUR",
                     LocalDate.of(2020, Month.FEBRUARY, 20),
                     LocalDate.of(2021, Month.FEBRUARY, 20)
             );

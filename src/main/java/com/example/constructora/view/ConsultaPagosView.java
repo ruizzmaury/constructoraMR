@@ -92,7 +92,6 @@ public class ConsultaPagosView extends JFrame implements ActionListener {
 
         initialDateChooser.getDateEditor().addPropertyChangeListener(
                 e -> {
-
                     if ("date".equals(e.getPropertyName())) {
                         if (endDateChooser.getDate() == null) { // si no hay fecha final,
                             // únicamente filtramos fecha inicial hacia delante indefinidamente

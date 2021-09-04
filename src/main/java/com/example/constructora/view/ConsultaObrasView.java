@@ -1,14 +1,16 @@
 package com.example.constructora.view;
 
 import com.example.constructora.view.utils.DateFilter;
-import com.example.constructora.view.utils.ViewUtils;
 import com.example.constructora.view.utils.HintTextField;
 import com.example.constructora.view.utils.Table;
+import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.ZoneId;
+import java.util.Objects;
 
 public class ConsultaObrasView extends JFrame implements ActionListener {
 
@@ -36,71 +38,87 @@ public class ConsultaObrasView extends JFrame implements ActionListener {
         this.add(title);
 
 
-        JTextField tname = new HintTextField("Buscar obra...");
+        JTextField tname = new HintTextField("OBRA DESCRIPTOR...");
         tname.setFont(new Font("Arial", Font.PLAIN, 13));
-        tname.setSize(190, 30);
+        tname.setSize(160, 30);
         tname.setLocation(335, 15);
         this.add(tname);
 
-        JButton btnGetText = new JButton("Get text");
-        btnGetText.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String message = String.format("searchName='%s'",
-                        tname.getText());
-                JOptionPane.showMessageDialog(ConsultaObrasView.this, message);
-            }
+
+        JButton btnGetText = new JButton();
+        btnGetText.setSize(28, 30);
+        btnGetText.setLocation(495, 15);
+        btnGetText.addActionListener(e -> {
+            searchFilter = tname.getText();
+            dateFilter = new DateFilter();
+            System.out.println(dateFilter);
+            t.showTable(tablaObras, 2, searchFilter, dateFilter);
         });
+        ImageIcon searchIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/searchIcon.png")));
+        btnGetText.setIcon(searchIcon);
         this.add(btnGetText);
 
-        JLabel initialDate = new JLabel("Desde : ");
-        initialDate.setFont(new Font("Arial", Font.PLAIN, 20));
-        initialDate.setSize(100, 20);
-        initialDate.setLocation(570, 21);
-        this.add(initialDate);
+        JLabel initialDateText = new JLabel("Desde : ");
+        initialDateText.setFont(new Font("Arial", Font.PLAIN, 20));
+        initialDateText.setSize(100, 20);
+        initialDateText.setLocation(600, 21);
+        this.add(initialDateText);
 
-        JComboBox<String> dateI = new JComboBox<>(ViewUtils.DAYS);
-        dateI.setFont(new Font("Arial", Font.PLAIN, 15));
-        dateI.setSize(60, 20);
-        dateI.setLocation(650, 21);
-        this.add(dateI);
-
-        JComboBox<String> monthI = new JComboBox<>(ViewUtils.MONTHS);
-        monthI.setFont(new Font("Arial", Font.PLAIN, 15));
-        monthI.setSize(60, 20);
-        monthI.setLocation(720, 21);
-        this.add(monthI);
-
-        JComboBox<String> yearI = new JComboBox<>(ViewUtils.DOBYEARS);
-        yearI.setFont(new Font("Arial", Font.PLAIN, 15));
-        yearI.setSize(60, 20);
-        yearI.setLocation(790, 21);
-        this.add(yearI);
+        JDateChooser initialDateChooser = new JDateChooser();
+        initialDateChooser.setBounds(680, 15,100,30);
+        this.getContentPane().add(initialDateChooser);
+        initialDateChooser.setDateFormatString("yyyy-MM-dd");
 
 
-        JLabel endDate = new JLabel("Hasta : ");
-        endDate.setFont(new Font("Arial", Font.PLAIN, 20));
-        endDate.setSize(100, 20);
-        endDate.setLocation(920, 21);
-        this.add(endDate);
+        JLabel endDateText = new JLabel("Hasta : ");
+        endDateText.setFont(new Font("Arial", Font.PLAIN, 20));
+        endDateText.setSize(100, 20);
+        endDateText.setLocation(840, 21);
+        this.add(endDateText);
 
-        JComboBox<String> dateE = new JComboBox<>(ViewUtils.DAYS);
-        dateE.setFont(new Font("Arial", Font.PLAIN, 15));
-        dateE.setSize(60, 20);
-        dateE.setLocation(1000, 21);
-        this.add(dateE);
+        JDateChooser endDateChooser = new JDateChooser();
+        endDateChooser.setBounds(920, 15,100,30);
+        this.getContentPane().add(endDateChooser);
+        endDateChooser.setDateFormatString("yyyy-MM-dd");
 
-        JComboBox<String> monthE = new JComboBox<>(ViewUtils.MONTHS);
-        monthE.setFont(new Font("Arial", Font.PLAIN, 15));
-        monthE.setSize(60, 20);
-        monthE.setLocation(1070, 21);
-        this.add(monthE);
+        initialDateChooser.getDateEditor().addPropertyChangeListener(
+                e -> {
+                    if ("date".equals(e.getPropertyName())) {
+                        if (endDateChooser.getDate() == null) { // si no hay fecha final,
+                            // únicamente filtramos fecha inicial hacia delante indefinidamente
+                            dateFilter = new DateFilter(
+                                    initialDateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
+                                    null
+                            );
+                        } else {
+                            loadFullDateFilter(initialDateChooser, endDateChooser);
+                        }
+                        t.showTable(tablaObras, 2, searchFilter, dateFilter);
+                    }
 
-        JComboBox<String> yearE = new JComboBox<>(ViewUtils.DOBYEARS);
-        yearE.setFont(new Font("Arial", Font.PLAIN, 15));
-        yearE.setSize(60, 20);
-        yearE.setLocation(1140, 21);
-        this.add(yearE);
+                }
+        );
+
+
+        endDateChooser.getDateEditor().addPropertyChangeListener(
+                e -> {
+                    if ("date".equals(e.getPropertyName())) {
+                        if (initialDateChooser.getDate() == null) {// si no hay fecha inicial,
+                            // únicamente filtramos fecha final hacia atrás indefinidamente
+                            dateFilter = new DateFilter(
+                                    null,
+                                    endDateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+                            );
+                        } else {
+                            loadFullDateFilter(initialDateChooser, endDateChooser);
+                        }
+                        t.showTable(tablaObras, 2, searchFilter, dateFilter);
+                    }
+
+                }
+        );
+
+
 
         backButton = new JButton("VOLVER");
         backButton.setFont(new Font("Arial", Font.BOLD, 12));
@@ -163,6 +181,12 @@ public class ConsultaObrasView extends JFrame implements ActionListener {
 
     }
 
+    private void loadFullDateFilter(JDateChooser initialDateChooser, JDateChooser endDateChooser) {
+        dateFilter = new DateFilter(
+                initialDateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
+                endDateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+        );
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {

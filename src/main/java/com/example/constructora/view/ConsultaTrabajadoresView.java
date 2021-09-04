@@ -63,30 +63,28 @@ public class ConsultaTrabajadoresView extends JFrame implements ActionListener {
         btnGetText.setIcon(searchIcon);
         this.add(btnGetText);
 
-        JLabel initialDateText = new JLabel("Desde : ");
-        initialDateText.setFont(new Font("Arial", Font.PLAIN, 20));
-        initialDateText.setSize(100, 20);
-        initialDateText.setLocation(600, 21);
-        this.add(initialDateText);
-
-        JDateChooser initialDateChooser = new JDateChooser();
-        initialDateChooser.setBounds(680, 15,100,30);
-        this.getContentPane().add(initialDateChooser);
-        initialDateChooser.setDateFormatString("yyyy-MM-dd");
-
-
-        JLabel endDateText = new JLabel("Hasta : ");
-        endDateText.setFont(new Font("Arial", Font.PLAIN, 20));
-        endDateText.setSize(100, 20);
-        endDateText.setLocation(840, 21);
-        this.add(endDateText);
-
-        JDateChooser endDateChooser = new JDateChooser();
-        endDateChooser.setBounds(920, 15,100,30);
-        this.getContentPane().add(endDateChooser);
-        endDateChooser.setDateFormatString("yyyy-MM-dd");
-
-
+//        JLabel initialDateText = new JLabel("Desde : ");
+//        initialDateText.setFont(new Font("Arial", Font.PLAIN, 20));
+//        initialDateText.setSize(100, 20);
+//        initialDateText.setLocation(600, 21);
+//        this.add(initialDateText);
+//
+//        JDateChooser initialDateChooser = new JDateChooser();
+//        initialDateChooser.setBounds(680, 15,100,30);
+//        this.getContentPane().add(initialDateChooser);
+//        initialDateChooser.setDateFormatString("yyyy-MM-dd");
+//
+//
+//        JLabel endDateText = new JLabel("Hasta : ");
+//        endDateText.setFont(new Font("Arial", Font.PLAIN, 20));
+//        endDateText.setSize(100, 20);
+//        endDateText.setLocation(840, 21);
+//        this.add(endDateText);
+//
+//        JDateChooser endDateChooser = new JDateChooser();
+//        endDateChooser.setBounds(920, 15,100,30);
+//        this.getContentPane().add(endDateChooser);
+//        endDateChooser.setDateFormatString("yyyy-MM-dd");
 
         backButton = new JButton("VOLVER");
         backButton.setFont(new Font("Arial", Font.BOLD, 12));

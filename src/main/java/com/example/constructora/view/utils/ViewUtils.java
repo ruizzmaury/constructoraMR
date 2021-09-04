@@ -65,11 +65,10 @@ public class ViewUtils {
     };
 
     public static final String[] COLUMN_OBRAS_NAMES = {
-            "id",
+            "Descriptor",
             "Ubicación",
             "Fecha Inicio",
             "Fecha Fin",
-            "Descriptor",
             "Actualizar",
             "Eliminar"
     };
@@ -77,7 +76,7 @@ public class ViewUtils {
     public static final String[] COLUMN_PAGOS_NAMES = {
             "TrabajadorDNI",
             "nombreTrabajador",
-            "idObra",
+            "descriptorObra",
             "fechaPago",
             "horas",
             "cantidad",

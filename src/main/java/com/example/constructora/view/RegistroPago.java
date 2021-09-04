@@ -32,7 +32,7 @@ public class RegistroPago extends JFrame
     private final JComboBox<String> trabajadorName;
     private JTextArea tDNI;
     private JTextArea tCatLaboral;
-    private JComboBox<Long> obraId;
+    private JComboBox<String> obraId;
     private JLabel add;
     private JTextArea tadd;
     private final JTextArea thoras;
@@ -47,13 +47,13 @@ public class RegistroPago extends JFrame
 
 
 
-    private Long[] loadObrasIDs() {
-        List<Long> obrasList = obrasServiceJDBC.getObrasIDs();
+    private String[] loadObrasDescriptors() {
+        List<String> obrasList = obrasServiceJDBC.getObrasDescriptor();
 
-        Long[] obrasArray = new Long[obrasList.size()];
+        String[] obrasArray = new String[obrasList.size()];
         obrasArray = obrasList.toArray(obrasArray);
 
-        for(Long s : obrasArray)
+        for(String s : obrasArray)
             System.out.println(s);
 
         return obrasArray;
@@ -185,7 +185,7 @@ public class RegistroPago extends JFrame
         obra.setLocation(100, 250);
         c.add(obra);
 
-        Long[] obrasIdList = loadObrasIDs();
+        String[] obrasIdList = loadObrasDescriptors();
         obraId = new JComboBox<>(obrasIdList);
         obraId.setFont(new Font("Arial", Font.PLAIN, 15));
         obraId.setSize(190, 20);
@@ -345,7 +345,7 @@ public class RegistroPago extends JFrame
 
             Pago pago = new Pago(
                     horas,
-                    (Long) obraId.getSelectedItem(),
+                    (String) obraId.getSelectedItem(),
                     LocalDate.of(
                             Integer.parseInt(year.getSelectedItem().toString()),
                             month.getSelectedIndex() + 1,

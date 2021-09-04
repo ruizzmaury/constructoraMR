@@ -4,16 +4,11 @@ import com.example.constructora.JDBCRepository.*;
 import com.example.constructora.domain.Obra;
 import com.example.constructora.domain.Pago;
 import com.example.constructora.domain.Trabajador;
-import com.example.constructora.view.SecondaryMenu;
-import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import java.util.List;
 import java.util.Objects;
 
@@ -135,18 +130,44 @@ public class Table {
     }
 
     private Object[][] loadObrasRows(JButton btnUpdate, JButton btnDelete, String searchFilter, DateFilter dateFilter) {
-        List<Obra> obrasListDB = obrasServiceJDBC.getObras();
+        List<Obra> obrasListDB;
 
-        listaObras = new Object[obrasListDB.size()][ViewUtils.COLUMN_OBRAS_NAMES.length];
+        if (searchFilter.isEmpty()) {
+            if(dateFilter== null) {
+                obrasListDB = obrasServiceJDBC.getObras();
+            } else {
+                if (dateFilter.getInitialDate() == null && dateFilter.getEndDate() == null) { // no busca ni por nombre ni por fechas
+                    System.out.println("ni nombre ni fechas");
+                    obrasListDB = obrasServiceJDBC.getObras();
+                } else { // no busca por nombre pero sí por fechas
+                    if (dateFilter.getInitialDate() != null && dateFilter.getEndDate() != null ) { // intervalo de fechas
+                        obrasListDB = obrasServiceJDBC.findBetweenDates(dateFilter.getInitialDate(), dateFilter.getEndDate());
+                    } else if (dateFilter.getInitialDate() != null && dateFilter.getEndDate() == null ) { // inicial hacia delante
+                        obrasListDB = obrasServiceJDBC.findByDateForward(dateFilter.getInitialDate());
+                    } else { // final hacia atrás
+                        obrasListDB = obrasServiceJDBC.findByDateBackward(dateFilter.getEndDate());
+                    }
+                }
+            }
 
-        for (int i = 0; i < obrasListDB.size(); i++) {
-            listaObras[i][0] = obrasListDB.get(i).getId();
-            listaObras[i][1] = obrasListDB.get(i).getUbicacion();
-            listaObras[i][2] = obrasListDB.get(i).getFechaInicio();
-            listaObras[i][3] = obrasListDB.get(i).getFechaFin();
-            listaObras[i][4] = obrasListDB.get(i).getDescriptor();
-            listaObras[i][5] = btnUpdate;
-            listaObras[i][6] = btnDelete;
+        } else {
+            System.out.println("hola");
+            obrasListDB = obrasServiceJDBC.findByNameAndDate(searchFilter, dateFilter.getInitialDate(), dateFilter.getEndDate());
+        }
+
+        if (obrasListDB.size() > 0) {
+            listaObras = new Object[obrasListDB.size()][ViewUtils.COLUMN_OBRAS_NAMES.length];
+
+            for (int i = 0; i < obrasListDB.size(); i++) {
+                listaObras[i][0] = obrasListDB.get(i).getDescriptor();
+                listaObras[i][1] = obrasListDB.get(i).getUbicacion();
+                listaObras[i][2] = obrasListDB.get(i).getFechaInicio();
+                listaObras[i][3] = obrasListDB.get(i).getFechaFin();
+                listaObras[i][4] = btnUpdate;
+                listaObras[i][5] = btnDelete;
+            }
+        } else {
+            listaObras = new Object[0][0];
         }
         return listaObras;
     }
@@ -174,7 +195,6 @@ public class Table {
 
         } else {
             pagosListDB = pagosServiceJDBC.findByNameAndDate(searchFilter, dateFilter.getInitialDate(), dateFilter.getEndDate());
-            System.out.println("pagosServiceJDBC.findByWorkerNameStartingWith(searchFilter);");
         }
 
         if (pagosListDB.size() > 0) {
@@ -186,7 +206,7 @@ public class Table {
 
                 listaPagos[i][0] = pagosListDB.get(i).getTrabajadorPago().getTrabajador_dni();
                 listaPagos[i][1] = trabajador.getNombre();
-                listaPagos[i][2] = pagosListDB.get(i).getIdObra();
+                listaPagos[i][2] = pagosListDB.get(i).getObraDescriptor();
                 listaPagos[i][3] = pagosListDB.get(i).getFechaPago();
                 listaPagos[i][4] = pagosListDB.get(i).getHoras();
                 listaPagos[i][5] = pagosListDB.get(i).getCantidad();
