@@ -59,11 +59,9 @@ public class ConsultaPagosView extends JFrame implements ActionListener {
         btnGetText.setSize(28, 30);
         btnGetText.setLocation(495, 15);
         btnGetText.addActionListener(e -> {
-//            String message = String.format("searchName='%s'",
-//                    tname.getText());
-//            JOptionPane.showMessageDialog(ConsultaTrabajadoresView.this, message);
             searchFilter = tname.getText();
             dateFilter = new DateFilter();
+            System.out.println(dateFilter);
             t.showTable(tablaPagos, 3, searchFilter, dateFilter);
         });
         ImageIcon searchIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/searchIcon.png")));

@@ -5,6 +5,7 @@ import com.example.constructora.domain.Obra;
 import com.example.constructora.domain.Pago;
 import com.example.constructora.domain.Trabajador;
 import com.example.constructora.view.SecondaryMenu;
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -154,19 +155,24 @@ public class Table {
         List<Pago> pagosListDB;
 
         if (searchFilter.isEmpty()) {
-            if (dateFilter == null) { // no busca ni por nombre ni por fechas
+            if(dateFilter== null) {
                 pagosListDB = pagosServiceJDBC.getPagos();
-            } else { // no busca por nombre pero sí por fechas
-                if (dateFilter.getInitialDate() != null && dateFilter.getEndDate() != null ) { // intervalo de fechas
-                    pagosListDB = pagosServiceJDBC.findBetweenDates(dateFilter.getInitialDate(), dateFilter.getEndDate());
-                } else if (dateFilter.getInitialDate() != null && dateFilter.getEndDate() == null ) { // inicial hacia delante
-                    pagosListDB = pagosServiceJDBC.findByDateForward(dateFilter.getInitialDate());
-                } else { // final hacia atrás
-                    pagosListDB = pagosServiceJDBC.findByDateBackward(dateFilter.getEndDate());
+            } else {
+                if (dateFilter.getInitialDate() == null && dateFilter.getEndDate() == null) { // no busca ni por nombre ni por fechas
+                    System.out.println("ni nombre ni fechas");
+                    pagosListDB = pagosServiceJDBC.getPagos();
+                } else { // no busca por nombre pero sí por fechas
+                    if (dateFilter.getInitialDate() != null && dateFilter.getEndDate() != null ) { // intervalo de fechas
+                        pagosListDB = pagosServiceJDBC.findBetweenDates(dateFilter.getInitialDate(), dateFilter.getEndDate());
+                    } else if (dateFilter.getInitialDate() != null && dateFilter.getEndDate() == null ) { // inicial hacia delante
+                        pagosListDB = pagosServiceJDBC.findByDateForward(dateFilter.getInitialDate());
+                    } else { // final hacia atrás
+                        pagosListDB = pagosServiceJDBC.findByDateBackward(dateFilter.getEndDate());
+                    }
                 }
             }
+
         } else {
-            //pagosListDB = pagosServiceJDBC.findByWorkerNameStartingWith(searchFilter);
             pagosListDB = pagosServiceJDBC.findByNameAndDate(searchFilter, dateFilter.getInitialDate(), dateFilter.getEndDate());
             System.out.println("pagosServiceJDBC.findByWorkerNameStartingWith(searchFilter);");
         }
