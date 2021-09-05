@@ -4,6 +4,7 @@ import com.example.constructora.JDBCRepository.*;
 import com.example.constructora.domain.CategoriaLaboral;
 import com.example.constructora.domain.Genero;
 import com.example.constructora.domain.Trabajador;
+import com.example.constructora.view.utils.ViewUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -47,40 +48,11 @@ public class RegistroTrabajador extends JFrame
     private JComboBox tiposCatLab;
     private JButton sub;
     private JButton reset;
-    private JButton backButton;
+//    private JButton backButton;
     private JTextArea tout;
     private JLabel res;
     private JTextArea resadd;
 
-    private String days[]
-            = {"1", "2", "3", "4", "5",
-            "6", "7", "8", "9", "10",
-            "11", "12", "13", "14", "15",
-            "16", "17", "18", "19", "20",
-            "21", "22", "23", "24", "25",
-            "26", "27", "28", "29", "30",
-            "31"};
-    private String months[]
-            = {"Ener", "Feb", "Mar", "Abr",
-            "May", "Jun", "Juli", "Ago",
-            "Sep", "Oct", "Nov", "Dic"};
-    private String years[]
-            = {
-            "1954", "1955", "1956", "1957",
-            "1958", "1959", "1960", "1961",
-            "1962", "1963", "1964", "1965",
-            "1966", "1967", "1968", "1969",
-            "1970", "1971", "1972", "1973",
-            "1974", "1975", "1976", "1977",
-            "1976", "1977", "1978", "1979",
-            "1980", "1981", "1982", "1983",
-            "1984", "1985", "1986", "1987",
-            "1988", "1989", "1990", "1991",
-            "1992", "1993", "1994", "1995",
-            "1996", "1997", "1998", "1999",
-            "2000", "2001", "2002", "2003",
-            "2004", "2005", "2006", "2007", "2008"
-    };
 
     private String[] loadCatLaboralesNames() {
         List<String> catLabList = catLaboralServiceJDBC.getCatLaboralNames();
@@ -100,18 +72,18 @@ public class RegistroTrabajador extends JFrame
     public RegistroTrabajador() throws HeadlessException {
         setTitle("Registro Trabajador");
         setBounds(300, 90, 1000, 800);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setResizable(false);
 
         c = getContentPane();
         c.setLayout(null);
 
-        backButton = new JButton("VOLVER");
-        backButton.setFont(new Font("Arial", Font.BOLD, 14));
-        backButton.setSize(120, 40);
-        backButton.setLocation(10, 10);
-        backButton.addActionListener(this);
-        c.add(backButton);
+//        backButton = new JButton("VOLVER");
+//        backButton.setFont(new Font("Arial", Font.BOLD, 14));
+//        backButton.setSize(120, 40);
+//        backButton.setLocation(10, 10);
+//        backButton.addActionListener(this);
+//        c.add(backButton);
 
         title = new JLabel("Registro Trabajador");
         title.setFont(new Font("Arial", Font.PLAIN, 30));
@@ -206,19 +178,19 @@ public class RegistroTrabajador extends JFrame
         dob.setLocation(100, 350);
         c.add(dob);
 
-        date = new JComboBox(days);
+        date = new JComboBox(ViewUtils.DAYS);
         date.setFont(new Font("Arial", Font.PLAIN, 15));
         date.setSize(50, 20);
         date.setLocation(200, 350);
         c.add(date);
 
-        month = new JComboBox(months);
+        month = new JComboBox(ViewUtils.MONTHS);
         month.setFont(new Font("Arial", Font.PLAIN, 15));
         month.setSize(60, 20);
         month.setLocation(260, 350);
         c.add(month);
 
-        year = new JComboBox(years);
+        year = new JComboBox(ViewUtils.DOBYEARS);
         year.setFont(new Font("Arial", Font.PLAIN, 15));
         year.setSize(60, 20);
         year.setLocation(330, 350);
@@ -368,11 +340,12 @@ public class RegistroTrabajador extends JFrame
             tiposCatLab.setSelectedIndex(0);
             resadd.setText(def);
 
-        } else if (e.getSource() == backButton) {
-            SecondaryMenu secondaryMenu = new SecondaryMenu("Trabajador");
-            secondaryMenu.setVisible(true);
-            this.dispose();
         }
+//        else if (e.getSource() == backButton) {
+//            SecondaryMenu secondaryMenu = new SecondaryMenu("Trabajador");
+//            secondaryMenu.setVisible(true);
+//            this.dispose();
+//        }
     }
 
 

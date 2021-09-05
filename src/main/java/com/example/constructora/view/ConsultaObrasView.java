@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
 import java.time.ZoneId;
 import java.util.Objects;
 
-public class ConsultaObrasView extends JFrame implements ActionListener {
+public class ConsultaObrasView extends JFrame {
 
     private JTable tablaObras;
     private JButton backButton;
@@ -22,6 +22,7 @@ public class ConsultaObrasView extends JFrame implements ActionListener {
 
 
     public ConsultaObrasView() throws HeadlessException {
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         initComponents();
         t.showTable(tablaObras, 2, searchFilter, dateFilter);
         this.setVisible(true);
@@ -120,12 +121,12 @@ public class ConsultaObrasView extends JFrame implements ActionListener {
 
 
 
-        backButton = new JButton("VOLVER");
-        backButton.setFont(new Font("Arial", Font.BOLD, 12));
-        backButton.setSize(85, 38);
-        backButton.setLocation(8, 14);
-        backButton.addActionListener(this);
-        this.add(backButton);
+//        backButton = new JButton("VOLVER");
+//        backButton.setFont(new Font("Arial", Font.BOLD, 12));
+//        backButton.setSize(85, 38);
+//        backButton.setLocation(8, 14);
+//        backButton.addActionListener(this);
+//        this.add(backButton);
 
         // TODO FOR CONSULTAPAGOSVIEW
 //        String[] workersNamesList = loadWorkersNames();
@@ -137,7 +138,7 @@ public class ConsultaObrasView extends JFrame implements ActionListener {
 
         jScrollPane1.setBorder(BorderFactory.createEmptyBorder(50,10,70,10));
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Obras registradas");
 
         tablaObras.setModel(new javax.swing.table.DefaultTableModel(
@@ -188,13 +189,13 @@ public class ConsultaObrasView extends JFrame implements ActionListener {
         );
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == backButton) {
-            SecondaryMenu secondaryMenu = new SecondaryMenu("Obra");
-            secondaryMenu.setVisible(true);
-            this.dispose();
-        }
-    }
+//    @Override
+//    public void actionPerformed(ActionEvent e) {
+//        if (e.getSource() == backButton) {
+//            SecondaryMenu secondaryMenu = new SecondaryMenu("Obra");
+//            secondaryMenu.setVisible(true);
+//            this.dispose();
+//        }
+//    }
 
 }

@@ -1,23 +1,16 @@
 package com.example.constructora.view;
 
 import com.example.constructora.view.utils.DateFilter;
-import com.example.constructora.view.utils.ViewUtils;
 import com.example.constructora.view.utils.HintTextField;
 import com.example.constructora.view.utils.Table;
-import com.toedter.calendar.JCalendar;
-import com.toedter.calendar.JDateChooser;
-
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+
 import java.util.Objects;
 
 
-public class ConsultaTrabajadoresView extends JFrame implements ActionListener {
+public class ConsultaTrabajadoresView extends JFrame {
 
     private JTable tablaTrabajadores;
     private JButton backButton;
@@ -63,35 +56,13 @@ public class ConsultaTrabajadoresView extends JFrame implements ActionListener {
         btnGetText.setIcon(searchIcon);
         this.add(btnGetText);
 
-//        JLabel initialDateText = new JLabel("Desde : ");
-//        initialDateText.setFont(new Font("Arial", Font.PLAIN, 20));
-//        initialDateText.setSize(100, 20);
-//        initialDateText.setLocation(600, 21);
-//        this.add(initialDateText);
-//
-//        JDateChooser initialDateChooser = new JDateChooser();
-//        initialDateChooser.setBounds(680, 15,100,30);
-//        this.getContentPane().add(initialDateChooser);
-//        initialDateChooser.setDateFormatString("yyyy-MM-dd");
-//
-//
-//        JLabel endDateText = new JLabel("Hasta : ");
-//        endDateText.setFont(new Font("Arial", Font.PLAIN, 20));
-//        endDateText.setSize(100, 20);
-//        endDateText.setLocation(840, 21);
-//        this.add(endDateText);
-//
-//        JDateChooser endDateChooser = new JDateChooser();
-//        endDateChooser.setBounds(920, 15,100,30);
-//        this.getContentPane().add(endDateChooser);
-//        endDateChooser.setDateFormatString("yyyy-MM-dd");
 
-        backButton = new JButton("VOLVER");
-        backButton.setFont(new Font("Arial", Font.BOLD, 12));
-        backButton.setSize(85, 38);
-        backButton.setLocation(8, 14);
-        backButton.addActionListener(this);
-        this.add(backButton);
+//        backButton = new JButton("VOLVER");
+//        backButton.setFont(new Font("Arial", Font.BOLD, 12));
+//        backButton.setSize(85, 38);
+//        backButton.setLocation(8, 14);
+//        backButton.addActionListener(this);
+//        this.add(backButton);
 
         // TODO FOR CONSULTAPAGOSVIEW
 //        String[] workersNamesList = loadWorkersNames();
@@ -103,7 +74,7 @@ public class ConsultaTrabajadoresView extends JFrame implements ActionListener {
 
         jScrollPane1.setBorder(BorderFactory.createEmptyBorder(50,10,70,10));
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Trabajadores registrados");
 
         tablaTrabajadores.setModel(new javax.swing.table.DefaultTableModel(
@@ -148,13 +119,13 @@ public class ConsultaTrabajadoresView extends JFrame implements ActionListener {
     }
 
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == backButton) {
-            SecondaryMenu secondaryMenu = new SecondaryMenu("Trabajador");
-            secondaryMenu.setVisible(true);
-            this.dispose();
-        }
-    }
+//    @Override
+//    public void actionPerformed(ActionEvent e) {
+//        if (e.getSource() == backButton) {
+//            SecondaryMenu secondaryMenu = new SecondaryMenu("Trabajador");
+//            secondaryMenu.setVisible(true);
+//            this.dispose();
+//        }
+//    }
 
 }

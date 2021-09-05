@@ -67,18 +67,18 @@ public class RegistroObra extends JFrame
 
         setTitle("Registro Obra");
         setBounds(300, 90, 1000, 800);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setResizable(false);
 
         c = getContentPane();
         c.setLayout(null);
 
-        backButton = new JButton("VOLVER");
-        backButton.setFont(new Font("Arial", Font.BOLD, 14));
-        backButton.setSize(120, 40);
-        backButton.setLocation(10, 10);
-        backButton.addActionListener(this);
-        c.add(backButton);
+//        backButton = new JButton("VOLVER");
+//        backButton.setFont(new Font("Arial", Font.BOLD, 14));
+//        backButton.setSize(120, 40);
+//        backButton.setLocation(10, 10);
+//        backButton.addActionListener(this);
+//        c.add(backButton);
 
         title = new JLabel("Registro Obra");
         title.setFont(new Font("Arial", Font.PLAIN, 30));
@@ -257,9 +257,9 @@ public class RegistroObra extends JFrame
             resadd.setText(def);
 
         } else if (e.getSource() == backButton) {
-            SecondaryMenu secondaryMenu = new SecondaryMenu("Obra");
-            secondaryMenu.setVisible(true);
-            this.dispose();
+//            SecondaryMenu secondaryMenu = new SecondaryMenu("Obra");
+//            secondaryMenu.setVisible(true);
+//            this.dispose();
         }
     }
 }

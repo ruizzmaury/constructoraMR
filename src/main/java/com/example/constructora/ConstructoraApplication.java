@@ -1,20 +1,9 @@
 package com.example.constructora;
 
-import com.example.constructora.JDBCRepository.TrabajadorServiceImplJDBC;
-import com.example.constructora.JDBCRepository.TrabajadorServiceJDBC;
-import com.example.constructora.domain.CategoriaLaboral;
-import com.example.constructora.domain.Genero;
-import com.example.constructora.domain.Trabajador;
 import com.example.constructora.view.MainMenu;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import java.sql.*;
-import java.time.LocalDate;
-import java.time.Month;
-import java.util.ArrayList;
-import java.util.List;
 
 @SpringBootApplication
 public class ConstructoraApplication {
@@ -26,6 +15,7 @@ public class ConstructoraApplication {
 		SpringApplication.run(ConstructoraApplication.class, args);
 		System.setProperty("java.awt.headless", "false");
 		MainMenu m = new MainMenu();
+
 
 
 	}

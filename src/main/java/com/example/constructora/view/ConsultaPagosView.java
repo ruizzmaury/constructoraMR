@@ -8,6 +8,7 @@ import com.example.constructora.view.utils.Table;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,7 +21,7 @@ import java.util.Date;
 import java.util.Objects;
 
 
-public class ConsultaPagosView extends JFrame implements ActionListener {
+public class ConsultaPagosView extends JFrame {
 
     private JTable tablaPagos;
     private JButton backButton;
@@ -32,6 +33,7 @@ public class ConsultaPagosView extends JFrame implements ActionListener {
 
 
     public ConsultaPagosView() throws HeadlessException {
+
         initComponents();
         t.showTable(tablaPagos, 3, searchFilter, dateFilter);
         this.setVisible(true);
@@ -128,20 +130,20 @@ public class ConsultaPagosView extends JFrame implements ActionListener {
         );
 
 
-        backButton = new JButton("VOLVER");
-        backButton.setFont(new Font("Arial", Font.BOLD, 12));
-        backButton.setSize(85, 38);
-        backButton.setLocation(8, 14);
-        backButton.addActionListener(this);
-        this.add(backButton);
+//        backButton = new JButton("VOLVER");
+//        backButton.setFont(new Font("Arial", Font.BOLD, 12));
+//        backButton.setSize(85, 38);
+//        backButton.setLocation(8, 14);
+//        backButton.addActionListener(this);
+//        this.add(backButton);
 
 
         jScrollPane1.setBorder(BorderFactory.createEmptyBorder(50, 10, 70, 10));
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Pagos registrados");
 
-        tablaPagos.setModel(new javax.swing.table.DefaultTableModel(
+        tablaPagos.setModel(new DefaultTableModel(
                 new Object[][]{
                         {null, null, null, null, null},
                         {null, null, null, null, null},
@@ -156,20 +158,20 @@ public class ConsultaPagosView extends JFrame implements ActionListener {
 
         jScrollPane1.setViewportView(tablaPagos);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 1280, GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addContainerGap(14, Short.MAX_VALUE)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 900, GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap())
         );
 
@@ -187,12 +189,12 @@ public class ConsultaPagosView extends JFrame implements ActionListener {
     }
 
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == backButton) {
-            SecondaryMenu secondaryMenu = new SecondaryMenu("Pago");
-            secondaryMenu.setVisible(true);
-            this.dispose();
-        }
-    }
+//    @Override
+//    public void actionPerformed(ActionEvent e) {
+//        if (e.getSource() == backButton) {
+//            SecondaryMenu secondaryMenu = new SecondaryMenu("Pago");
+//            secondaryMenu.setVisible(true);
+//            this.dispose();
+//        }
+//    }
 }

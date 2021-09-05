@@ -12,18 +12,16 @@ public class SecondaryMenu extends JFrame
     private final String typeNameMenu;
     private Container c;
     private JLabel title;
-    private JButton consultaPagosButton;
+    private JButton consultaButton;
     private JButton nuevoRegistroButton;
-    private JButton backButton;
+//    private JButton backButton;
 
     public SecondaryMenu(String typeMenu) throws HeadlessException {
         typeNameMenu = typeMenu;
         // make the frame half the height and width
 
-
-
         setBounds(300, 90, 900, 600);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setResizable(false);
 
         c = getContentPane();
@@ -48,12 +46,12 @@ public class SecondaryMenu extends JFrame
         title.setLocation(width/2-150, height/10);
         c.add(title);
 
-        consultaPagosButton = new JButton("CONSULTA");
-        consultaPagosButton.setFont(new Font("Arial", Font.BOLD, 30));
-        consultaPagosButton.setSize(400, 100);
-        consultaPagosButton.setLocation(width/2-200, height / 4);
-        consultaPagosButton.addActionListener(this);
-        c.add(consultaPagosButton);
+        consultaButton = new JButton("CONSULTA");
+        consultaButton.setFont(new Font("Arial", Font.BOLD, 30));
+        consultaButton.setSize(400, 100);
+        consultaButton.setLocation(width/2-200, height / 4);
+        consultaButton.addActionListener(this);
+        c.add(consultaButton);
 
         nuevoRegistroButton = new JButton("NUEVO " + typeNameMenu.toUpperCase(Locale.ROOT));
         nuevoRegistroButton.setFont(new Font("Arial", Font.BOLD, 30));
@@ -63,59 +61,57 @@ public class SecondaryMenu extends JFrame
         c.add(nuevoRegistroButton);
 
 
-        backButton = new JButton("VOLVER");
-        backButton.setFont(new Font("Arial", Font.BOLD, 14));
-        backButton.setSize(120, 40);
-        backButton.setLocation(width/2-60, height / 4 + 250);
-        backButton.addActionListener(this);
-        c.add(backButton);
+//        backButton = new JButton("VOLVER");
+//        backButton.setFont(new Font("Arial", Font.BOLD, 14));
+//        backButton.setSize(120, 40);
+//        backButton.setLocation(width/2-60, height / 4 + 250);
+//        backButton.addActionListener(this);
+//        c.add(backButton);
 
         setVisible(true);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == consultaPagosButton) {
+        if (e.getSource() == consultaButton) {
             switch (typeNameMenu) {
-                case "Pago":
+                case "Pago" -> {
                     ConsultaPagosView consultaPagosView = new ConsultaPagosView();
-                    this.dispose();
-                    break;
-                case "Trabajador":
+                    consultaPagosView.setVisible(true);
+                }
+                case "Trabajador" -> {
                     ConsultaTrabajadoresView consultaTablaTrabajadoresView = new ConsultaTrabajadoresView();
-                    this.dispose();
-                    break;
-                case "Obra":
+                    consultaTablaTrabajadoresView.setVisible(true);
+                }
+                case "Obra" -> {
                     ConsultaObrasView consultaObrasView = new ConsultaObrasView();
-                    this.dispose();
-                    break;
+                    consultaObrasView.setVisible(true);
+                }
             }
 
 
         } else if (e.getSource() == nuevoRegistroButton) {
             switch (typeNameMenu) {
-                case "Pago":
+                case "Pago" -> {
                     RegistroPago registroPago = new RegistroPago();
                     registroPago.setVisible(true);
-                    this.dispose();
-                    break;
-                case "Trabajador":
+                }
+                case "Trabajador" -> {
                     RegistroTrabajador registroTrabajador = new RegistroTrabajador();
                     registroTrabajador.setVisible(true);
-                    this.dispose();
-                    break;
-                case "Obra":
+                }
+                case "Obra" -> {
                     RegistroObra registroObra = new RegistroObra();
                     registroObra.setVisible(true);
-                    this.dispose();
-                    break;
+                }
             }
 
-        } else if (e.getSource() == backButton) {
-            MainMenu mainMenu = new MainMenu();
-            mainMenu.setVisible(true);
-            this.dispose();
         }
+//        else if (e.getSource() == backButton) {
+//            MainMenu mainMenu = new MainMenu();
+//            mainMenu.setVisible(true);
+//            this.dispose();
+//        }
     }
 }
 

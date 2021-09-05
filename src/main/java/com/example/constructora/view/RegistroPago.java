@@ -32,7 +32,7 @@ public class RegistroPago extends JFrame
     private final JComboBox<String> trabajadorName;
     private JTextArea tDNI;
     private JTextArea tCatLaboral;
-    private JComboBox<String> obraId;
+    private JComboBox<String> obraDescriptor;
     private JLabel add;
     private JTextArea tadd;
     private final JTextArea thoras;
@@ -40,7 +40,7 @@ public class RegistroPago extends JFrame
     private final JTextArea tdescription;
     private final JButton sub;
     private final JButton reset;
-    private final JButton backButton;
+//    private final JButton backButton;
     private final JTextArea tout;
     private final JLabel res;
     private final JTextArea resadd;
@@ -81,19 +81,19 @@ public class RegistroPago extends JFrame
 
         setTitle("Registro Pago");
         setBounds(300, 90, 1000, 800);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setResizable(false);
 
         // Components of the Form
         Container c = getContentPane();
         c.setLayout(null);
 
-        backButton = new JButton("VOLVER");
-        backButton.setFont(new Font("Arial", Font.BOLD, 14));
-        backButton.setSize(120, 40);
-        backButton.setLocation(10, 10);
-        backButton.addActionListener(this);
-        c.add(backButton);
+//        backButton = new JButton("VOLVER");
+//        backButton.setFont(new Font("Arial", Font.BOLD, 14));
+//        backButton.setSize(120, 40);
+//        backButton.setLocation(10, 10);
+//        backButton.addActionListener(this);
+//        c.add(backButton);
 
         JLabel title = new JLabel("Registro Pago a trabajador");
         title.setFont(new Font("Arial", Font.PLAIN, 30));
@@ -186,11 +186,11 @@ public class RegistroPago extends JFrame
         c.add(obra);
 
         String[] obrasIdList = loadObrasDescriptors();
-        obraId = new JComboBox<>(obrasIdList);
-        obraId.setFont(new Font("Arial", Font.PLAIN, 15));
-        obraId.setSize(190, 20);
-        obraId.setLocation(200, 250);
-        c.add(obraId);
+        obraDescriptor = new JComboBox<>(obrasIdList);
+        obraDescriptor.setFont(new Font("Arial", Font.PLAIN, 15));
+        obraDescriptor.setSize(190, 20);
+        obraDescriptor.setLocation(200, 250);
+        c.add(obraDescriptor);
 
         JLabel horas = new JLabel("Horas :");
         horas.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -335,7 +335,7 @@ public class RegistroPago extends JFrame
 
             String data2 = "Trabajador : " + trabajadorName.getSelectedItem() + "\n";
 
-            String data3 = "Obra : " + obraId.getSelectedItem() + "\n";
+            String data3 = "Obra : " + obraDescriptor.getSelectedItem() + "\n";
 
             tout.setText(data + data1 + data2 + data3);
             tout.setEditable(false);
@@ -345,7 +345,7 @@ public class RegistroPago extends JFrame
 
             Pago pago = new Pago(
                     horas,
-                    (String) obraId.getSelectedItem(),
+                    (String) obraDescriptor.getSelectedItem(),
                     LocalDate.of(
                             Integer.parseInt(year.getSelectedItem().toString()),
                             month.getSelectedIndex() + 1,
@@ -369,10 +369,11 @@ public class RegistroPago extends JFrame
             year.setSelectedIndex(0);
             resadd.setText(def);
 
-        }else if (e.getSource() == backButton){
-            SecondaryMenu secondaryMenu = new SecondaryMenu("Pago");
-            secondaryMenu.setVisible(true);
-            this.dispose();
         }
+//        else if (e.getSource() == backButton){
+//            SecondaryMenu secondaryMenu = new SecondaryMenu("Pago");
+//            secondaryMenu.setVisible(true);
+//            this.dispose();
+//        }
     }
 }
