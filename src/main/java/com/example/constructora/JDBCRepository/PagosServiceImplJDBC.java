@@ -4,6 +4,7 @@ import com.example.constructora.Utils;
 import com.example.constructora.domain.Obra;
 import com.example.constructora.domain.Pago;
 import com.example.constructora.domain.Trabajador;
+import org.hibernate.tool.schema.internal.exec.ScriptTargetOutputToFile;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.Valid;
@@ -98,7 +99,7 @@ public class PagosServiceImplJDBC implements PagosServiceJDBC {
             rs.next();
 
             System.out.println("PAGO: ");
-            System.out.println("ID: " +  rs.getLong("pago_id"));
+            System.out.println("ID: " + rs.getLong("pago_id"));
             System.out.println("--------------------------------------------------");
 
             System.out.println("GET PAGO SUCCESSFUL... ");
@@ -251,10 +252,10 @@ public class PagosServiceImplJDBC implements PagosServiceJDBC {
 
         String QUERY =
                 "SELECT pago.* FROM pago " +
-                "JOIN trabajador ON trabajador.trabajador_dni=pago.trabajador_dni AND trabajador.nombre LIKE ?";
+                        "JOIN trabajador ON trabajador.trabajador_dni=pago.trabajador_dni AND trabajador.nombre LIKE ?";
         if (fechaInicioFilter != null && fechaFinFilter != null) {
             QUERY = QUERY + " WHERE pago.fecha_pago >= ? AND pago.fecha_pago <= ?";
-        } else if (fechaInicioFilter != null){
+        } else if (fechaInicioFilter != null) {
             QUERY = QUERY + " WHERE pago.fecha_pago >= ? ";
         } else if (fechaFinFilter != null) {
             QUERY = QUERY + " WHERE pago.fecha_pago <= ?";
@@ -349,6 +350,41 @@ public class PagosServiceImplJDBC implements PagosServiceJDBC {
 
             System.out.println("PAGO CON ID " + pago_id + " ELIMINADO CON ÉXITO... ");
             System.out.println("--------------------------------------------------");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void createSelectedObrasToReportView(List<String> selectedObras) {
+        StringBuilder selectedObrasToQuery = new StringBuilder();
+
+        selectedObrasToQuery.append(selectedObras.get(0));
+        for (int i = 1; i < selectedObras.size(); i++)
+            selectedObrasToQuery.append(" OR ").append(selectedObras.get(i));
+
+        System.out.println(selectedObrasToQuery);
+        final String QUERY = "CREATE VIEW selected_obras AS " +
+                "SELECT " +
+                "pago.obra_descriptor, " +
+                "pago.trabajador_dni, " +
+                "trabajador.nombre, " +
+                "SUM(pago.horas) AS horas, " +
+                "SUM(pago.cantidad) AS cantidad " +
+                "FROM pago " +
+                "INNER JOIN trabajador ON " +
+                "pago.trabajador_dni = trabajador.trabajador_dni " +
+                "WHERE pago.obra_descriptor = ? " +
+                "GROUP BY pago.obra_descriptor, pago.trabajador_dni, trabajador.nombre";
+
+        // Open a connection
+        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+             PreparedStatement stmt = conn.prepareStatement(QUERY)) {
+
+            stmt.setString(1, String.valueOf(selectedObrasToQuery));
+
+            stmt.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();

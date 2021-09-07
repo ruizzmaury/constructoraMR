@@ -1,9 +1,13 @@
 package com.example.constructora;
 
+import com.example.constructora.JDBCRepository.PagosServiceImplJDBC;
+import com.example.constructora.JDBCRepository.PagosServiceJDBC;
 import com.example.constructora.view.MainMenu;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.util.List;
 
 @SpringBootApplication
 public class ConstructoraApplication {
@@ -11,6 +15,11 @@ public class ConstructoraApplication {
 
 
 	public static void main(String[] args) throws Exception {
+//		PagosServiceJDBC pagosServiceJDBC = new PagosServiceImplJDBC();
+//		List<String> list = List.of("sumama", "tumama");
+//
+//		pagosServiceJDBC.createSelectedObrasToReportView(list);
+
 
 		SpringApplication.run(ConstructoraApplication.class, args);
 		System.setProperty("java.awt.headless", "false");

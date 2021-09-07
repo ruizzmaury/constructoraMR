@@ -13,7 +13,7 @@ import java.util.List;
 public class ObraReportMenu extends JDialog implements ActionListener {
     private final ObrasServiceJDBC obrasServiceJDBC = new ObrasServiceImplJDBC();
 
-    private List<String> obrasAddedForReport;
+
     private JComboBox<String> obraDescriptor;
     private JButton createReportButton;
     private JButton deleteObraFromListButton;
@@ -41,7 +41,7 @@ public class ObraReportMenu extends JDialog implements ActionListener {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        JLabel title = new JLabel("Por Obra");
+        JLabel title = new JLabel("INFORMES POR OBRA");
         title.setFont(new Font("Calibri", Font.BOLD, 32));
         title.setSize(200, 40);
 //        title.setLocation(400, height / 10);
@@ -58,7 +58,7 @@ public class ObraReportMenu extends JDialog implements ActionListener {
         String[] obrasDescriptors = loadObrasDescriptors();
         obraDescriptor = new JComboBox<>(obrasDescriptors);
         obraDescriptor.setFont(new Font("Calibri", Font.PLAIN, 15));
-        obraDescriptor.setSize(190, 30);
+        obraDescriptor.setSize(190, 28);
         obraDescriptor.setLocation(width/2 - 95, height/7 + 30);
         this.add(obraDescriptor);
 
@@ -67,8 +67,14 @@ public class ObraReportMenu extends JDialog implements ActionListener {
             public void actionPerformed(ActionEvent e) {
                 // PARA MOSTRAR LISTA DE OBRAS SELECCIONADAS PARA INFORME
                 if(obraDescriptor.getSelectedItem() != null) {
-                    model.addElement(obraDescriptor.getSelectedItem());
-                    obrasDisplayedJList.setModel(model);
+                    if(!model.contains(obraDescriptor.getSelectedItem())) {
+                        model.addElement(obraDescriptor.getSelectedItem());
+                        obrasDisplayedJList.setModel(model);
+                    } else {
+
+                        JOptionPane.showMessageDialog(null, "Obra ya añadida.\n Elige otra obra. "
+                                ,"Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
 
             }
@@ -78,23 +84,33 @@ public class ObraReportMenu extends JDialog implements ActionListener {
         obrasDisplayedJList = new JList<>();
         obrasDisplayedJList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION );
 
+
         //instanciamos el modelo
         model = new DefaultListModel<>();
         scrollLista = new JScrollPane();
-        scrollLista.setBounds(20, 120,220, 80);
+        scrollLista.setBounds(width/2 - 115, height / 3 - 15,250, 140);
         scrollLista.setViewportView(obrasDisplayedJList);
+        this.add(scrollLista);
 
 
-        deleteObraFromListButton= new JButton();
-        deleteObraFromListButton.setText("Delete");
-        deleteObraFromListButton.setBounds(20, 210, 80, 23);
+        deleteObraFromListButton= new JButton("Borrar Obra");
+        deleteObraFromListButton.setFont(new Font("Calibri", Font.BOLD, 15));
+        deleteObraFromListButton.setBounds(width/2 - 120, height / 2 + 60, 110, 33);
         deleteObraFromListButton.addActionListener(this);
+        deleteObraFromListButton.setBackground(new Color(0xbd2b2b));
+        deleteObraFromListButton.setForeground(Color.white);
+        // customize the button with your own look
+        deleteObraFromListButton.setUI(new StyledButtonUI());
         this.add(deleteObraFromListButton);
 
-        deleteListButton= new JButton();
-        deleteListButton.setText("Borrar Lista");
-        deleteListButton.setBounds(120, 210, 120, 23);
+        deleteListButton= new JButton("Borrar Lista");
+        deleteListButton.setFont(new Font("Calibri", Font.BOLD, 15));
+        deleteListButton.setBounds(width/2+20, height / 2 + 60 , 110, 33);
         deleteListButton.addActionListener(this);
+        deleteListButton.setBackground(new Color(0xbd2b2b));
+        deleteListButton.setForeground(Color.white);
+        // customize the button with your own look
+        deleteListButton.setUI(new StyledButtonUI());
         this.add(deleteListButton);
 
         createReportButton = new JButton("CREAR INFORME");
@@ -108,14 +124,15 @@ public class ObraReportMenu extends JDialog implements ActionListener {
         createReportButton.setUI(new StyledButtonUI());
         this.add(createReportButton);
 
-
+        mensaje= new JLabel();
+        mensaje.setBounds(width / 2 - 75, height / 2 + 220, 280, 23);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
-                                .addGap(160, 160, 160)
+                                .addGap(width/2 - 120, width/2 - 120, width/2 - 120)
                                 .addComponent(title)
                                 .addContainerGap(213, Short.MAX_VALUE))
         );
@@ -146,12 +163,15 @@ public class ObraReportMenu extends JDialog implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource()==deleteObraFromListButton)
         {
-            deleteObraNameFromList(obraDescriptor.getSelectedIndex() );
+            deleteObraNameFromList(obrasDisplayedJList.getSelectedIndex() );
         }
         if (e.getSource()==deleteListButton)
         {
             borrarLista();
             mensaje.setText("Se borró toda la lista");
+        }
+        if (e.getSource() == createReportButton) {
+
         }
     }
 
@@ -159,7 +179,7 @@ public class ObraReportMenu extends JDialog implements ActionListener {
     private void deleteObraNameFromList(int index) {
         if (index>=0) {
             model.removeElementAt(index);
-            mensaje.setText("Se eliminó un elemento en la posición "+index);
+            mensaje.setText("Se eliminó un elemento en la posición "+ index);
         }else{
             JOptionPane.showMessageDialog(null, "Debe seleccionar un indice"
                     ,"Error", JOptionPane.ERROR_MESSAGE);
