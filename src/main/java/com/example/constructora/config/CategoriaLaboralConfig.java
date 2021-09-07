@@ -1,6 +1,5 @@
 package com.example.constructora.config;
 
-import com.example.constructora.JDBCRepository.CatLaboralServiceJDBC;
 import com.example.constructora.domain.CategoriaLaboral;
 import com.example.constructora.repository.CatLaboralRepository;
 import org.springframework.boot.CommandLineRunner;

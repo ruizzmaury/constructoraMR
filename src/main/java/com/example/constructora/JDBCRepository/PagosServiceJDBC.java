@@ -34,6 +34,4 @@ public interface PagosServiceJDBC {
 
     void delete(long pago_id);
 
-    void createSelectedObrasToReportView(List<String> selectedObras);
-
 }

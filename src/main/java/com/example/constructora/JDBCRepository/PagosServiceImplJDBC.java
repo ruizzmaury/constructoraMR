@@ -65,7 +65,6 @@ public class PagosServiceImplJDBC implements PagosServiceJDBC {
 
             // Extract data from result set
             while (rs.next()) {
-                System.out.println(rs.getString("trabajador_dni"));
                 Trabajador referencedTrabajador = trabajadorServiceJDBC.getTrabajador(rs.getString("trabajador_dni"));
                 // Retrieve by column name
                 receivedPagos.add(
@@ -356,38 +355,41 @@ public class PagosServiceImplJDBC implements PagosServiceJDBC {
         }
     }
 
-    @Override
-    public void createSelectedObrasToReportView(List<String> selectedObras) {
-        StringBuilder selectedObrasToQuery = new StringBuilder();
-
-        selectedObrasToQuery.append(selectedObras.get(0));
-        for (int i = 1; i < selectedObras.size(); i++)
-            selectedObrasToQuery.append(" OR ").append(selectedObras.get(i));
-
-        System.out.println(selectedObrasToQuery);
-        final String QUERY = "CREATE VIEW selected_obras AS " +
-                "SELECT " +
-                "pago.obra_descriptor, " +
-                "pago.trabajador_dni, " +
-                "trabajador.nombre, " +
-                "SUM(pago.horas) AS horas, " +
-                "SUM(pago.cantidad) AS cantidad " +
-                "FROM pago " +
-                "INNER JOIN trabajador ON " +
-                "pago.trabajador_dni = trabajador.trabajador_dni " +
-                "WHERE pago.obra_descriptor = ? " +
-                "GROUP BY pago.obra_descriptor, pago.trabajador_dni, trabajador.nombre";
-
-        // Open a connection
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-             PreparedStatement stmt = conn.prepareStatement(QUERY)) {
-
-            stmt.setString(1, String.valueOf(selectedObrasToQuery));
-
-            stmt.executeUpdate();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+//    @Override
+//    public void createSelectedObrasToReportView(List<String> selectedObras) {
+//        StringBuilder selectedObrasToQuery = new StringBuilder();
+//
+//        selectedObrasToQuery.append("pago.obra_descriptor = "+"'").append(selectedObras.get(0)).append("'");
+//        for (int i = 1; i < selectedObras.size(); i++)
+//            selectedObrasToQuery.append(" OR ").append("pago.obra_descriptor = "+"'").append(selectedObras.get(i)).append("'");
+//
+//        System.out.println(selectedObrasToQuery);
+//        final String QUERY =
+//                "CREATE VIEW selected_obras AS " +
+//                "SELECT " +
+//                "pago.obra_descriptor, " +
+//                "pago.trabajador_dni, " +
+//                "trabajador.nombre, " +
+//                "SUM(pago.horas) AS horas, " +
+//                "SUM(pago.cantidad) AS cantidad " +
+//                "FROM pago " +
+//                "INNER JOIN trabajador ON " +
+//                "pago.trabajador_dni = trabajador.trabajador_dni " +
+//                "WHERE " + selectedObrasToQuery +
+//                " GROUP BY pago.obra_descriptor, pago.trabajador_dni, trabajador.nombre";
+//
+//        System.out.println(QUERY);
+//
+//        // Open a connection
+//        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+//             Statement  stmt = conn.createStatement()) {
+//            System.out.println("desde query " + selectedObrasToQuery);
+//
+//            // stmt.setString(1, selectedObrasToQuery);
+//            stmt.executeQuery(QUERY);
+//            System.out.println(QUERY);
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }
