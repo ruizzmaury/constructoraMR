@@ -7,8 +7,6 @@ import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.time.ZoneId;
 import java.util.Objects;
 
@@ -55,6 +53,8 @@ public class ConsultaObrasView extends JFrame {
             System.out.println(dateFilter);
             t.showTable(tablaObras, 2, searchFilter, dateFilter);
         });
+        System.out.println("DESDE CONSULTAAAAAAAAAAAAAAAAAAAAAAAAS");
+        System.out.println(getClass().getResource("/images/searchIcon.png"));
         ImageIcon searchIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/searchIcon.png")));
         btnGetText.setIcon(searchIcon);
         this.add(btnGetText);

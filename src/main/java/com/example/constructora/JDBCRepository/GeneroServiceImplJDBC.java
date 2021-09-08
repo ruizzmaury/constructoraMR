@@ -1,6 +1,6 @@
 package com.example.constructora.JDBCRepository;
 
-import com.example.constructora.Utils;
+import com.example.constructora.JDBCRepository.utilsJDBC.JDBCUtils;
 import com.example.constructora.domain.Genero;
 
 import java.sql.*;
@@ -15,7 +15,7 @@ public class GeneroServiceImplJDBC implements GeneroServiceJDBC {
         final String QUERY = "INSERT INTO genero VALUES (?)";
 
         // Open a connection
-        try (Connection conn = DriverManager.getConnection(Utils.DB_URL, Utils.USER, Utils.PASS);
+        try (Connection conn = DriverManager.getConnection(JDBCUtils.DB_URL, JDBCUtils.USER, JDBCUtils.PASS);
              PreparedStatement stmt = conn.prepareStatement(QUERY)) {
 
             stmt.setString(1, genero.getNombreGenero());
@@ -40,7 +40,7 @@ public class GeneroServiceImplJDBC implements GeneroServiceJDBC {
         final String QUERY = "INSERT INTO genero VALUES (?)";
 
         // Open a connection
-        try (Connection conn = DriverManager.getConnection(Utils.DB_URL, Utils.USER, Utils.PASS);
+        try (Connection conn = DriverManager.getConnection(JDBCUtils.DB_URL, JDBCUtils.USER, JDBCUtils.PASS);
              PreparedStatement stmt = conn.prepareStatement(QUERY)) {
 
             int i = 0;
@@ -68,7 +68,7 @@ public class GeneroServiceImplJDBC implements GeneroServiceJDBC {
         final String QUERY = "SELECT * FROM genero";
 
         // Open a connection
-        try (Connection conn = DriverManager.getConnection(Utils.DB_URL, Utils.USER, Utils.PASS);
+        try (Connection conn = DriverManager.getConnection(JDBCUtils.DB_URL, JDBCUtils.USER, JDBCUtils.PASS);
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(QUERY);) {
 
@@ -96,7 +96,7 @@ public class GeneroServiceImplJDBC implements GeneroServiceJDBC {
         final String QUERY = "SELECT * FROM genero WHERE genero.nombre_genero= ?";
 
         // Open a connection
-        try (Connection conn = DriverManager.getConnection(Utils.DB_URL, Utils.USER, Utils.PASS);
+        try (Connection conn = DriverManager.getConnection(JDBCUtils.DB_URL, JDBCUtils.USER, JDBCUtils.PASS);
              PreparedStatement stmt = conn.prepareStatement(QUERY)) {
             stmt.setString(1, nombreGenero);
 

@@ -1,10 +1,9 @@
 package com.example.constructora.JDBCRepository;
 
-import com.example.constructora.Utils;
+import com.example.constructora.JDBCRepository.utilsJDBC.JDBCUtils;
 import com.example.constructora.domain.Obra;
 import com.example.constructora.domain.Pago;
 import com.example.constructora.domain.Trabajador;
-import org.hibernate.tool.schema.internal.exec.ScriptTargetOutputToFile;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.Valid;
@@ -141,7 +140,7 @@ public class PagosServiceImplJDBC implements PagosServiceJDBC {
                 " pago.fecha_pago <= ?";  // Obras empezadas o finalizadas entre las dos fechas especificadas
 
         // Open a connection
-        try (Connection conn = DriverManager.getConnection(Utils.DB_URL, Utils.USER, Utils.PASS);
+        try (Connection conn = DriverManager.getConnection(JDBCUtils.DB_URL, JDBCUtils.USER, JDBCUtils.PASS);
              PreparedStatement stmt = conn.prepareStatement(QUERY);
         ) {
 
@@ -179,7 +178,7 @@ public class PagosServiceImplJDBC implements PagosServiceJDBC {
         final String QUERY = "SELECT * FROM pago WHERE pago.fecha_pago >= ?";  // Obras empezadas o finalizadas entre las dos fechas especificadas
 
         // Open a connection
-        try (Connection conn = DriverManager.getConnection(Utils.DB_URL, Utils.USER, Utils.PASS);
+        try (Connection conn = DriverManager.getConnection(JDBCUtils.DB_URL, JDBCUtils.USER, JDBCUtils.PASS);
              PreparedStatement stmt = conn.prepareStatement(QUERY);
         ) {
 
@@ -216,7 +215,7 @@ public class PagosServiceImplJDBC implements PagosServiceJDBC {
         final String QUERY = "SELECT * FROM pago WHERE pago.fecha_pago <= ?";  // Obras empezadas o finalizadas entre las dos fechas especificadas
 
         // Open a connection
-        try (Connection conn = DriverManager.getConnection(Utils.DB_URL, Utils.USER, Utils.PASS);
+        try (Connection conn = DriverManager.getConnection(JDBCUtils.DB_URL, JDBCUtils.USER, JDBCUtils.PASS);
              PreparedStatement stmt = conn.prepareStatement(QUERY);
         ) {
 
@@ -261,7 +260,7 @@ public class PagosServiceImplJDBC implements PagosServiceJDBC {
         }
 
         // Open a connection
-        try (Connection conn = DriverManager.getConnection(Utils.DB_URL, Utils.USER, Utils.PASS);
+        try (Connection conn = DriverManager.getConnection(JDBCUtils.DB_URL, JDBCUtils.USER, JDBCUtils.PASS);
              PreparedStatement stmt = conn.prepareStatement(QUERY);
         ) {
             stmt.setString(1, "%" + workerName + "%");

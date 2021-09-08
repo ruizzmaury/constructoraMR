@@ -18,6 +18,6 @@ public interface ReportObraServiceJDBC {
 
     void delete(String id);
 
-    void deleteViewTableObras();
+    void dropViewTableObras();
 
 }

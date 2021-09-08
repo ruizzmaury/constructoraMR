@@ -1,6 +1,9 @@
 package com.example.constructora.JDBCRepository;
 
 import com.example.constructora.domain.ReportByObra;
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRField;
 
 import java.sql.*;
 import java.util.List;
@@ -10,6 +13,7 @@ public class ReportObraServiceImplJDBC implements ReportObraServiceJDBC {
     final String DB_URL = "jdbc:postgresql://localhost:5432/constructorabd";
     final String USER = "constructora";
     final String PASS = "constructora";
+
 
     @Override
     public void createViewTableObras(List<String> selectedObras) {
@@ -21,7 +25,7 @@ public class ReportObraServiceImplJDBC implements ReportObraServiceJDBC {
 
         System.out.println(selectedObrasToQuery);
         final String QUERY =
-                "CREATE VIEW selected_obras AS " +
+                "CREATE VIEW reportByObra AS " +
                         "SELECT " +
                         "pago.obra_descriptor, " +
                         "pago.trabajador_dni, " +
@@ -97,8 +101,8 @@ public class ReportObraServiceImplJDBC implements ReportObraServiceJDBC {
     }
 
     @Override
-    public void deleteViewTableObras() {
-        final String QUERY = "DROP VIEW selected_obras";
+    public void dropViewTableObras() {
+        final String QUERY = "DROP VIEW reportByObra";
 
         // Open a connection
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
@@ -111,4 +115,5 @@ public class ReportObraServiceImplJDBC implements ReportObraServiceJDBC {
 
         }
     }
+
 }

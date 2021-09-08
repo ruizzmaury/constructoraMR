@@ -1,9 +1,7 @@
 package com.example.constructora.JDBCRepository;
 
-import com.example.constructora.Utils;
+import com.example.constructora.JDBCRepository.utilsJDBC.JDBCUtils;
 import com.example.constructora.domain.CategoriaLaboral;
-import com.example.constructora.domain.Genero;
-import com.example.constructora.domain.Trabajador;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -19,7 +17,7 @@ public class CatLaboralServiceImplJDBC implements CatLaboralServiceJDBC {
                 "(?, ?)";
 
         // Open a connection
-        try (Connection conn = DriverManager.getConnection(Utils.DB_URL, Utils.USER, Utils.PASS);
+        try (Connection conn = DriverManager.getConnection(JDBCUtils.DB_URL, JDBCUtils.USER, JDBCUtils.PASS);
              PreparedStatement stmt = conn.prepareStatement(QUERY)) {
 
             stmt.setString(1, categoriaLaboral.getNombreCategoria());
@@ -45,7 +43,7 @@ public class CatLaboralServiceImplJDBC implements CatLaboralServiceJDBC {
                 "(?, ?)";
 
         // Open a connection
-        try (Connection conn = DriverManager.getConnection(Utils.DB_URL, Utils.USER, Utils.PASS);
+        try (Connection conn = DriverManager.getConnection(JDBCUtils.DB_URL, JDBCUtils.USER, JDBCUtils.PASS);
              PreparedStatement stmt = conn.prepareStatement(QUERY)) {
 
             int i = 0;
@@ -74,7 +72,7 @@ public class CatLaboralServiceImplJDBC implements CatLaboralServiceJDBC {
         final String QUERY = "SELECT * FROM categoria_laboral";
 
         // Open a connection
-        try (Connection conn = DriverManager.getConnection(Utils.DB_URL, Utils.USER, Utils.PASS);
+        try (Connection conn = DriverManager.getConnection(JDBCUtils.DB_URL, JDBCUtils.USER, JDBCUtils.PASS);
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(QUERY);) {
 
@@ -106,7 +104,7 @@ public class CatLaboralServiceImplJDBC implements CatLaboralServiceJDBC {
         final String QUERY = "SELECT categoria_laboral.nombre_categoria FROM categoria_laboral";
 
         // Open a connection
-        try (Connection conn = DriverManager.getConnection(Utils.DB_URL, Utils.USER, Utils.PASS);
+        try (Connection conn = DriverManager.getConnection(JDBCUtils.DB_URL, JDBCUtils.USER, JDBCUtils.PASS);
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(QUERY);) {
 
@@ -131,7 +129,7 @@ public class CatLaboralServiceImplJDBC implements CatLaboralServiceJDBC {
         final String QUERY = "SELECT * FROM categoria_laboral WHERE categoria_laboral.nombre_categoria= ?";
 
         // Open a connection
-        try (Connection conn = DriverManager.getConnection(Utils.DB_URL, Utils.USER, Utils.PASS);
+        try (Connection conn = DriverManager.getConnection(JDBCUtils.DB_URL, JDBCUtils.USER, JDBCUtils.PASS);
              PreparedStatement stmt = conn.prepareStatement(QUERY)) {
             stmt.setString(1, nombreCategoria);
 
@@ -155,7 +153,7 @@ public class CatLaboralServiceImplJDBC implements CatLaboralServiceJDBC {
                 "FROM categoria_laboral WHERE categoria_laboral.nombre_categoria= ?";
 
         // Open a connection
-        try (Connection conn = DriverManager.getConnection(Utils.DB_URL, Utils.USER, Utils.PASS);
+        try (Connection conn = DriverManager.getConnection(JDBCUtils.DB_URL, JDBCUtils.USER, JDBCUtils.PASS);
              PreparedStatement stmt = conn.prepareStatement(QUERY)) {
             stmt.setString(1, nombreCategoria);
 

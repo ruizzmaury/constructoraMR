@@ -1,7 +1,7 @@
 package com.example.constructora.JDBCRepository;
 
 
-import com.example.constructora.Utils;
+import com.example.constructora.JDBCRepository.utilsJDBC.JDBCUtils;
 import com.example.constructora.domain.CategoriaLaboral;
 import com.example.constructora.domain.Genero;
 import com.example.constructora.domain.Trabajador;
@@ -20,7 +20,7 @@ public class TrabajadorServiceImplJDBC implements TrabajadorServiceJDBC {
                 "(?, ?, ?, ?, ?, ?, ?, ?)";
 
         // Open a connection
-        try (Connection conn = DriverManager.getConnection(Utils.DB_URL, Utils.USER, Utils.PASS);
+        try (Connection conn = DriverManager.getConnection(JDBCUtils.DB_URL, JDBCUtils.USER, JDBCUtils.PASS);
              PreparedStatement stmt = conn.prepareStatement(QUERY)) {
 //            stmt.setLong(1, trabajador.getId());
             stmt.setString(1, trabajador.getTrabajador_dni());
@@ -54,7 +54,7 @@ public class TrabajadorServiceImplJDBC implements TrabajadorServiceJDBC {
         final String QUERY = "SELECT * FROM Trabajador";
 
         // Open a connection
-        try (Connection conn = DriverManager.getConnection(Utils.DB_URL, Utils.USER, Utils.PASS);
+        try (Connection conn = DriverManager.getConnection(JDBCUtils.DB_URL, JDBCUtils.USER, JDBCUtils.PASS);
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(QUERY);) {
 
@@ -92,7 +92,7 @@ public class TrabajadorServiceImplJDBC implements TrabajadorServiceJDBC {
         final String QUERY = "SELECT trabajador.trabajador_dni FROM trabajador";
 
         // Open a connection
-        try (Connection conn = DriverManager.getConnection(Utils.DB_URL, Utils.USER, Utils.PASS);
+        try (Connection conn = DriverManager.getConnection(JDBCUtils.DB_URL, JDBCUtils.USER, JDBCUtils.PASS);
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(QUERY);) {
 
@@ -118,7 +118,7 @@ public class TrabajadorServiceImplJDBC implements TrabajadorServiceJDBC {
         final String QUERY = "SELECT trabajador.nombre FROM trabajador";
 
         // Open a connection
-        try (Connection conn = DriverManager.getConnection(Utils.DB_URL, Utils.USER, Utils.PASS);
+        try (Connection conn = DriverManager.getConnection(JDBCUtils.DB_URL, JDBCUtils.USER, JDBCUtils.PASS);
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(QUERY);) {
 
@@ -144,7 +144,7 @@ public class TrabajadorServiceImplJDBC implements TrabajadorServiceJDBC {
         final String QUERY = "SELECT * FROM trabajador WHERE trabajador.trabajador_dni= ?";
 
         // Open a connection
-        try (Connection conn = DriverManager.getConnection(Utils.DB_URL, Utils.USER, Utils.PASS);
+        try (Connection conn = DriverManager.getConnection(JDBCUtils.DB_URL, JDBCUtils.USER, JDBCUtils.PASS);
              PreparedStatement stmt = conn.prepareStatement(QUERY)) {
             stmt.setString(1, DNI);
 
@@ -178,7 +178,7 @@ public class TrabajadorServiceImplJDBC implements TrabajadorServiceJDBC {
         final String QUERY = "SELECT trabajador.cat_laboral FROM trabajador WHERE trabajador.trabajador_dni= ?";
 
         // Open a connection
-        try (Connection conn = DriverManager.getConnection(Utils.DB_URL, Utils.USER, Utils.PASS);
+        try (Connection conn = DriverManager.getConnection(JDBCUtils.DB_URL, JDBCUtils.USER, JDBCUtils.PASS);
              PreparedStatement stmt = conn.prepareStatement(QUERY)) {
             stmt.setString(1, DNI);
 
@@ -197,7 +197,7 @@ public class TrabajadorServiceImplJDBC implements TrabajadorServiceJDBC {
         final String QUERY = "SELECT * FROM trabajador WHERE trabajador.trabajador_dni= ?";
 
         // Open a connection
-        try (Connection conn = DriverManager.getConnection(Utils.DB_URL, Utils.USER, Utils.PASS);
+        try (Connection conn = DriverManager.getConnection(JDBCUtils.DB_URL, JDBCUtils.USER, JDBCUtils.PASS);
              PreparedStatement stmt = conn.prepareStatement(QUERY)) {
             stmt.setString(1, DNI);
 
@@ -231,7 +231,7 @@ public class TrabajadorServiceImplJDBC implements TrabajadorServiceJDBC {
         final String QUERY = "SELECT * FROM Trabajador WHERE Trabajador.nombre LIKE ?";
         System.out.println("TRABAJADORES EMPEZADOS POR " + nombre);
         // Open a connection
-        try (Connection conn = DriverManager.getConnection(Utils.DB_URL, Utils.USER, Utils.PASS);
+        try (Connection conn = DriverManager.getConnection(JDBCUtils.DB_URL, JDBCUtils.USER, JDBCUtils.PASS);
              PreparedStatement stmt = conn.prepareStatement(QUERY);
         ) {
 
@@ -286,7 +286,7 @@ public class TrabajadorServiceImplJDBC implements TrabajadorServiceJDBC {
                 "WHERE trabajador_dni = ?";
 
         // Open a connection
-        try (Connection conn = DriverManager.getConnection(Utils.DB_URL, Utils.USER, Utils.PASS);
+        try (Connection conn = DriverManager.getConnection(JDBCUtils.DB_URL, JDBCUtils.USER, JDBCUtils.PASS);
              PreparedStatement stmt = conn.prepareStatement(QUERY)) {
             stmt.setString(1, trabajador.getTrabajador_dni());
             stmt.setString(2, trabajador.getNombre());
@@ -318,7 +318,7 @@ public class TrabajadorServiceImplJDBC implements TrabajadorServiceJDBC {
         final String QUERY = "DELETE FROM Trabajador WHERE Trabajador.trabajador_dni = ?";
 
         // Open a connection
-        try (Connection conn = DriverManager.getConnection(Utils.DB_URL, Utils.USER, Utils.PASS);
+        try (Connection conn = DriverManager.getConnection(JDBCUtils.DB_URL, JDBCUtils.USER, JDBCUtils.PASS);
              PreparedStatement stmt = conn.prepareStatement(QUERY)) {
             stmt.setString(1, DNI);
 

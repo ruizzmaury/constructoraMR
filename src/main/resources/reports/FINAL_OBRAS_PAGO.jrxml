@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Leaf_Green_Table_Based" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="42c76859-bbf7-4388-901f-d030b43047d2">
+	<property name="com.jaspersoft.studio.data.sql.tables">
+		<![CDATA[cGFnbyAsMTUsNDEsZGIzODM5NmEtMmQ1Ni00Yjk4LTg2ZTEtNmEzNDhjNDE2YjliO3RyYWJhamFk
+b3IgLDE4MiwxNSxkYmRhMjFmOC00Nzg3LTQ2OWUtOTFhYy1lNGU4Mjg5NjZiNzg7]]>
+	</property>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="ConstructoraAdapter"/>
+	<style name="Title" fontName="Arial" fontSize="26" isBold="true"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+			<topPen lineWidth="1.0" lineColor="#000000"/>
+			<leftPen lineWidth="1.0" lineColor="#000000"/>
+			<bottomPen lineWidth="1.0" lineColor="#000000"/>
+			<rightPen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TH" mode="Transparent" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Transparent" forecolor="#B89F7D" backcolor="#70A9C6">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Transparent" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="tableDataset" uuid="7e85f1b7-1897-485e-a8cd-487543f20afc">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="ConstructoraAdapter"/>
+		<queryString language="SQL">
+			<![CDATA[SELECT * FROM reportByObra]]>
+		</queryString>
+		<field name="obra_descriptor" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="obra_descriptor"/>
+			<property name="com.jaspersoft.studio.field.label" value="obra_descriptor"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="pago"/>
+		</field>
+		<field name="trabajador_dni" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="trabajador_dni"/>
+			<property name="com.jaspersoft.studio.field.label" value="trabajador_dni"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="pago"/>
+		</field>
+		<field name="nombre" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="nombre"/>
+			<property name="com.jaspersoft.studio.field.label" value="nombre"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="trabajador"/>
+		</field>
+		<field name="horas" class="java.lang.Long">
+			<property name="com.jaspersoft.studio.field.name" value="horas"/>
+			<property name="com.jaspersoft.studio.field.label" value="horas"/>
+		</field>
+		<field name="cantidad" class="java.lang.Float">
+			<property name="com.jaspersoft.studio.field.name" value="cantidad"/>
+			<property name="com.jaspersoft.studio.field.label" value="cantidad"/>
+		</field>
+		<variable name="subtotal_obra" class="java.lang.Float" resetType="Group" resetGroup="obra_descriptor" calculation="Sum">
+			<variableExpression><![CDATA[$F{cantidad}]]></variableExpression>
+		</variable>
+		<variable name="total_sum" class="java.lang.Double" calculation="Sum">
+			<variableExpression><![CDATA[$F{cantidad}]]></variableExpression>
+		</variable>
+		<group name="obra_descriptor">
+			<groupExpression><![CDATA[$F{obra_descriptor}]]></groupExpression>
+		</group>
+		<group name="trabajador_dni">
+			<groupExpression><![CDATA[$F{trabajador_dni}]]></groupExpression>
+		</group>
+		<group name="nombre">
+			<groupExpression><![CDATA[$F{nombre}]]></groupExpression>
+		</group>
+	</subDataset>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<title>
+		<band height="70" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="0" y="13" width="263" height="33" uuid="d1456985-5f71-4f5e-8789-b90ba2242d46"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[PAGO OBRAS]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement style="Column header" x="433" y="0" width="80" height="20" uuid="e1e6e881-386b-4b5b-85e3-88dcd2f5bf79"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Column header" x="513" y="0" width="40" height="20" uuid="a054645a-ee76-4d43-8655-5b2b83d680db"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Column header" x="0" y="0" width="197" height="20" uuid="b9a3964b-495c-43b2-ad18-c9170d33272e"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="310" splitType="Stretch">
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<frame>
+				<reportElement x="0" y="30" width="552" height="280" uuid="320f1562-1f95-4a6e-b1b1-2e5370ed9ced"/>
+				<componentElement>
+					<reportElement x="0" y="0" width="480" height="200" uuid="be1412f7-e959-4071-9257-76ebf732970b">
+						<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+						<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+						<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+					</reportElement>
+					<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+						<datasetRun subDataset="tableDataset" uuid="153cf3dd-abc8-40d5-82c6-467f71d930b4">
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+						<jr:columnGroup width="480" uuid="e9c5b535-bbf4-43de-a5bf-144aac94e8cc">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Columns [4]"/>
+							<jr:groupHeader groupName="obra_descriptor">
+								<jr:cell style="Table_CH" height="39" rowSpan="1">
+									<box padding="0"/>
+									<textField>
+										<reportElement x="0" y="0" width="480" height="39" uuid="59bcf849-7e3d-4b9b-a7f3-331e0ede7e34"/>
+										<box>
+											<pen lineWidth="1.0" lineStyle="Solid"/>
+										</box>
+										<textElement textAlignment="Left" verticalAlignment="Middle">
+											<font size="16"/>
+										</textElement>
+										<textFieldExpression><![CDATA[" OBRA " + $F{obra_descriptor}]]></textFieldExpression>
+									</textField>
+								</jr:cell>
+							</jr:groupHeader>
+							<jr:groupFooter groupName="obra_descriptor">
+								<jr:cell style="Table_CH" height="30" rowSpan="1">
+									<box>
+										<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									</box>
+								</jr:cell>
+							</jr:groupFooter>
+							<jr:column width="100" uuid="0cfc760e-f71d-4d0e-a29c-fc541f82db06">
+								<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+								<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+									<staticText>
+										<reportElement key="" style="SubTitle" positionType="FixRelativeToBottom" mode="Opaque" x="0" y="0" width="100" height="30" forecolor="#FFFFFF" backcolor="#556CF2" uuid="699d281f-e6c5-4e61-8636-1e7c675c7165"/>
+										<box leftPadding="2"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle">
+											<font fontName="Arial" size="16" isBold="true"/>
+										</textElement>
+										<text><![CDATA[DNI]]></text>
+									</staticText>
+								</jr:columnHeader>
+								<jr:detailCell style="Table_TD" height="30">
+									<textField>
+										<reportElement style="Detail" x="0" y="0" width="100" height="30" uuid="9ececcf1-870b-4397-975f-1538b57d235a"/>
+										<box leftPadding="2"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle">
+											<font fontName="Arial" size="12"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$F{trabajador_dni}]]></textFieldExpression>
+									</textField>
+								</jr:detailCell>
+							</jr:column>
+							<jr:column width="110" uuid="4b965d4d-2078-4bba-a4b3-50ef3575e3ad">
+								<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+								<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+									<staticText>
+										<reportElement key="" style="SubTitle" positionType="FixRelativeToBottom" mode="Opaque" x="0" y="0" width="110" height="30" forecolor="#FFFFFF" backcolor="#556CF2" uuid="013c2fd5-7ebf-4278-b8cc-6fd0e95151d7"/>
+										<box leftPadding="2"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle">
+											<font fontName="Arial" size="16" isBold="true"/>
+										</textElement>
+										<text><![CDATA[Nombre]]></text>
+									</staticText>
+								</jr:columnHeader>
+								<jr:detailCell style="Table_TD" height="30">
+									<textField>
+										<reportElement style="Detail" x="0" y="0" width="110" height="30" uuid="0cb61d9e-5912-4f28-80b2-3a0ad0eb4d24"/>
+										<box leftPadding="2"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle">
+											<font fontName="Arial" size="12"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+									</textField>
+								</jr:detailCell>
+							</jr:column>
+							<jr:column width="120" uuid="cf86b56d-854b-4b24-ba80-51bc3e594b9c">
+								<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+								<jr:tableFooter style="Table_TH" height="30" rowSpan="1">
+									<staticText>
+										<reportElement x="0" y="0" width="120" height="30" uuid="83e5b809-120b-4a56-9dd3-9dd951d55ca1"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle">
+											<font size="12"/>
+										</textElement>
+										<text><![CDATA[TOTAL A PAGAR]]></text>
+									</staticText>
+								</jr:tableFooter>
+								<jr:groupFooter groupName="obra_descriptor">
+									<jr:cell style="Table_CH" height="41" rowSpan="1">
+										<textField>
+											<reportElement x="0" y="0" width="120" height="41" uuid="a5b5256b-dd1b-44df-b8d1-9d4a4de4e5c5"/>
+											<box>
+												<pen lineWidth="0.0"/>
+												<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+												<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+												<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+												<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+											</box>
+											<textElement textAlignment="Center" verticalAlignment="Middle">
+												<font size="10"/>
+											</textElement>
+											<textFieldExpression><![CDATA["Total \n " + $F{obra_descriptor}]]></textFieldExpression>
+										</textField>
+									</jr:cell>
+								</jr:groupFooter>
+								<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+									<staticText>
+										<reportElement key="" style="SubTitle" positionType="FixRelativeToBottom" mode="Opaque" x="0" y="0" width="120" height="30" forecolor="#FFFFFF" backcolor="#556CF2" uuid="cdf966bc-9e36-454d-84e2-1fc78b8d65a1"/>
+										<box leftPadding="2"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle">
+											<font fontName="Arial" size="16" isBold="true"/>
+										</textElement>
+										<text><![CDATA[Horas]]></text>
+									</staticText>
+								</jr:columnHeader>
+								<jr:detailCell style="Table_TD" height="30">
+									<textField>
+										<reportElement style="Detail" x="0" y="0" width="120" height="30" uuid="1f275a58-6676-4f1b-83a5-debd2136c629"/>
+										<box leftPadding="2"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle">
+											<font fontName="Arial" size="12"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$F{horas}]]></textFieldExpression>
+									</textField>
+								</jr:detailCell>
+							</jr:column>
+							<jr:column width="150" uuid="5badf38c-b2d1-4ac3-bca5-3b6a24f66ac0">
+								<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+								<jr:tableFooter style="Table_TH" height="30" rowSpan="1">
+									<textField>
+										<reportElement x="0" y="0" width="150" height="30" uuid="9bcbb63c-dad2-4fb9-8bae-366002e7c436"/>
+										<box>
+											<pen lineStyle="Solid"/>
+											<topPen lineWidth="2.5" lineStyle="Solid" lineColor="#000000"/>
+											<leftPen lineWidth="2.5" lineStyle="Solid" lineColor="#000000"/>
+											<bottomPen lineWidth="2.5" lineStyle="Solid" lineColor="#000000"/>
+											<rightPen lineWidth="2.5" lineStyle="Solid" lineColor="#000000"/>
+										</box>
+										<textElement textAlignment="Center" verticalAlignment="Middle">
+											<font size="14"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$V{total_sum} + " €"]]></textFieldExpression>
+									</textField>
+								</jr:tableFooter>
+								<jr:groupFooter groupName="obra_descriptor">
+									<jr:cell style="Table_CH" height="41" rowSpan="1">
+										<textField isBlankWhenNull="true">
+											<reportElement x="0" y="0" width="150" height="41" uuid="467c060b-d711-4d4a-bc64-d13c1394131e"/>
+											<textElement textAlignment="Center" verticalAlignment="Middle">
+												<font size="14"/>
+											</textElement>
+											<textFieldExpression><![CDATA[$V{subtotal_obra}]]></textFieldExpression>
+										</textField>
+									</jr:cell>
+								</jr:groupFooter>
+								<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+									<staticText>
+										<reportElement key="" style="SubTitle" positionType="FixRelativeToBottom" mode="Opaque" x="0" y="0" width="150" height="30" forecolor="#FFFFFF" backcolor="#556CF2" uuid="89b2c5f2-5c44-4692-b6b6-009e48d76c7d"/>
+										<box leftPadding="2"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle">
+											<font fontName="Arial" size="16" isBold="true"/>
+										</textElement>
+										<text><![CDATA[DNI]]></text>
+									</staticText>
+								</jr:columnHeader>
+								<jr:detailCell style="Table_TD" height="30">
+									<textField>
+										<reportElement style="Detail" x="0" y="0" width="150" height="30" uuid="bad14a11-7a5d-4b66-9523-0bd4d95c5d49"/>
+										<box leftPadding="2"/>
+										<textElement textAlignment="Center" verticalAlignment="Middle">
+											<font fontName="Arial" size="12"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>
+									</textField>
+								</jr:detailCell>
+							</jr:column>
+						</jr:columnGroup>
+					</jr:table>
+				</componentElement>
+			</frame>
+		</band>
+	</summary>
+</jasperReport>

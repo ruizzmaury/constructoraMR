@@ -2,23 +2,29 @@ package com.example.constructora;
 
 import com.example.constructora.JDBCRepository.PagosServiceImplJDBC;
 import com.example.constructora.JDBCRepository.PagosServiceJDBC;
+import com.example.constructora.JDBCRepository.utilsJDBC.JDBCUtils;
 import com.example.constructora.view.MainMenu;
 
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 @SpringBootApplication
 public class ConstructoraApplication {
 
 
 
-	public static void main(String[] args) throws Exception {
-//		PagosServiceJDBC pagosServiceJDBC = new PagosServiceImplJDBC();
-//		List<String> list = List.of("sumama", "tumama");
-//
-//		pagosServiceJDBC.createSelectedObrasToReportView(list);
+	public static void main(String[] args)  {
 
 
 		SpringApplication.run(ConstructoraApplication.class, args);

@@ -1,18 +1,28 @@
 package com.example.constructora.view;
 
+import com.example.constructora.ConstructoraApplication;
 import com.example.constructora.JDBCRepository.*;
+import com.example.constructora.JDBCRepository.utilsJDBC.JDBCUtils;
 import com.example.constructora.view.utils.StyledButtonUI;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class ObraReportMenu extends JDialog implements ActionListener {
     private final ObrasServiceJDBC obrasServiceJDBC = new ObrasServiceImplJDBC();
-    private ReportObraServiceJDBC reportObraServiceJDBC = new ReportObraServiceImplJDBC();
+    private final ReportObraServiceJDBC reportObraServiceJDBC = new ReportObraServiceImplJDBC();
 
     private JComboBox<String> obraDescriptor;
     private JButton createReportButton;
@@ -132,7 +142,7 @@ public class ObraReportMenu extends JDialog implements ActionListener {
         layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
-                                .addGap(width / 2 - 120, width / 2 - 120, width / 2 - 120)
+                                .addGap(width / 2 - 145, width / 2 - 145, width / 2 - 145)
                                 .addComponent(title)
                                 .addContainerGap(213, Short.MAX_VALUE))
         );
@@ -180,14 +190,38 @@ public class ObraReportMenu extends JDialog implements ActionListener {
                 System.out.println("desde el BOTÓN " + selectedObrasToReport);
                 reportObraServiceJDBC.createViewTableObras(selectedObrasToReport);
                 // TODO
-                // 1o - GENERAR EL INFORME JASPER
-                // 2o - BORRAR VIEW
 
+                // 1o - GENERAR EL INFORME JASPER
+                generateObrasReport();
+
+
+                // 2o - BORRAR VIEW
+                // reportObraServiceJDBC.dropViewTableObras();
             } else {
                 JOptionPane.showMessageDialog(null, "Selecciona una obra. "
                         , "Error", JOptionPane.ERROR_MESSAGE);
             }
 
+        }
+    }
+
+    private void generateObrasReport() {
+        System.out.println("GENEREMOS EL INFORME");
+        try {
+            System.out.println(getClass().getResource("/reports/FINAL_OBRAS_PAGO.jasper"));
+            JasperReport jasperReport = JasperCompileManager.compileReport(new FileInputStream("src/main/resources/reports/FINAL_OBRAS_PAGO.jrxml"));
+            System.out.println(1);
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, JDBCUtils.getConnection());
+            System.out.println(2);
+            JasperExportManager.exportReportToPdfFile(jasperPrint, "obras.pdf");
+            System.out.println(3);
+            JasperViewer jasperViewer = new JasperViewer(
+                    jasperPrint
+            );
+            jasperViewer.setDefaultCloseOperation(jasperViewer.DISPOSE_ON_CLOSE);
+            jasperViewer.setVisible(true);
+        } catch (JRException | SQLException | FileNotFoundException e) {
+            System.out.println(e);
         }
     }
 

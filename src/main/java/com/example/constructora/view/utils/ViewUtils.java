@@ -83,4 +83,6 @@ public class ViewUtils {
             "Actualizar",
             "Eliminar"
     };
+
+    public static final String OBRAS_REPORT_PATH= "";
 }
