@@ -217,9 +217,14 @@ b3IgLDE4MiwxNSxkYmRhMjFmOC00Nzg3LTQ2OWUtOTFhYy1lNGU4Mjg5NjZiNzg7]]>
 							</jr:column>
 							<jr:column width="120" uuid="cf86b56d-854b-4b24-ba80-51bc3e594b9c">
 								<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
-								<jr:tableFooter style="Table_TH" height="30" rowSpan="1">
+								<jr:tableFooter style="Table_TH" height="40" rowSpan="1">
 									<staticText>
-										<reportElement x="0" y="0" width="120" height="30" uuid="83e5b809-120b-4a56-9dd3-9dd951d55ca1"/>
+										<reportElement x="0" y="0" width="120" height="40" uuid="83e5b809-120b-4a56-9dd3-9dd951d55ca1"/>
+										<box>
+											<topPen lineWidth="1.0"/>
+											<leftPen lineWidth="1.0"/>
+											<bottomPen lineWidth="1.0"/>
+										</box>
 										<textElement textAlignment="Center" verticalAlignment="Middle">
 											<font size="12"/>
 										</textElement>
@@ -227,9 +232,9 @@ b3IgLDE4MiwxNSxkYmRhMjFmOC00Nzg3LTQ2OWUtOTFhYy1lNGU4Mjg5NjZiNzg7]]>
 									</staticText>
 								</jr:tableFooter>
 								<jr:groupFooter groupName="obra_descriptor">
-									<jr:cell style="Table_CH" height="41" rowSpan="1">
+									<jr:cell style="Table_CH" height="31" rowSpan="1">
 										<textField>
-											<reportElement x="0" y="0" width="120" height="41" uuid="a5b5256b-dd1b-44df-b8d1-9d4a4de4e5c5"/>
+											<reportElement x="0" y="0" width="120" height="31" uuid="a5b5256b-dd1b-44df-b8d1-9d4a4de4e5c5"/>
 											<box>
 												<pen lineWidth="0.0"/>
 												<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -267,9 +272,9 @@ b3IgLDE4MiwxNSxkYmRhMjFmOC00Nzg3LTQ2OWUtOTFhYy1lNGU4Mjg5NjZiNzg7]]>
 							</jr:column>
 							<jr:column width="150" uuid="5badf38c-b2d1-4ac3-bca5-3b6a24f66ac0">
 								<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
-								<jr:tableFooter style="Table_TH" height="30" rowSpan="1">
+								<jr:tableFooter style="Table_TH" height="40" rowSpan="1">
 									<textField>
-										<reportElement x="0" y="0" width="150" height="30" uuid="9bcbb63c-dad2-4fb9-8bae-366002e7c436"/>
+										<reportElement x="0" y="0" width="150" height="40" uuid="9bcbb63c-dad2-4fb9-8bae-366002e7c436"/>
 										<box>
 											<pen lineStyle="Solid"/>
 											<topPen lineWidth="2.5" lineStyle="Solid" lineColor="#000000"/>
@@ -278,17 +283,17 @@ b3IgLDE4MiwxNSxkYmRhMjFmOC00Nzg3LTQ2OWUtOTFhYy1lNGU4Mjg5NjZiNzg7]]>
 											<rightPen lineWidth="2.5" lineStyle="Solid" lineColor="#000000"/>
 										</box>
 										<textElement textAlignment="Center" verticalAlignment="Middle">
-											<font size="14"/>
+											<font size="14" isBold="true"/>
 										</textElement>
 										<textFieldExpression><![CDATA[$V{total_sum} + " €"]]></textFieldExpression>
 									</textField>
 								</jr:tableFooter>
 								<jr:groupFooter groupName="obra_descriptor">
-									<jr:cell style="Table_CH" height="41" rowSpan="1">
+									<jr:cell style="Table_CH" height="31" rowSpan="1">
 										<textField isBlankWhenNull="true">
-											<reportElement x="0" y="0" width="150" height="41" uuid="467c060b-d711-4d4a-bc64-d13c1394131e"/>
+											<reportElement x="0" y="0" width="150" height="31" uuid="467c060b-d711-4d4a-bc64-d13c1394131e"/>
 											<textElement textAlignment="Center" verticalAlignment="Middle">
-												<font size="14"/>
+												<font size="13" isBold="true"/>
 											</textElement>
 											<textFieldExpression><![CDATA[$V{subtotal_obra}]]></textFieldExpression>
 										</textField>
@@ -301,7 +306,7 @@ b3IgLDE4MiwxNSxkYmRhMjFmOC00Nzg3LTQ2OWUtOTFhYy1lNGU4Mjg5NjZiNzg7]]>
 										<textElement textAlignment="Center" verticalAlignment="Middle">
 											<font fontName="Arial" size="16" isBold="true"/>
 										</textElement>
-										<text><![CDATA[DNI]]></text>
+										<text><![CDATA[Cantidad]]></text>
 									</staticText>
 								</jr:columnHeader>
 								<jr:detailCell style="Table_TD" height="30">

@@ -189,14 +189,12 @@ public class ObraReportMenu extends JDialog implements ActionListener {
             if (!selectedObrasToReport.isEmpty()) {
                 System.out.println("desde el BOTÓN " + selectedObrasToReport);
                 reportObraServiceJDBC.createViewTableObras(selectedObrasToReport);
-                // TODO
 
                 // 1o - GENERAR EL INFORME JASPER
                 generateObrasReport();
 
-
                 // 2o - BORRAR VIEW
-                // reportObraServiceJDBC.dropViewTableObras();
+                reportObraServiceJDBC.dropViewTableObras();
             } else {
                 JOptionPane.showMessageDialog(null, "Selecciona una obra. "
                         , "Error", JOptionPane.ERROR_MESSAGE);
@@ -208,6 +206,7 @@ public class ObraReportMenu extends JDialog implements ActionListener {
     private void generateObrasReport() {
         System.out.println("GENEREMOS EL INFORME");
         try {
+            JDialog reportObraDialog = new JDialog(this);
             System.out.println(getClass().getResource("/reports/FINAL_OBRAS_PAGO.jasper"));
             JasperReport jasperReport = JasperCompileManager.compileReport(new FileInputStream("src/main/resources/reports/FINAL_OBRAS_PAGO.jrxml"));
             System.out.println(1);
@@ -216,10 +215,13 @@ public class ObraReportMenu extends JDialog implements ActionListener {
             JasperExportManager.exportReportToPdfFile(jasperPrint, "obras.pdf");
             System.out.println(3);
             JasperViewer jasperViewer = new JasperViewer(
-                    jasperPrint
+                    jasperPrint,
+                    true
             );
-            jasperViewer.setDefaultCloseOperation(jasperViewer.DISPOSE_ON_CLOSE);
-            jasperViewer.setVisible(true);
+            reportObraDialog.setContentPane(jasperViewer.getContentPane());
+            reportObraDialog.setSize(jasperViewer.getSize());
+            reportObraDialog.setTitle("PAGO OBRAS");
+            reportObraDialog.setVisible(true);
         } catch (JRException | SQLException | FileNotFoundException e) {
             System.out.println(e);
         }
