@@ -348,7 +348,7 @@ public class RegistroPago extends JFrame
                     (String) obraDescriptor.getSelectedItem(),
                     LocalDate.of(
                             Integer.parseInt(year.getSelectedItem().toString()),
-                            month.getSelectedIndex() + 1,
+                            month.getSelectedIndex(),
                             Integer.parseInt(date.getSelectedItem().toString())
                     ),
                     cantidad

@@ -1,9 +1,6 @@
 package com.example.constructora.JDBCRepository;
 
 import com.example.constructora.domain.ReportByObra;
-import net.sf.jasperreports.engine.JRDataSource;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRField;
 
 import java.sql.*;
 import java.util.List;
@@ -62,12 +59,6 @@ public class ReportObraServiceImplJDBC implements ReportObraServiceJDBC {
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
              PreparedStatement stmt = conn.prepareStatement(QUERY)) {
 
-//            stmt.setLong(1, reportByObra.getId());
-//            stmt.setFloat(2, reportByObra.getCantidad());
-//            stmt.setDate(3, Date.valueOf(pago.getFechaPago()));
-//            stmt.setInt(4, pago.getHoras());
-//            stmt.setString(5, pago.getObraDescriptor());
-//            stmt.setString(6, trabajador_dni);
             int rowAffected = stmt.executeUpdate();
 
             System.out.println(String.format("Row affected %d", rowAffected));

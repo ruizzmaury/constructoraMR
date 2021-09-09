@@ -77,15 +77,17 @@ public class MenuInformes extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        int windowWidth = 1000;
+        int windowHeight = 800;
         if (e.getSource() == byDate) {
             System.out.println("INFORMES POR FECHA (INTERVALO/MES)");
-            DateRangeReportMenu dateRangeReportMenu = new DateRangeReportMenu(this, rootPaneCheckingEnabled);
+            DateRangeReportMenu dateRangeReportMenu = new DateRangeReportMenu(this, rootPaneCheckingEnabled, windowWidth, windowHeight);
+            dateRangeReportMenu.setSize(new Dimension(windowWidth, windowHeight));
             dateRangeReportMenu.setVisible(true);
 
         } else if (e.getSource() == byObra) {
             System.out.println("INFORMES POR OBRA");
-            int windowWidth = 800;
-            int windowHeight = 600;
+
 
             ObraReportMenu obraReportMenu = new ObraReportMenu(this, rootPaneCheckingEnabled, windowWidth, windowHeight);
             obraReportMenu.setSize(new Dimension(windowWidth, windowHeight));
