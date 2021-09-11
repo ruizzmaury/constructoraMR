@@ -20,12 +20,13 @@ public class MainMenu extends JFrame
     public MainMenu() throws HeadlessException {
         // make the frame half the height and width
 
-        setTitle("Menú Principal");
-        setBounds(300, 90, 900, 600);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setResizable(false);
+         setTitle("Menú Principal");
+         setBounds(300, 90, 900, 600);
+         setDefaultCloseOperation(EXIT_ON_CLOSE);
+         setResizable(false);
 
-        c = getContentPane();
+         c = this.getContentPane();
+
         c.setLayout(null);
 
         Rectangle r = this.getBounds();

@@ -48,7 +48,18 @@ YWphZG9yIEFTICwyNTAsMzgsZjhlMjBkYjMtYzgwMS00YTg4LWFlMGUtMzAzNDJmNWU2M2Q0Ow==]]>
 		<parameter name="initialDate" class="java.sql.Date"/>
 		<parameter name="endDate" class="java.sql.Date"/>
 		<queryString language="SQL">
-			<![CDATA[SELECT * FROM reportByWorker]]>
+			<![CDATA[SELECT 
+                pago.trabajador_dni,
+                trabajador.nombre,
+				pago.obra_descriptor,
+				pago.fecha_pago, 
+                pago.horas,
+                pago.cantidad
+                FROM pago
+                INNER JOIN trabajador ON 
+                pago.trabajador_dni = trabajador.trabajador_dni
+                WHERE pago.trabajador_dni = '53233333L' OR pago.trabajador_dni = '43233344P'
+				ORDER BY pago.trabajador_dni, pago.obra_descriptor]]>
 		</queryString>
 		<field name="cantidad" class="java.lang.Float">
 			<property name="com.jaspersoft.studio.field.name" value="cantidad"/>
@@ -425,7 +436,7 @@ YWphZG9yIEFTICwyNTAsMzgsZjhlMjBkYjMtYzgwMS00YTg4LWFlMGUtMzAzNDJmNWU2M2Q0Ow==]]>
 										</box>
 									</textField>
 									<textField>
-										<reportElement mode="Opaque" x="0" y="40" width="137" height="40" backcolor="rgba(85, 108, 242, 0.33333334)" uuid="074ea849-badb-4394-aa58-cdd9fcf7f997"/>
+										<reportElement mode="Opaque" x="0" y="40" width="137" height="40" backcolor="rgba(85, 108, 242, 0.11764706)" uuid="074ea849-badb-4394-aa58-cdd9fcf7f997"/>
 										<box>
 											<pen lineWidth="1.5"/>
 											<topPen lineWidth="2.0" lineStyle="Solid" lineColor="#000000"/>
@@ -528,7 +539,7 @@ YWphZG9yIEFTICwyNTAsMzgsZjhlMjBkYjMtYzgwMS00YTg4LWFlMGUtMzAzNDJmNWU2M2Q0Ow==]]>
 										</box>
 									</textField>
 									<textField>
-										<reportElement mode="Opaque" x="0" y="40" width="137" height="40" backcolor="rgba(85, 108, 242, 0.33333334)" uuid="c3edbe29-9435-40ae-84fe-902fe02bf261"/>
+										<reportElement mode="Opaque" x="0" y="40" width="137" height="40" backcolor="rgba(85, 108, 242, 0.11764706)" uuid="c3edbe29-9435-40ae-84fe-902fe02bf261"/>
 										<box>
 											<pen lineWidth="2.5"/>
 											<topPen lineWidth="2.0" lineStyle="Solid" lineColor="#000000"/>
