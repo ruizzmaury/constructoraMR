@@ -1,5 +1,6 @@
 package com.example.constructora.view;
 
+import com.example.constructora.view.panels.*;
 import com.example.constructora.view.utils.StyledButtonUI;
 
 import javax.swing.*;
@@ -18,6 +19,9 @@ public class MenuLateral extends JFrame implements ActionListener {
     private JButton registerObrasButton;
     private JButton dateReportButton;
     private JButton obraReportButton;
+    private JPanel defaultPanel;
+
+
 
     public MenuLateral() throws HeadlessException {
         getContentPane().setLayout(null);
@@ -36,23 +40,33 @@ public class MenuLateral extends JFrame implements ActionListener {
         height = (int) size.getHeight();
 
         setTitle("Principal");
-        setSize(width, height);
+//        setSize(width, height);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setResizable(true);
+        setResizable(false);
+
         setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         setLayout(new FlowLayout());
+
         add(loadLeftBar());
-        add(loadMainScreen());
+
+        defaultPanel = new JPanel();
+        defaultPanel.setPreferredSize(new Dimension(width - 310, height));
+        defaultPanel.setBackground(new Color(217, 235, 249));
+        add(defaultPanel);
+
         pack();
 
     }
 
-    private JPanel loadMainScreen() {
-        JPanel mainPanel = new JPanel();
-        mainPanel.setPreferredSize(new Dimension(width - 310, height));
-        mainPanel.setBackground(new Color(217, 235, 249));
-        return mainPanel;
+    private void loadMainScreen(JPanel currentPanel) {
+        defaultPanel.removeAll();
+
+        currentPanel.setPreferredSize(new Dimension(width - 310, height));
+        currentPanel.setBackground(new Color(217, 235, 249));
+        defaultPanel.add(currentPanel);
+        defaultPanel.repaint();
+        defaultPanel.validate();
     }
 
     private JPanel loadLeftBar() {
@@ -169,13 +183,13 @@ public class MenuLateral extends JFrame implements ActionListener {
         spacer3.setPreferredSize(new Dimension(280, 160));
         leftPanel.add(spacer3);
 
-        JLabel copyright = new JLabel(" © Copyright - Maurici Ruiz Plaza");
+        JLabel copyright = new JLabel(" © Copyright 2021 - Maurici Ruiz Plaza");
         copyright.setFont(new Font("Calibri", Font.PLAIN, 18));
         copyright.setPreferredSize(new Dimension(300, 25));
         copyright.setForeground(Color.white);
         leftPanel.add(copyright);
 
-        JLabel copyright1 = new JLabel(" All Rights Reserved.");
+        JLabel copyright1 = new JLabel("  All Rights Reserved.");
         copyright1.setFont(new Font("Calibri", Font.PLAIN, 18));
         copyright1.setPreferredSize(new Dimension(300, 20));
         copyright1.setForeground(Color.white);
@@ -190,29 +204,37 @@ public class MenuLateral extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource() == consultasPagoButton){
-            ConsultaPagosView consultaPagosView = new ConsultaPagosView();
+            ConsultaPagosPanel consultaPagosPanel = new ConsultaPagosPanel();
+            loadMainScreen(consultaPagosPanel);
 
         }
         if (e.getSource() == consultasTrabButton) {
-            System.out.println(2);
+            ConsultaTrabajadoresPanel consultaTrabajadoresPanel = new ConsultaTrabajadoresPanel();
+            loadMainScreen(consultaTrabajadoresPanel);
         }
         if (e.getSource() == consultasObrasButton) {
-            System.out.println(3);
+            ConsultaObrasPanel consultaObrasPanel = new ConsultaObrasPanel();
+            loadMainScreen(consultaObrasPanel);
         }
         if (e.getSource() == registerPagoButton) {
-            System.out.println(4);
+            RegistroPagoPanel registroPagoPanel = new RegistroPagoPanel();
+            loadMainScreen(registroPagoPanel);
         }
         if (e.getSource() == registerTrabButton) {
-            System.out.println(5);
+            RegistroTrabajadorPanel registroTrabajadorPanel = new RegistroTrabajadorPanel();
+            loadMainScreen(registroTrabajadorPanel);
         }
         if (e.getSource() == registerObrasButton) {
-            System.out.println(6);
+            RegistroObraPanel registroObraPanel = new RegistroObraPanel();
+            loadMainScreen(registroObraPanel);
         }
         if (e.getSource() == dateReportButton) {
-            System.out.println(7);
+            DateRangeReportPanel dateRangeReportPanel = new DateRangeReportPanel(this, rootPaneCheckingEnabled, 1000, 800);
+            loadMainScreen(dateRangeReportPanel);
         }
         if (e.getSource() == obraReportButton) {
-            System.out.println(8);
+            ObraReportPanel obraReportPanel = new ObraReportPanel(this, rootPaneCheckingEnabled, 1000, 800);
+            loadMainScreen(obraReportPanel);
         }
 
     }

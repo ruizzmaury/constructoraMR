@@ -48,18 +48,7 @@ YWphZG9yIEFTICwyNTAsMzgsZjhlMjBkYjMtYzgwMS00YTg4LWFlMGUtMzAzNDJmNWU2M2Q0Ow==]]>
 		<parameter name="initialDate" class="java.sql.Date"/>
 		<parameter name="endDate" class="java.sql.Date"/>
 		<queryString language="SQL">
-			<![CDATA[SELECT 
-                pago.trabajador_dni,
-                trabajador.nombre,
-				pago.obra_descriptor,
-				pago.fecha_pago, 
-                pago.horas,
-                pago.cantidad
-                FROM pago
-                INNER JOIN trabajador ON 
-                pago.trabajador_dni = trabajador.trabajador_dni
-                WHERE pago.trabajador_dni = '53233333L' OR pago.trabajador_dni = '43233344P'
-				ORDER BY pago.trabajador_dni, pago.obra_descriptor]]>
+			<![CDATA[SELECT * FROM reportByWorker]]>
 		</queryString>
 		<field name="cantidad" class="java.lang.Float">
 			<property name="com.jaspersoft.studio.field.name" value="cantidad"/>
