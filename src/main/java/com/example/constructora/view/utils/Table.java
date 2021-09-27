@@ -6,9 +6,13 @@ import com.example.constructora.domain.Pago;
 import com.example.constructora.domain.Trabajador;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Objects;
 
@@ -19,8 +23,6 @@ public class Table {
     Object[][] listaTrabajadores; //lista información TRABAJADORES de la BD
     Object[][] listaObras; //lista información OBRAS de la BD
     Object[][] listaPagos; //lista información PAGOS de la BD
-
-
 
 
     public void showTable(JTable jTable, int selectedView, String searchFilter, DateFilter dateFilter) {
@@ -57,29 +59,28 @@ public class Table {
     }
 
 
+
     private TableModel loadTrabajadores(JButton btnUpdate, JButton btnDelete, String searchFilter, DateFilter dateFilter) {
 
         return new DefaultTableModel
                 (
                         loadWorkersRows(btnUpdate, btnDelete, searchFilter, dateFilter),
                         ViewUtils.COLUMN_WORKER_NAMES
-                )
-        {
-            public boolean isCellEditable(int row, int column){
+                ) {
+            public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
     }
 
-    private TableModel loadObras(JButton btnUpdate, JButton btnDelete,String searchFilter, DateFilter dateFilter) {
+    private TableModel loadObras(JButton btnUpdate, JButton btnDelete, String searchFilter, DateFilter dateFilter) {
 
         return new DefaultTableModel
                 (
                         loadObrasRows(btnUpdate, btnDelete, searchFilter, dateFilter),
                         ViewUtils.COLUMN_OBRAS_NAMES
-                )
-        {
-            public boolean isCellEditable(int row, int column){
+                ) {
+            public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
@@ -91,14 +92,12 @@ public class Table {
                 (
                         loadPaymentsRows(btnUpdate, btnDelete, searchFilter, dateFilter),
                         ViewUtils.COLUMN_PAGOS_NAMES
-                )
-        {
-            public boolean isCellEditable(int row, int column){
+                ) {
+            public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
     }
-
 
 
     private Object[][] loadWorkersRows(JButton btnUpdate, JButton btnDelete, String searchFilter, DateFilter dateFilter) {
@@ -133,16 +132,16 @@ public class Table {
         List<Obra> obrasListDB;
 
         if (searchFilter.isEmpty()) {
-            if(dateFilter== null) {
+            if (dateFilter == null) {
                 obrasListDB = obrasServiceJDBC.getObras();
             } else {
                 if (dateFilter.getInitialDate() == null && dateFilter.getEndDate() == null) { // no busca ni por nombre ni por fechas
                     System.out.println("ni nombre ni fechas");
                     obrasListDB = obrasServiceJDBC.getObras();
                 } else { // no busca por nombre pero sí por fechas
-                    if (dateFilter.getInitialDate() != null && dateFilter.getEndDate() != null ) { // intervalo de fechas
+                    if (dateFilter.getInitialDate() != null && dateFilter.getEndDate() != null) { // intervalo de fechas
                         obrasListDB = obrasServiceJDBC.findBetweenDates(dateFilter.getInitialDate(), dateFilter.getEndDate());
-                    } else if (dateFilter.getInitialDate() != null && dateFilter.getEndDate() == null ) { // inicial hacia delante
+                    } else if (dateFilter.getInitialDate() != null && dateFilter.getEndDate() == null) { // inicial hacia delante
                         obrasListDB = obrasServiceJDBC.findByDateForward(dateFilter.getInitialDate());
                     } else { // final hacia atrás
                         obrasListDB = obrasServiceJDBC.findByDateBackward(dateFilter.getEndDate());
@@ -176,16 +175,16 @@ public class Table {
         List<Pago> pagosListDB;
 
         if (searchFilter.isEmpty()) {
-            if(dateFilter== null) {
+            if (dateFilter == null) {
                 pagosListDB = pagosServiceJDBC.getPagos();
             } else {
                 if (dateFilter.getInitialDate() == null && dateFilter.getEndDate() == null) { // no busca ni por nombre ni por fechas
                     System.out.println("ni nombre ni fechas");
                     pagosListDB = pagosServiceJDBC.getPagos();
                 } else { // no busca por nombre pero sí por fechas
-                    if (dateFilter.getInitialDate() != null && dateFilter.getEndDate() != null ) { // intervalo de fechas
+                    if (dateFilter.getInitialDate() != null && dateFilter.getEndDate() != null) { // intervalo de fechas
                         pagosListDB = pagosServiceJDBC.findBetweenDates(dateFilter.getInitialDate(), dateFilter.getEndDate());
-                    } else if (dateFilter.getInitialDate() != null && dateFilter.getEndDate() == null ) { // inicial hacia delante
+                    } else if (dateFilter.getInitialDate() != null && dateFilter.getEndDate() == null) { // inicial hacia delante
                         pagosListDB = pagosServiceJDBC.findByDateForward(dateFilter.getInitialDate());
                     } else { // final hacia atrás
                         pagosListDB = pagosServiceJDBC.findByDateBackward(dateFilter.getEndDate());
