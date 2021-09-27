@@ -1,10 +1,12 @@
 package com.example.constructora;
 
 
-import com.example.constructora.view.MainMenu;
+
 import com.example.constructora.view.MenuLateral;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+
 
 @SpringBootApplication
 public class ConstructoraApplication {

@@ -1,6 +1,10 @@
 package com.example.constructora.view.panels;
 
 import com.example.constructora.JDBCRepository.*;
+import com.example.constructora.domain.CategoriaLaboral;
+import com.example.constructora.domain.Genero;
+import com.example.constructora.domain.Trabajador;
+import com.example.constructora.view.MenuLateral;
 import com.example.constructora.view.utils.DateFilter;
 import com.example.constructora.view.utils.HintTextField;
 import com.example.constructora.view.utils.Table;
@@ -92,6 +96,33 @@ public class ConsultaTrabajadoresPanel extends JPanel {
         tablaTrabajadores.getSelectionModel().addListSelectionListener(e -> {
 
             // TODO : UPDATE ROW IN UI TABLE AND DB
+            if (tablaTrabajadores.getSelectedColumn() == ViewUtils.COLUMN_WORKER_NAMES.length - 2) {
+                // TODO : CREATE ALERT DIALOG TO CONFIRM UPDATE
+
+                System.out.println("entro a actualizal");
+                int row = tablaTrabajadores.getSelectedRow();
+                if (row != -1) {
+                    // remove worker from database
+//                    trabajadorServiceJDBC.delete(tablaTrabajadores.getValueAt(row, 0).toString());
+                    // TODO : THIS UPDATE IN DB WILL BE DONE IN THE WORKER REGISTER VIEW
+                    // update worker from ui table
+                    RegistroTrabajadorPanel registroTrabajadorPanel = new RegistroTrabajadorPanel(
+                            new Trabajador(
+                                    "43231154L",
+                                    "Rigoberto",
+                                    new Genero("Hombre"),
+                                    971584751,
+                                    "lomafuelte@gmail.com",
+                                    null,
+                                    "",
+                                    new CategoriaLaboral()
+                            )
+                    );
+
+                    MenuLateral.loadMainScreen(registroTrabajadorPanel);
+                }
+
+            }
 
             // DELETE ROW IN UI TABLE AND DB
             if (tablaTrabajadores.getSelectedColumn() == ViewUtils.COLUMN_WORKER_NAMES.length - 1) {

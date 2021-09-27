@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 public class RegistroTrabajadorPanel extends JPanel implements ActionListener {
 
@@ -66,11 +67,11 @@ public class RegistroTrabajadorPanel extends JPanel implements ActionListener {
 
     // constructor, to initialize the components
     // with default values.
-    public RegistroTrabajadorPanel() throws HeadlessException {
+    public RegistroTrabajadorPanel(Trabajador workerToUpdate) throws HeadlessException {
         c = this;
         c.setLayout(null);
 
-        title = new JLabel("Registro Trabajador");
+        title = new JLabel(Objects.equals(workerToUpdate.getNombre(), "") ? "Registro Trabajador" : "Actualizar Trabajador");
         title.setFont(new Font("Arial", Font.PLAIN, 30));
         title.setSize(300, 30);
         title.setLocation(300, 30);
@@ -82,7 +83,7 @@ public class RegistroTrabajadorPanel extends JPanel implements ActionListener {
         name.setLocation(100, 100);
         c.add(name);
 
-        tname = new JTextField();
+        tname = new JTextField(workerToUpdate.getNombre());
         tname.setFont(new Font("Arial", Font.PLAIN, 15));
         tname.setSize(190, 20);
         tname.setLocation(200, 100);
@@ -94,7 +95,7 @@ public class RegistroTrabajadorPanel extends JPanel implements ActionListener {
         DNI.setLocation(100, 150);
         c.add(DNI);
 
-        tDNI = new JTextField();
+        tDNI = new JTextField(workerToUpdate.getTrabajador_dni());
         tDNI.setFont(new Font("Arial", Font.PLAIN, 15));
         tDNI.setSize(190, 20);
         tDNI.setLocation(200, 150);
@@ -109,24 +110,47 @@ public class RegistroTrabajadorPanel extends JPanel implements ActionListener {
 
         male = new JRadioButton("Hombre");
         male.setFont(new Font("Arial", Font.PLAIN, 15));
-        male.setSelected(true);
+//        male.setSelected(false);
         male.setSize(85, 20);
         male.setLocation(200, 200);
         c.add(male);
 
         female = new JRadioButton("Mujer");
         female.setFont(new Font("Arial", Font.PLAIN, 15));
-        female.setSelected(false);
+//        female.setSelected(false);
         female.setSize(80, 20);
         female.setLocation(285, 200);
         c.add(female);
 
         other = new JRadioButton("Otro");
         other.setFont(new Font("Arial", Font.PLAIN, 15));
-        other.setSelected(false);
+//        other.setSelected(false);
         other.setSize(85, 20);
         other.setLocation(360, 200);
         c.add(other);
+
+        switch (workerToUpdate.getGenero().getNombreGenero()==null ? "" : workerToUpdate.getGenero().getNombreGenero()) {
+            case "Hombre" -> {
+                male.setSelected(true);
+                female.setSelected(false);
+                other.setSelected(false);
+            }
+            case "Mujer" -> {
+                male.setSelected(false);
+                female.setSelected(true);
+                other.setSelected(false);
+            }
+            case "Otro" -> {
+                male.setSelected(false);
+                female.setSelected(false);
+                other.setSelected(true);
+            }
+            default -> {
+                male.setSelected(false);
+                female.setSelected(false);
+                other.setSelected(false);
+            }
+        }
 
         gengp = new ButtonGroup();
         gengp.add(male);
@@ -139,7 +163,7 @@ public class RegistroTrabajadorPanel extends JPanel implements ActionListener {
         phone.setLocation(100, 250);
         c.add(phone);
 
-        tphone = new JTextField();
+        tphone = new JTextField(workerToUpdate.getTelefono());
         tphone.setFont(new Font("Arial", Font.PLAIN, 15));
         tphone.setSize(150, 20);
         tphone.setLocation(200, 250);
@@ -151,7 +175,7 @@ public class RegistroTrabajadorPanel extends JPanel implements ActionListener {
         email.setLocation(100, 300);
         c.add(email);
 
-        temail = new JTextField();
+        temail = new JTextField(workerToUpdate.getEmail());
         temail.setFont(new Font("Arial", Font.PLAIN, 15));
         temail.setSize(190, 20);
         temail.setLocation(200, 300);

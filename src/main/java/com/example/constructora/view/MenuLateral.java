@@ -1,5 +1,8 @@
 package com.example.constructora.view;
 
+import com.example.constructora.domain.CategoriaLaboral;
+import com.example.constructora.domain.Genero;
+import com.example.constructora.domain.Trabajador;
 import com.example.constructora.view.panels.*;
 import com.example.constructora.view.utils.StyledButtonUI;
 
@@ -9,8 +12,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MenuLateral extends JFrame implements ActionListener {
-    int width;
-    int height;
+    static int width;
+    static int height;
     private JButton registerPagoButton;
     private JButton consultasPagoButton;
     private JButton consultasTrabButton;
@@ -19,7 +22,7 @@ public class MenuLateral extends JFrame implements ActionListener {
     private JButton registerObrasButton;
     private JButton dateReportButton;
     private JButton obraReportButton;
-    private JPanel defaultPanel;
+    private static JPanel defaultPanel;
 
 
 
@@ -59,7 +62,7 @@ public class MenuLateral extends JFrame implements ActionListener {
 
     }
 
-    private void loadMainScreen(JPanel currentPanel) {
+    public static void loadMainScreen(JPanel currentPanel) {
         defaultPanel.removeAll();
 
         currentPanel.setPreferredSize(new Dimension(width - 310, height));
@@ -221,7 +224,19 @@ public class MenuLateral extends JFrame implements ActionListener {
             loadMainScreen(registroPagoPanel);
         }
         if (e.getSource() == registerTrabButton) {
-            RegistroTrabajadorPanel registroTrabajadorPanel = new RegistroTrabajadorPanel();
+
+            RegistroTrabajadorPanel registroTrabajadorPanel = new RegistroTrabajadorPanel(
+                    new Trabajador(
+                            "",
+                            "",
+                            new Genero(""),
+                            0,
+                            "",
+                            null,
+                            "",
+                            new CategoriaLaboral()
+                    )
+            );
             loadMainScreen(registroTrabajadorPanel);
         }
         if (e.getSource() == registerObrasButton) {
