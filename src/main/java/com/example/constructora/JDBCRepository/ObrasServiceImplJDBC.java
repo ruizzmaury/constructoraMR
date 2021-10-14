@@ -2,6 +2,7 @@ package com.example.constructora.JDBCRepository;
 
 import com.example.constructora.JDBCRepository.utilsJDBC.JDBCUtils;
 import com.example.constructora.domain.Obra;
+import org.hibernate.tool.schema.internal.exec.ScriptTargetOutputToFile;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -373,6 +374,7 @@ public class ObrasServiceImplJDBC implements ObrasServiceJDBC {
 
     @Override
     public Obra update(Obra obra) {
+        System.out.println(obra);
         final String QUERY = "UPDATE obra SET " +
                 "ubicacion = ?, " +
                 "descriptor = ?, " +

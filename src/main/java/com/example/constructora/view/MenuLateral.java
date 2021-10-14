@@ -2,6 +2,7 @@ package com.example.constructora.view;
 
 import com.example.constructora.domain.CategoriaLaboral;
 import com.example.constructora.domain.Genero;
+import com.example.constructora.domain.Obra;
 import com.example.constructora.domain.Trabajador;
 import com.example.constructora.view.panels.*;
 import com.example.constructora.view.utils.StyledButtonUI;
@@ -226,21 +227,14 @@ public class MenuLateral extends JFrame implements ActionListener {
         if (e.getSource() == registerTrabButton) {
 
             RegistroTrabajadorPanel registroTrabajadorPanel = new RegistroTrabajadorPanel(
-                    new Trabajador(
-                            "",
-                            "",
-                            new Genero(""),
-                            0,
-                            "",
-                            null,
-                            "",
-                            new CategoriaLaboral()
-                    )
+                    new Trabajador()
             );
             loadMainScreen(registroTrabajadorPanel);
         }
         if (e.getSource() == registerObrasButton) {
-            RegistroObraPanel registroObraPanel = new RegistroObraPanel();
+            RegistroObraPanel registroObraPanel = new RegistroObraPanel(
+                    new Obra()
+            );
             loadMainScreen(registroObraPanel);
         }
         if (e.getSource() == dateReportButton) {

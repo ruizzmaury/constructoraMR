@@ -3,17 +3,19 @@ package com.example.constructora.view.panels;
 import com.example.constructora.JDBCRepository.ObrasServiceImplJDBC;
 import com.example.constructora.JDBCRepository.ObrasServiceJDBC;
 import com.example.constructora.domain.Obra;
+import com.example.constructora.view.utils.ViewUtils;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
+import java.time.temporal.ValueRange;
 
 public class RegistroObraPanel extends JPanel implements ActionListener {
 
     private final ObrasServiceJDBC obrasServiceJDBC = new ObrasServiceImplJDBC();
-
+    private final Obra obraToUpdate;
     // Components of the Form
     private Container c;
     private JLabel title;
@@ -57,10 +59,11 @@ public class RegistroObraPanel extends JPanel implements ActionListener {
             "2019", "2020", "2021"};
 
 
-
     // constructor, to initialize the components
     // with default values.
-    public RegistroObraPanel() throws HeadlessException {
+    public RegistroObraPanel(Obra obraToUpdate) throws HeadlessException {
+        this.obraToUpdate = obraToUpdate;
+
         c = this;
         c.setLayout(null);
 
@@ -83,22 +86,28 @@ public class RegistroObraPanel extends JPanel implements ActionListener {
         beginningDate.setLocation(100, 100);
         c.add(beginningDate);
 
-        begDay = new JComboBox(days);
+        begDay = new JComboBox(ViewUtils.DAYS);
         begDay.setFont(new Font("Arial", Font.PLAIN, 15));
         begDay.setSize(50, 20);
         begDay.setLocation(200, 100);
+        if (obraToUpdate.getFechaInicio() != null)
+            begDay.setSelectedIndex(obraToUpdate.getFechaInicio().getDayOfMonth());
         c.add(begDay);
 
-        begMonth = new JComboBox(months);
+        begMonth = new JComboBox(ViewUtils.MONTHS);
         begMonth.setFont(new Font("Arial", Font.PLAIN, 15));
         begMonth.setSize(60, 20);
         begMonth.setLocation(260, 100);
+        if (obraToUpdate.getFechaInicio() != null)
+            begMonth.setSelectedIndex(obraToUpdate.getFechaInicio().getMonthValue());
         c.add(begMonth);
 
-        begYear = new JComboBox(years);
+        begYear = new JComboBox(ViewUtils.COMINGYEARS);
         begYear.setFont(new Font("Arial", Font.PLAIN, 15));
         begYear.setSize(60, 20);
         begYear.setLocation(330, 100);
+        if (obraToUpdate.getFechaInicio() != null)
+            begYear.setSelectedIndex(obraToUpdate.getFechaInicio().getYear() - 2017);
         c.add(begYear);
 
 
@@ -108,22 +117,26 @@ public class RegistroObraPanel extends JPanel implements ActionListener {
         endDate.setLocation(100, 150);
         c.add(endDate);
 
-        endDay = new JComboBox(days);
+        endDay = new JComboBox(ViewUtils.DAYS);
         endDay.setFont(new Font("Arial", Font.PLAIN, 15));
         endDay.setSize(50, 20);
         endDay.setLocation(200, 150);
+        if (obraToUpdate.getFechaFin() != null) endDay.setSelectedIndex(obraToUpdate.getFechaFin().getDayOfMonth());
         c.add(endDay);
 
-        endMonth = new JComboBox(months);
+        endMonth = new JComboBox(ViewUtils.MONTHS);
         endMonth.setFont(new Font("Arial", Font.PLAIN, 15));
         endMonth.setSize(60, 20);
         endMonth.setLocation(260, 150);
+        if (obraToUpdate.getFechaFin() != null) endMonth.setSelectedIndex(obraToUpdate.getFechaFin().getMonthValue());
         c.add(endMonth);
 
-        endYear = new JComboBox(years);
+        endYear = new JComboBox(ViewUtils.COMINGYEARS);
         endYear.setFont(new Font("Arial", Font.PLAIN, 15));
         endYear.setSize(60, 20);
         endYear.setLocation(330, 150);
+        if (obraToUpdate.getFechaFin() != null)
+            endYear.setSelectedIndex(obraToUpdate.getFechaFin().getYear() - 2017);
         c.add(endYear);
 
 
@@ -133,7 +146,7 @@ public class RegistroObraPanel extends JPanel implements ActionListener {
         add.setLocation(100, 200);
         c.add(add);
 
-        tadd = new JTextArea();
+        tadd = new JTextArea(obraToUpdate.getUbicacion() == null ? null : obraToUpdate.getUbicacion());
         tadd.setFont(new Font("Arial", Font.PLAIN, 15));
         tadd.setSize(200, 75);
         tadd.setLocation(200, 200);
@@ -147,7 +160,7 @@ public class RegistroObraPanel extends JPanel implements ActionListener {
         description.setLocation(100, 300);
         c.add(description);
 
-        tdescription = new JTextArea();
+        tdescription = new JTextArea(obraToUpdate.getDescriptor() == null ? null : obraToUpdate.getDescriptor());
         tdescription.setFont(new Font("Arial", Font.PLAIN, 15));
         tdescription.setSize(200, 100);
         tdescription.setLocation(200, 300);
@@ -219,7 +232,7 @@ public class RegistroObraPanel extends JPanel implements ActionListener {
             tout.setEditable(false);
             res.setText("Obra registrada correctamente.");
 
-            Obra nueva = new Obra (
+            Obra nueva = new Obra(
                     tadd.getText(),
                     tdescription.getText(),
                     LocalDate.of(
@@ -234,7 +247,13 @@ public class RegistroObraPanel extends JPanel implements ActionListener {
                     )
             );
 
-            obrasServiceJDBC.create(nueva);
+            if (obraToUpdate == null) {
+                obrasServiceJDBC.create(nueva);
+            } else {
+                System.out.println("actualizate JODEEER");
+                obrasServiceJDBC.update(nueva);
+            }
+
 
         } else if (e.getSource() == reset) {
             String def = "";

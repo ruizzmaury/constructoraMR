@@ -19,7 +19,7 @@ public class RegistroTrabajadorPanel extends JPanel implements ActionListener {
     private final TrabajadorServiceJDBC trabajadorServiceJDBC = new TrabajadorServiceImplJDBC();
     private final GeneroServiceJDBC generoServiceJDBC = new GeneroServiceImplJDBC();
     private final CatLaboralServiceJDBC catLaboralServiceJDBC = new CatLaboralServiceImplJDBC();
-
+    private final Trabajador workerToUpdate;
 
     // Components of the Form
     private Container c;
@@ -68,10 +68,11 @@ public class RegistroTrabajadorPanel extends JPanel implements ActionListener {
     // constructor, to initialize the components
     // with default values.
     public RegistroTrabajadorPanel(Trabajador workerToUpdate) throws HeadlessException {
+        this.workerToUpdate = workerToUpdate;
         c = this;
         c.setLayout(null);
 
-        title = new JLabel(Objects.equals(workerToUpdate.getNombre(), "") ? "Registro Trabajador" : "Actualizar Trabajador");
+        title = new JLabel(Objects.equals(workerToUpdate.getNombre(), null) ? "Registro Trabajador" : "Actualizar Trabajador");
         title.setFont(new Font("Arial", Font.PLAIN, 30));
         title.setSize(300, 30);
         title.setLocation(300, 30);
@@ -129,7 +130,7 @@ public class RegistroTrabajadorPanel extends JPanel implements ActionListener {
         other.setLocation(360, 200);
         c.add(other);
 
-        switch (workerToUpdate.getGenero().getNombreGenero()==null ? "" : workerToUpdate.getGenero().getNombreGenero()) {
+        switch (workerToUpdate.getGenero() == null ? "" : workerToUpdate.getGenero().getNombreGenero()) {
             case "Hombre" -> {
                 male.setSelected(true);
                 female.setSelected(false);
@@ -163,7 +164,7 @@ public class RegistroTrabajadorPanel extends JPanel implements ActionListener {
         phone.setLocation(100, 250);
         c.add(phone);
 
-        tphone = new JTextField(workerToUpdate.getTelefono());
+        tphone = new JTextField(String.valueOf(workerToUpdate.getTelefono()).equals("0") ? null : String.valueOf(workerToUpdate.getTelefono()));
         tphone.setFont(new Font("Arial", Font.PLAIN, 15));
         tphone.setSize(150, 20);
         tphone.setLocation(200, 250);
@@ -175,7 +176,7 @@ public class RegistroTrabajadorPanel extends JPanel implements ActionListener {
         email.setLocation(100, 300);
         c.add(email);
 
-        temail = new JTextField(workerToUpdate.getEmail());
+        temail = new JTextField(workerToUpdate.getEmail() == null ? null : workerToUpdate.getEmail());
         temail.setFont(new Font("Arial", Font.PLAIN, 15));
         temail.setSize(190, 20);
         temail.setLocation(200, 300);
@@ -191,18 +192,21 @@ public class RegistroTrabajadorPanel extends JPanel implements ActionListener {
         date.setFont(new Font("Arial", Font.PLAIN, 15));
         date.setSize(50, 20);
         date.setLocation(200, 350);
+        if ( workerToUpdate.getFechaNacimiento() != null) date.setSelectedIndex(workerToUpdate.getFechaNacimiento().getDayOfMonth());
         c.add(date);
 
         month = new JComboBox(ViewUtils.MONTHS);
         month.setFont(new Font("Arial", Font.PLAIN, 15));
         month.setSize(60, 20);
         month.setLocation(260, 350);
+        if ( workerToUpdate.getFechaNacimiento() != null) month.setSelectedIndex(workerToUpdate.getFechaNacimiento().getMonthValue());
         c.add(month);
 
         year = new JComboBox(ViewUtils.DOBYEARS);
         year.setFont(new Font("Arial", Font.PLAIN, 15));
         year.setSize(60, 20);
         year.setLocation(330, 350);
+        if ( workerToUpdate.getFechaNacimiento() != null) year.setSelectedIndex(workerToUpdate.getFechaNacimiento().getYear() - 1951);
         c.add(year);
 
         add = new JLabel("Dirección");
@@ -211,7 +215,7 @@ public class RegistroTrabajadorPanel extends JPanel implements ActionListener {
         add.setLocation(100, 400);
         c.add(add);
 
-        tadd = new JTextArea();
+        tadd = new JTextArea(workerToUpdate.getDireccion());
         tadd.setFont(new Font("Arial", Font.PLAIN, 15));
         tadd.setSize(200, 75);
         tadd.setLocation(200, 400);
@@ -334,7 +338,13 @@ public class RegistroTrabajadorPanel extends JPanel implements ActionListener {
                     )
             );
             System.out.println(nuevo.getCatLaboral().getClass());
-            trabajadorServiceJDBC.create(nuevo);
+            // TODO : IF workerToUpdate.getNombre() == "" create new worker, otherwise will update the worker
+            if (workerToUpdate == null) {
+                trabajadorServiceJDBC.create(nuevo);
+            } else {
+                trabajadorServiceJDBC.update(nuevo);
+            }
+
 
         } else if (e.getSource() == reset) {
             String def = "";

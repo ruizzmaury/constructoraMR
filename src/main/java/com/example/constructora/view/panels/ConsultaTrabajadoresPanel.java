@@ -11,12 +11,10 @@ import com.example.constructora.view.utils.Table;
 import com.example.constructora.view.utils.ViewUtils;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.Objects;
 
 public class ConsultaTrabajadoresPanel extends JPanel {
@@ -100,21 +98,21 @@ public class ConsultaTrabajadoresPanel extends JPanel {
                 // TODO : CREATE ALERT DIALOG TO CONFIRM UPDATE
 
                 System.out.println("entro a actualizal");
+
                 int row = tablaTrabajadores.getSelectedRow();
                 if (row != -1) {
-                    // remove worker from database
-//                    trabajadorServiceJDBC.delete(tablaTrabajadores.getValueAt(row, 0).toString());
+                    LocalDate updateDOB = (LocalDate) tablaTrabajadores.getValueAt(row, 5);
                     // TODO : THIS UPDATE IN DB WILL BE DONE IN THE WORKER REGISTER VIEW
                     // update worker from ui table
                     RegistroTrabajadorPanel registroTrabajadorPanel = new RegistroTrabajadorPanel(
                             new Trabajador(
-                                    "43231154L",
-                                    "Rigoberto",
-                                    new Genero("Hombre"),
-                                    971584751,
-                                    "lomafuelte@gmail.com",
-                                    null,
-                                    "",
+                                    tablaTrabajadores.getValueAt(row, 0).toString(),
+                                    tablaTrabajadores.getValueAt(row, 1).toString(),
+                                    new Genero(tablaTrabajadores.getValueAt(row, 2).toString()),
+                                    (Integer) tablaTrabajadores.getValueAt(row, 3),
+                                    tablaTrabajadores.getValueAt(row, 4).toString(),
+                                    updateDOB,
+                                    tablaTrabajadores.getValueAt(row, 6).toString(),
                                     new CategoriaLaboral()
                             )
                     );
