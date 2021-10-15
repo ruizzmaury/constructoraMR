@@ -339,7 +339,7 @@ public class RegistroTrabajadorPanel extends JPanel implements ActionListener {
             );
             System.out.println(nuevo.getCatLaboral().getClass());
             // TODO : IF workerToUpdate.getNombre() == "" create new worker, otherwise will update the worker
-            if (workerToUpdate == null) {
+            if (workerToUpdate.getNombre() == null) {
                 trabajadorServiceJDBC.create(nuevo);
             } else {
                 trabajadorServiceJDBC.update(nuevo);

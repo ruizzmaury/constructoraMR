@@ -228,7 +228,7 @@ public class RegistroObraPanel extends JPanel implements ActionListener {
 
             String data3 = "Descripción : " + tdescription.getText() + "\n";
 
-            tout.setText(data + data2 + data3);
+            tout.setText(data + data1 + data2 + data3);
             tout.setEditable(false);
             res.setText("Obra registrada correctamente.");
 
@@ -247,10 +247,11 @@ public class RegistroObraPanel extends JPanel implements ActionListener {
                     )
             );
 
-            if (obraToUpdate == null) {
+            if (obraToUpdate.getDescriptor() == null) {
+                System.out.println("crear obra");
                 obrasServiceJDBC.create(nueva);
             } else {
-                System.out.println("actualizate JODEEER");
+                System.out.println("actualizar obra");
                 obrasServiceJDBC.update(nueva);
             }
 

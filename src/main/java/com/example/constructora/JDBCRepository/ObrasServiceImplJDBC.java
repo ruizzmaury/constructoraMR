@@ -379,7 +379,7 @@ public class ObrasServiceImplJDBC implements ObrasServiceJDBC {
                 "ubicacion = ?, " +
                 "descriptor = ?, " +
                 "fecha_inicio = ?, " +
-                "fecha_fin = ?, " +
+                "fecha_fin = ? " +
                 "WHERE descriptor = ?";
 
         // Open a connection
@@ -391,6 +391,8 @@ public class ObrasServiceImplJDBC implements ObrasServiceJDBC {
             stmt.setDate(3, Date.valueOf(obra.getFechaInicio()));
             stmt.setDate(4, Date.valueOf(obra.getFechaFin()));
             stmt.setString(5, obra.getDescriptor());
+
+            stmt.executeUpdate();
 
             stmt.close();
 
