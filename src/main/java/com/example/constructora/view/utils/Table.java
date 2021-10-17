@@ -197,20 +197,22 @@ public class Table {
         }
 
         if (pagosListDB.size() > 0) {
+            System.out.println(pagosListDB);
             listaPagos = new Object[pagosListDB.size()][ViewUtils.COLUMN_PAGOS_NAMES.length];
 
             for (int i = 0; i < pagosListDB.size(); i++) {
 
                 Trabajador trabajador = trabajadorServiceJDBC.findByDNI(pagosListDB.get(i).getTrabajadorPago().getTrabajador_dni());
-
-                listaPagos[i][0] = pagosListDB.get(i).getTrabajadorPago().getTrabajador_dni();
-                listaPagos[i][1] = trabajador.getNombre();
-                listaPagos[i][2] = pagosListDB.get(i).getObraDescriptor();
-                listaPagos[i][3] = pagosListDB.get(i).getFechaPago();
-                listaPagos[i][4] = pagosListDB.get(i).getHoras();
-                listaPagos[i][5] = pagosListDB.get(i).getCantidad();
-                listaPagos[i][6] = btnUpdate;
-                listaPagos[i][7] = btnDelete;
+                System.out.println(pagosListDB.get(i).getId());
+                listaPagos[i][0] = pagosListDB.get(i).getId();
+                listaPagos[i][1] = pagosListDB.get(i).getTrabajadorPago().getTrabajador_dni();
+                listaPagos[i][2] = trabajador.getNombre();
+                listaPagos[i][3] = pagosListDB.get(i).getObraDescriptor();
+                listaPagos[i][4] = pagosListDB.get(i).getFechaPago();
+                listaPagos[i][5] = pagosListDB.get(i).getHoras();
+                listaPagos[i][6] = pagosListDB.get(i).getCantidad();
+                listaPagos[i][7] = btnUpdate;
+                listaPagos[i][8] = btnDelete;
 
             }
         } else {

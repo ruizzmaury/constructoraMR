@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface PagosServiceJDBC {
 
-    Pago create(Pago pago, String trabajador_dni);
+    Pago create(Pago pago);
 
     List<Pago> getPagos();
 

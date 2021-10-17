@@ -1,6 +1,5 @@
-package com.example.constructora.view;
+package com.example.constructora.view.NotPanels;
 
-import com.example.constructora.view.*;
 import com.example.constructora.view.utils.StyledButtonUI;
 
 import javax.swing.*;

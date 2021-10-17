@@ -1,4 +1,4 @@
-package com.example.constructora.view;
+package com.example.constructora.view.NotPanels;
 
 import com.example.constructora.JDBCRepository.*;
 import com.example.constructora.domain.CategoriaLaboral;

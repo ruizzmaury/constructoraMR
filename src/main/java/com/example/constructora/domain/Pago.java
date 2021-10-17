@@ -41,13 +41,7 @@ public class Pago {
     }
 
 
-    public Pago(int horas, String obraDescriptor, LocalDate fechaPago, float cantidad) {
-        this.id = UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
-        this.horas = horas;
-        this.obraDescriptor = obraDescriptor;
-        this.fechaPago = fechaPago;
-        this.cantidad = cantidad;
-    }
+
 
     public Pago(int horas, Trabajador trabajadorPago, String obraDescriptor, LocalDate fechaPago, float cantidad) {
         this.id = UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
@@ -57,4 +51,22 @@ public class Pago {
         this.fechaPago = fechaPago;
         this.cantidad = cantidad;
     }
+
+
+
+    public Pago(Long id, int horas, Trabajador trabajadorPago, String obraDescriptor, LocalDate fechaPago, float cantidad) {
+        this.id = id;
+        this.horas = horas;
+        this.trabajadorPago = trabajadorPago;
+        this.obraDescriptor = obraDescriptor;
+        this.fechaPago = fechaPago;
+        this.cantidad = cantidad;
+    }
+
+
+
+
+
+
+
 }

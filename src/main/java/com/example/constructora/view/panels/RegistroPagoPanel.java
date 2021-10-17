@@ -14,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 public class RegistroPagoPanel extends JPanel implements ActionListener {
 
@@ -21,8 +22,7 @@ public class RegistroPagoPanel extends JPanel implements ActionListener {
     private final TrabajadorServiceJDBC trabajadorServiceJDBC = new TrabajadorServiceImplJDBC();
     private final ObrasServiceJDBC obrasServiceJDBC = new ObrasServiceImplJDBC();
     private final CatLaboralServiceJDBC catLaboralServiceJDBC = new CatLaboralServiceImplJDBC();
-
-
+    private final Pago pagoToUpdate;
 
 
     private final JComboBox<String> date;
@@ -45,14 +45,13 @@ public class RegistroPagoPanel extends JPanel implements ActionListener {
     private final JTextArea resadd;
 
 
-
     private String[] loadObrasDescriptors() {
         List<String> obrasList = obrasServiceJDBC.getObrasDescriptor();
 
         String[] obrasArray = new String[obrasList.size()];
         obrasArray = obrasList.toArray(obrasArray);
 
-        for(String s : obrasArray)
+        for (String s : obrasArray)
             System.out.println(s);
 
         return obrasArray;
@@ -64,7 +63,7 @@ public class RegistroPagoPanel extends JPanel implements ActionListener {
         String[] workersArray = new String[workersList.size()];
         workersArray = workersList.toArray(workersArray);
 
-        for(String s : workersArray)
+        for (String s : workersArray)
             System.out.println(s);
 
         return workersArray;
@@ -73,11 +72,12 @@ public class RegistroPagoPanel extends JPanel implements ActionListener {
 
     // constructor, to initialize the components
     // with default values.
-    public RegistroPagoPanel() throws HeadlessException {
+    public RegistroPagoPanel(Pago pagoToUpdate) throws HeadlessException {
         // seleccionar DNI de trabajador
         // pillar su nombre y categoria laboral por un query mediante el DNI
         // las obras pillar Descriptor
 
+        this.pagoToUpdate = pagoToUpdate;
 
         setBounds(300, 90, 1000, 800);
 
@@ -93,7 +93,7 @@ public class RegistroPagoPanel extends JPanel implements ActionListener {
 //        backButton.addActionListener(this);
 //        c.add(backButton);
 
-        JLabel title = new JLabel("Registro Pago a trabajador");
+        JLabel title = new JLabel(Objects.equals(pagoToUpdate.getId(), null) ? "Registro Pago" : "Actualizar Pago");
         title.setFont(new Font("Arial", Font.PLAIN, 30));
         title.setSize(600, 30);
         title.setLocation(300, 30);
@@ -109,18 +109,21 @@ public class RegistroPagoPanel extends JPanel implements ActionListener {
         date.setFont(new Font("Arial", Font.PLAIN, 15));
         date.setSize(50, 20);
         date.setLocation(200, 100);
+        if (pagoToUpdate.getFechaPago() != null) date.setSelectedIndex(pagoToUpdate.getFechaPago().getDayOfMonth());
         c.add(date);
 
         month = new JComboBox<>(ViewUtils.MONTHS);
         month.setFont(new Font("Arial", Font.PLAIN, 15));
         month.setSize(60, 20);
         month.setLocation(260, 100);
+        if (pagoToUpdate.getFechaPago() != null) month.setSelectedIndex(pagoToUpdate.getFechaPago().getMonthValue());
         c.add(month);
 
         year = new JComboBox<>(ViewUtils.COMINGYEARS);
         year.setFont(new Font("Arial", Font.PLAIN, 15));
         year.setSize(60, 20);
         year.setLocation(330, 100);
+        if (pagoToUpdate.getFechaPago() != null) year.setSelectedIndex(pagoToUpdate.getFechaPago().getYear() - 2017);
         c.add(year);
 
         JLabel trabajador = new JLabel("Trabajador");
@@ -134,17 +137,18 @@ public class RegistroPagoPanel extends JPanel implements ActionListener {
         trabajadorName.setFont(new Font("Arial", Font.PLAIN, 15));
         trabajadorName.setSize(190, 20);
         trabajadorName.setLocation(200, 150);
+        if(pagoToUpdate.getTrabajadorPago() != null) trabajadorName.setSelectedItem(pagoToUpdate.getTrabajadorPago().getNombre());
         c.add(trabajadorName);
 
 
-        tDNI = new JTextArea();
+        tDNI = new JTextArea(pagoToUpdate.getTrabajadorPago() == null ? "" : pagoToUpdate.getTrabajadorPago().getTrabajador_dni());
         tDNI.setFont(new Font("Arial", Font.PLAIN, 15));
         tDNI.setSize(120, 20);
         tDNI.setLocation(200, 200);
         tDNI.setLineWrap(true);
         c.add(tDNI);
 
-        tCatLaboral = new JTextArea();
+        tCatLaboral = new JTextArea(pagoToUpdate.getTrabajadorPago() == null ? "" : pagoToUpdate.getTrabajadorPago().getCatLaboral().getNombreCategoria());
         tCatLaboral.setFont(new Font("Arial", Font.PLAIN, 15));
         tCatLaboral.setSize(120, 20);
         tCatLaboral.setLocation(340, 200);
@@ -158,14 +162,14 @@ public class RegistroPagoPanel extends JPanel implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // PARA MOSTRAR DNI Y CAT. LABORAL DEL TRABAJADOR SELECCIONADO POR NOMBRE
-                if(trabajadorName.getSelectedItem() != null) {
+                if (trabajadorName.getSelectedItem() != null) {
                     List<Trabajador> workersPerNameList = trabajadorServiceJDBC.findByNombreStartingWith((String) trabajadorName.getSelectedItem());
                     System.out.println("desde registro :" + workersPerNameList.get(0).getTrabajador_dni());
                     System.out.println("desde registro :" + workersPerNameList.get(0).getCatLaboral());
                     tDNI.setText(workersPerNameList.get(0).getTrabajador_dni());
                     tCatLaboral.setText(workersPerNameList.get(0).getCatLaboral().getNombreCategoria());
 
-                    if(!Objects.equals(thoras.getText(), "")) {
+                    if (!Objects.equals(thoras.getText(), "")) {
                         float toPay = Float.parseFloat(thoras.getText()) * catLaboralServiceJDBC.getPrecioHora(trabajadorServiceJDBC.getCategoriaLaboral(tDNI.getText()));
                         System.out.println("DESDE action " + toPay);
                         tcantidad.setText(String.valueOf(toPay));
@@ -188,6 +192,7 @@ public class RegistroPagoPanel extends JPanel implements ActionListener {
         obraDescriptor.setFont(new Font("Arial", Font.PLAIN, 15));
         obraDescriptor.setSize(190, 20);
         obraDescriptor.setLocation(200, 250);
+        if (pagoToUpdate.getObraDescriptor() != null) obraDescriptor.setSelectedItem(pagoToUpdate.getObraDescriptor());
         c.add(obraDescriptor);
 
         JLabel horas = new JLabel("Horas :");
@@ -196,7 +201,7 @@ public class RegistroPagoPanel extends JPanel implements ActionListener {
         horas.setLocation(100, 300);
         c.add(horas);
 
-        thoras = new JTextArea();
+        thoras = new JTextArea(pagoToUpdate.getHoras() == 0 ? "" : String.valueOf(pagoToUpdate.getHoras()));
         thoras.setFont(new Font("Arial", Font.PLAIN, 15));
         thoras.setSize(200, 20);
         thoras.setLocation(200, 300);
@@ -209,7 +214,7 @@ public class RegistroPagoPanel extends JPanel implements ActionListener {
         cantidad.setLocation(100, 350);
         c.add(cantidad);
 
-        tcantidad = new JTextArea();
+        tcantidad = new JTextArea(pagoToUpdate.getCantidad() == 0.0 ? "" : String.valueOf(pagoToUpdate.getCantidad()));
         tcantidad.setFont(new Font("Arial", Font.PLAIN, 15));
         tcantidad.setSize(200, 20);
         tcantidad.setLocation(200, 350);
@@ -240,7 +245,6 @@ public class RegistroPagoPanel extends JPanel implements ActionListener {
                 tcantidad.setText(String.valueOf(toPay));
             }
         });
-
 
 
         JLabel description = new JLabel("Información");
@@ -340,9 +344,10 @@ public class RegistroPagoPanel extends JPanel implements ActionListener {
             res.setText("Pago registrado correctamente.");
 
 
-
             Pago pago = new Pago(
+                    pagoToUpdate.getId() == null ? UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE : pagoToUpdate.getId(),
                     horas,
+                    trabajadorServiceJDBC.getTrabajador(tDNI.getText()),
                     (String) obraDescriptor.getSelectedItem(),
                     LocalDate.of(
                             Integer.parseInt(year.getSelectedItem().toString()),
@@ -352,9 +357,16 @@ public class RegistroPagoPanel extends JPanel implements ActionListener {
                     cantidad
             );
 
-            pagosServiceJDBC.create(
-                    pago, tDNI.getText()
-            );
+            if (pagoToUpdate.getId() == null) {
+                pagosServiceJDBC.create(
+                        pago
+                );
+            } else {
+                System.out.println("actualiza pago creck");
+                pagosServiceJDBC.update(
+                        pago
+                );
+            }
 
         } else if (e.getSource() == reset) {
             String def = "";

@@ -24,7 +24,7 @@ public class PagosServiceImplJDBC implements PagosServiceJDBC {
     private TrabajadorServiceJDBC trabajadorServiceJDBC = new TrabajadorServiceImplJDBC();
 
     @Override
-    public Pago create(Pago pago, @NotNull @Valid final String trabajador_dni) {
+    public Pago create(Pago pago) {
         final String QUERY = "INSERT INTO pago VALUES " +
                 "(?, ?, ?, ?, ?, ?)";
 
@@ -37,7 +37,7 @@ public class PagosServiceImplJDBC implements PagosServiceJDBC {
             stmt.setDate(3, Date.valueOf(pago.getFechaPago()));
             stmt.setInt(4, pago.getHoras());
             stmt.setString(5, pago.getObraDescriptor());
-            stmt.setString(6, trabajador_dni);
+            stmt.setString(6, pago.getTrabajadorPago().getTrabajador_dni());
             int rowAffected = stmt.executeUpdate();
 
             System.out.println(String.format("Row affected %d", rowAffected));
@@ -68,6 +68,7 @@ public class PagosServiceImplJDBC implements PagosServiceJDBC {
                 // Retrieve by column name
                 receivedPagos.add(
                         new Pago(
+                                rs.getLong("pago_id"),
                                 rs.getInt("horas"),
                                 referencedTrabajador,
                                 rs.getString("obra_descriptor"),
@@ -299,24 +300,26 @@ public class PagosServiceImplJDBC implements PagosServiceJDBC {
 
     @Override
     public Pago update(Pago pago) {
+        System.out.println("Entro wacho :" + pago + "  ");
+
         final String QUERY = "UPDATE pago SET " +
                 "cantidad = ?, " +
                 "fecha_pago = ?, " +
                 "horas = ?, " +
                 "trabajador_dni = ?, " +
                 "obra_descriptor = ? " +
-                "WHERE obra_descriptor = ?";
+                "WHERE pago_id = ?";
 
         // Open a connection
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
              PreparedStatement stmt = conn.prepareStatement(QUERY)) {
 
-            Trabajador referencedTrabajador = pago.getTrabajadorPago();
+//            Trabajador referencedTrabajador = pago.getTrabajadorPago();
 
             stmt.setFloat(1, pago.getCantidad());
             stmt.setDate(2, Date.valueOf(pago.getFechaPago()));
             stmt.setInt(3, pago.getHoras());
-            stmt.setString(4, referencedTrabajador.getTrabajador_dni());
+            stmt.setString(4, pago.getTrabajadorPago().getTrabajador_dni());
             stmt.setString(5, pago.getObraDescriptor());
             stmt.setLong(6, pago.getId());
 
@@ -338,7 +341,7 @@ public class PagosServiceImplJDBC implements PagosServiceJDBC {
     @Override
     public void delete(long pago_id) {
         final String QUERY = "DELETE FROM pago WHERE pago.pago_id = ?";
-
+        System.out.println("BORRA O NO : " + pago_id);
         // Open a connection
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
              PreparedStatement stmt = conn.prepareStatement(QUERY)) {

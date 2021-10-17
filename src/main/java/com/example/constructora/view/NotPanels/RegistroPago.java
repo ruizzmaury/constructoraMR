@@ -1,4 +1,4 @@
-package com.example.constructora.view;
+package com.example.constructora.view.NotPanels;
 
 import com.example.constructora.JDBCRepository.*;
 import com.example.constructora.view.utils.ViewUtils;
@@ -344,19 +344,19 @@ public class RegistroPago extends JFrame
 
 
             Pago pago = new Pago(
-                    horas,
-                    (String) obraDescriptor.getSelectedItem(),
-                    LocalDate.of(
-                            Integer.parseInt(year.getSelectedItem().toString()),
-                            month.getSelectedIndex(),
-                            Integer.parseInt(date.getSelectedItem().toString())
-                    ),
-                    cantidad
+//                    horas,
+//                    (String) obraDescriptor.getSelectedItem(),
+//                    LocalDate.of(
+//                            Integer.parseInt(year.getSelectedItem().toString()),
+//                            month.getSelectedIndex(),
+//                            Integer.parseInt(date.getSelectedItem().toString())
+//                    ),
+//                    cantidad
             );
 
-            pagosServiceJDBC.create(
-                pago, tDNI.getText()
-            );
+//            pagosServiceJDBC.create(
+//                pago, tDNI.getText()
+//            );
 
         } else if (e.getSource() == reset) {
             String def = "";

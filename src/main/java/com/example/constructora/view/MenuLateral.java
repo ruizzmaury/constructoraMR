@@ -1,9 +1,6 @@
 package com.example.constructora.view;
 
-import com.example.constructora.domain.CategoriaLaboral;
-import com.example.constructora.domain.Genero;
-import com.example.constructora.domain.Obra;
-import com.example.constructora.domain.Trabajador;
+import com.example.constructora.domain.*;
 import com.example.constructora.view.panels.*;
 import com.example.constructora.view.utils.StyledButtonUI;
 
@@ -221,7 +218,9 @@ public class MenuLateral extends JFrame implements ActionListener {
             loadMainScreen(consultaObrasPanel);
         }
         if (e.getSource() == registerPagoButton) {
-            RegistroPagoPanel registroPagoPanel = new RegistroPagoPanel();
+            RegistroPagoPanel registroPagoPanel = new RegistroPagoPanel(
+                    new Pago()
+            );
             loadMainScreen(registroPagoPanel);
         }
         if (e.getSource() == registerTrabButton) {

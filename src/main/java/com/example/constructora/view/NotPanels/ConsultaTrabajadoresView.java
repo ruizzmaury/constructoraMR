@@ -1,4 +1,4 @@
-package com.example.constructora.view;
+package com.example.constructora.view.NotPanels;
 
 import com.example.constructora.view.utils.DateFilter;
 import com.example.constructora.view.utils.HintTextField;

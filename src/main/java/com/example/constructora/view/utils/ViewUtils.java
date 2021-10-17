@@ -75,6 +75,7 @@ public class ViewUtils {
     };
 
     public static final String[] COLUMN_PAGOS_NAMES = {
+            "PagoID",
             "TrabajadorDNI",
             "nombreTrabajador",
             "descriptorObra",

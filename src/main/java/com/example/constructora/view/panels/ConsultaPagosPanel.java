@@ -1,17 +1,30 @@
 package com.example.constructora.view.panels;
 
+import com.example.constructora.JDBCRepository.PagosServiceImplJDBC;
+import com.example.constructora.JDBCRepository.PagosServiceJDBC;
+import com.example.constructora.JDBCRepository.TrabajadorServiceImplJDBC;
+import com.example.constructora.JDBCRepository.TrabajadorServiceJDBC;
+import com.example.constructora.domain.Pago;
+import com.example.constructora.domain.Trabajador;
+import com.example.constructora.view.MenuLateral;
 import com.example.constructora.view.utils.DateFilter;
 import com.example.constructora.view.utils.HintTextField;
 import com.example.constructora.view.utils.Table;
+import com.example.constructora.view.utils.ViewUtils;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Objects;
 
 public class ConsultaPagosPanel extends JPanel {
+
+    private final PagosServiceJDBC pagosServiceJDBC = new PagosServiceImplJDBC();
+    private final TrabajadorServiceJDBC trabajadorServiceJDBC = new TrabajadorServiceImplJDBC();
+
     private JTable tablaPagos;
     private DateFilter dateFilter = null;
     private String searchFilter = "";
@@ -150,6 +163,57 @@ public class ConsultaPagosPanel extends JPanel {
                         "Title 1", "Title 2", "Title 3", "Title 4", "Title 5"
                 }
         ));
+
+
+        tablaPagos.getSelectionModel().addListSelectionListener(e -> {
+
+            // TODO : UPDATE ROW IN UI TABLE AND DB
+            if (tablaPagos.getSelectedColumn() == ViewUtils.COLUMN_PAGOS_NAMES.length - 2) {
+                // TODO : CREATE ALERT DIALOG TO CONFIRM UPDATE
+
+                System.out.println("entro a actualizal pago");
+
+                int row = tablaPagos.getSelectedRow();
+                if (row != -1) {
+                    LocalDate fechaPago = (LocalDate) tablaPagos.getValueAt(row, 4);
+                    Trabajador rowWorker = trabajadorServiceJDBC.getTrabajador(tablaPagos.getValueAt(row, 1).toString());
+                    // TODO : THIS UPDATE IN DB WILL BE DONE IN THE OBRAS REGISTER VIEW
+                    // update worker from ui table
+                    RegistroPagoPanel registroPagoPanel = new RegistroPagoPanel(
+                            new Pago(
+                                    (Long) tablaPagos.getValueAt(row, 0),
+                                    (int) tablaPagos.getValueAt(row, 5),
+                                    rowWorker,
+                                    tablaPagos.getValueAt(row, 3).toString(),
+                                    fechaPago,
+                                    (float) tablaPagos.getValueAt(row, 6)
+                            )
+                    );
+
+                    MenuLateral.loadMainScreen(registroPagoPanel);
+                }
+
+            }
+
+            // DELETE ROW IN UI TABLE AND DB
+            if (tablaPagos.getSelectedColumn() == ViewUtils.COLUMN_PAGOS_NAMES.length - 1) {
+                // TODO : CREATE ALERT DIALOG TO CONFIRM REMOVED
+
+                System.out.println("entro a borral");
+                int row = tablaPagos.getSelectedRow();
+                if (row != -1) {
+                    // remove worker from database
+
+                    pagosServiceJDBC.delete((Long) tablaPagos.getValueAt(row, 0));
+
+                    // remove worker from ui table
+                    int modelIndex = tablaPagos.convertRowIndexToModel(row); // converts the row index in the view to the appropriate index in the model
+                    DefaultTableModel model = (DefaultTableModel) tablaPagos.getModel();
+                    model.removeRow(modelIndex);
+                }
+
+            }
+        });
 
         jScrollPane1.setViewportView(tablaPagos);
 
