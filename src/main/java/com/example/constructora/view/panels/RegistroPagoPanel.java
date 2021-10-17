@@ -3,18 +3,21 @@ package com.example.constructora.view.panels;
 import com.example.constructora.JDBCRepository.*;
 import com.example.constructora.domain.Pago;
 import com.example.constructora.domain.Trabajador;
+import com.example.constructora.exception.InputException;
 import com.example.constructora.view.utils.ViewUtils;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class RegistroPagoPanel extends JPanel implements ActionListener {
 
@@ -43,11 +46,13 @@ public class RegistroPagoPanel extends JPanel implements ActionListener {
     private final JTextArea tout;
     private final JLabel res;
     private final JTextArea resadd;
+    private boolean badIput = false;
 
 
     private String[] loadObrasDescriptors() {
-        List<String> obrasList = obrasServiceJDBC.getObrasDescriptor();
-
+        List<String> obrasList = new ArrayList<>();
+        obrasList.add("----");
+        obrasList = Stream.concat(obrasList.stream(), obrasServiceJDBC.getObrasDescriptor().stream()).collect(Collectors.toList());
         String[] obrasArray = new String[obrasList.size()];
         obrasArray = obrasList.toArray(obrasArray);
 
@@ -58,8 +63,9 @@ public class RegistroPagoPanel extends JPanel implements ActionListener {
     }
 
     private String[] loadWorkersNames() {
-        List<String> workersList = trabajadorServiceJDBC.getTrabajadoresNames();
-
+        List<String> workersList = new ArrayList<>();
+        workersList.add("----");
+        workersList = Stream.concat(workersList.stream(), trabajadorServiceJDBC.getTrabajadoresNames().stream()).collect(Collectors.toList());
         String[] workersArray = new String[workersList.size()];
         workersArray = workersList.toArray(workersArray);
 
@@ -137,7 +143,8 @@ public class RegistroPagoPanel extends JPanel implements ActionListener {
         trabajadorName.setFont(new Font("Arial", Font.PLAIN, 15));
         trabajadorName.setSize(190, 20);
         trabajadorName.setLocation(200, 150);
-        if(pagoToUpdate.getTrabajadorPago() != null) trabajadorName.setSelectedItem(pagoToUpdate.getTrabajadorPago().getNombre());
+        if (pagoToUpdate.getTrabajadorPago() != null)
+            trabajadorName.setSelectedItem(pagoToUpdate.getTrabajadorPago().getNombre());
         c.add(trabajadorName);
 
 
@@ -162,7 +169,8 @@ public class RegistroPagoPanel extends JPanel implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // PARA MOSTRAR DNI Y CAT. LABORAL DEL TRABAJADOR SELECCIONADO POR NOMBRE
-                if (trabajadorName.getSelectedItem() != null) {
+                System.out.println("AQUI DENTRO HAY :" + trabajadorName.getSelectedItem());
+                if (trabajadorName.getSelectedIndex() != 0 || trabajadorName.getSelectedItem() != "----") {
                     List<Trabajador> workersPerNameList = trabajadorServiceJDBC.findByNombreStartingWith((String) trabajadorName.getSelectedItem());
                     System.out.println("desde registro :" + workersPerNameList.get(0).getTrabajador_dni());
                     System.out.println("desde registro :" + workersPerNameList.get(0).getCatLaboral());
@@ -170,11 +178,18 @@ public class RegistroPagoPanel extends JPanel implements ActionListener {
                     tCatLaboral.setText(workersPerNameList.get(0).getCatLaboral().getNombreCategoria());
 
                     if (!Objects.equals(thoras.getText(), "")) {
-                        float toPay = Float.parseFloat(thoras.getText()) * catLaboralServiceJDBC.getPrecioHora(trabajadorServiceJDBC.getCategoriaLaboral(tDNI.getText()));
-                        System.out.println("DESDE action " + toPay);
-                        tcantidad.setText(String.valueOf(toPay));
+                        try {
+                            float toPay = Float.parseFloat(thoras.getText()) * catLaboralServiceJDBC.getPrecioHora(trabajadorServiceJDBC.getCategoriaLaboral(tDNI.getText()));
+                            System.out.println("DESDE action " + toPay);
+                            tcantidad.setText(String.valueOf(toPay));
+                        } catch (Exception ex) {
+                            badIput = true;
+                        }
                     }
 
+                } else {
+                    tDNI.setText("");
+                    tCatLaboral.setText("");
                 }
 
             }
@@ -223,26 +238,42 @@ public class RegistroPagoPanel extends JPanel implements ActionListener {
 
 
         thoras.getDocument().addDocumentListener(new DocumentListener() {
+
+
             @Override
             public void insertUpdate(DocumentEvent e) {
 
-                float toPay = Float.parseFloat(thoras.getText()) * catLaboralServiceJDBC.getPrecioHora(trabajadorServiceJDBC.getCategoriaLaboral(tDNI.getText()));
-                System.out.println("kfueeeeeeee " + toPay);
-                tcantidad.setText(String.valueOf(toPay));
+                try {
+                    float toPay = Float.parseFloat(thoras.getText()) * catLaboralServiceJDBC.getPrecioHora(trabajadorServiceJDBC.getCategoriaLaboral(tDNI.getText()));
+                    System.out.println("kfueeeeeeee " + toPay);
+                    tcantidad.setText(String.valueOf(toPay));
+                } catch (Exception x) {
+                    badIput = true;
+                }
+
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-                float toPay = Float.parseFloat(thoras.getText()) * catLaboralServiceJDBC.getPrecioHora(trabajadorServiceJDBC.getCategoriaLaboral(tDNI.getText()));
-                System.out.println("DESDE TEXFIELD " + toPay);
-                tcantidad.setText(String.valueOf(toPay));
+                try {
+                    float toPay = Float.parseFloat(thoras.getText()) * catLaboralServiceJDBC.getPrecioHora(trabajadorServiceJDBC.getCategoriaLaboral(tDNI.getText()));
+                    System.out.println("kfueeeeeeee " + toPay);
+                    tcantidad.setText(String.valueOf(toPay));
+                } catch (Exception x) {
+                    badIput = true;
+
+                }
             }
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-                float toPay = Float.parseFloat(thoras.getText()) * catLaboralServiceJDBC.getPrecioHora(trabajadorServiceJDBC.getCategoriaLaboral(tDNI.getText()));
-                System.out.println("DESDE TEXFIELD " + toPay);
-                tcantidad.setText(String.valueOf(toPay));
+                try {
+                    float toPay = Float.parseFloat(thoras.getText()) * catLaboralServiceJDBC.getPrecioHora(trabajadorServiceJDBC.getCategoriaLaboral(tDNI.getText()));
+                    System.out.println("kfueeeeeeee " + toPay);
+                    tcantidad.setText(String.valueOf(toPay));
+                } catch (Exception x) {
+                    badIput = true;
+                }
             }
         });
 
@@ -330,8 +361,10 @@ public class RegistroPagoPanel extends JPanel implements ActionListener {
                 cantidad = Float.parseFloat(tcantidad.getText());
                 data1 = "Horas : " + horas + " \n A pagar : " + cantidad + " € \n";
             } catch (Exception exception) {
-                System.out.println("Cantidad incorrecta");
-                System.out.println("Error : " + exception);
+//                JOptionPane.showMessageDialog(null, "Entrada incorrecta.\n Revise campos de horas o cantidad. "
+//                        , "Error", JOptionPane.ERROR_MESSAGE);
+
+                badIput = true;
             }
 
 
@@ -342,31 +375,34 @@ public class RegistroPagoPanel extends JPanel implements ActionListener {
             tout.setText(data + data1 + data2 + data3);
             tout.setEditable(false);
             res.setText("Pago registrado correctamente.");
-
-
-            Pago pago = new Pago(
-                    pagoToUpdate.getId() == null ? UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE : pagoToUpdate.getId(),
-                    horas,
-                    trabajadorServiceJDBC.getTrabajador(tDNI.getText()),
-                    (String) obraDescriptor.getSelectedItem(),
-                    LocalDate.of(
-                            Integer.parseInt(year.getSelectedItem().toString()),
-                            month.getSelectedIndex(),
-                            Integer.parseInt(date.getSelectedItem().toString())
-                    ),
-                    cantidad
-            );
-
-            if (pagoToUpdate.getId() == null) {
-                pagosServiceJDBC.create(
-                        pago
-                );
+            if (badIput) {
+                JOptionPane.showMessageDialog(null, "Entrada incorrecta.\n Introduzca valor válido. "
+                        , "Error", JOptionPane.ERROR_MESSAGE);
             } else {
-                System.out.println("actualiza pago creck");
-                pagosServiceJDBC.update(
-                        pago
+                Pago pago = new Pago(
+                        pagoToUpdate.getId() == null ? UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE : pagoToUpdate.getId(),
+                        horas,
+                        trabajadorServiceJDBC.getTrabajador(tDNI.getText()),
+                        (String) obraDescriptor.getSelectedItem(),
+                        LocalDate.of(
+                                Integer.parseInt(year.getSelectedItem().toString()),
+                                month.getSelectedIndex(),
+                                Integer.parseInt(date.getSelectedItem().toString())
+                        ),
+                        cantidad
                 );
+
+                if (pagoToUpdate.getId() == null) {
+                    pagosServiceJDBC.create(
+                            pago
+                    );
+                } else {
+                    pagosServiceJDBC.update(
+                            pago
+                    );
+                }
             }
+
 
         } else if (e.getSource() == reset) {
             String def = "";
