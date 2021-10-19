@@ -40,9 +40,6 @@ public class Pago {
     public Pago() {
     }
 
-
-
-
     public Pago(int horas, Trabajador trabajadorPago, String obraDescriptor, LocalDate fechaPago, float cantidad) {
         this.id = UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
         this.horas = horas;
@@ -53,7 +50,6 @@ public class Pago {
     }
 
 
-
     public Pago(Long id, int horas, Trabajador trabajadorPago, String obraDescriptor, LocalDate fechaPago, float cantidad) {
         this.id = id;
         this.horas = horas;
@@ -62,11 +58,6 @@ public class Pago {
         this.fechaPago = fechaPago;
         this.cantidad = cantidad;
     }
-
-
-
-
-
 
 
 }

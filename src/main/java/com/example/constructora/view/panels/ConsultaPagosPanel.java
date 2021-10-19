@@ -202,14 +202,20 @@ public class ConsultaPagosPanel extends JPanel {
                 System.out.println("entro a borral");
                 int row = tablaPagos.getSelectedRow();
                 if (row != -1) {
-                    // remove worker from database
+                    int input = JOptionPane.showConfirmDialog(null, "Quieres eliminar el pago a " + tablaPagos.getValueAt(row, 2).toString()
+                                    + " realizado el día " + tablaPagos.getValueAt(row, 4).toString()+ "?",
+                            "Eliminar Pago",
+                            JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);
+                    if(input == 0) {
+                        // remove payment from database
+                        pagosServiceJDBC.delete((Long) tablaPagos.getValueAt(row, 0));
 
-                    pagosServiceJDBC.delete((Long) tablaPagos.getValueAt(row, 0));
+                        // remove payment from ui table
+                        int modelIndex = tablaPagos.convertRowIndexToModel(row); // converts the row index in the view to the appropriate index in the model
+                        DefaultTableModel model = (DefaultTableModel) tablaPagos.getModel();
+                        model.removeRow(modelIndex);
+                    }
 
-                    // remove worker from ui table
-                    int modelIndex = tablaPagos.convertRowIndexToModel(row); // converts the row index in the view to the appropriate index in the model
-                    DefaultTableModel model = (DefaultTableModel) tablaPagos.getModel();
-                    model.removeRow(modelIndex);
                 }
 
             }

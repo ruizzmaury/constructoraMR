@@ -315,13 +315,14 @@ public class TrabajadorServiceImplJDBC implements TrabajadorServiceJDBC {
 
     @Override
     public void delete(String DNI) {
-        final String QUERY = "DELETE FROM Trabajador WHERE Trabajador.trabajador_dni = ?";
+        final String QUERY = "DELETE FROM pago WHERE pago.trabajador_dni = ?;" +
+                "DELETE FROM trabajador WHERE trabajador.trabajador_dni = ?";
 
         // Open a connection
         try (Connection conn = DriverManager.getConnection(JDBCUtils.DB_URL, JDBCUtils.USER, JDBCUtils.PASS);
              PreparedStatement stmt = conn.prepareStatement(QUERY)) {
             stmt.setString(1, DNI);
-
+            stmt.setString(2, DNI);
             stmt.executeUpdate();
 
             System.out.println("TRABAJADOR CON DNI " + DNI + " ELIMINADO CON ÉXITO... ");

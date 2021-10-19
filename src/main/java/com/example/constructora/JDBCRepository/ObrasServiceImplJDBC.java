@@ -405,13 +405,14 @@ public class ObrasServiceImplJDBC implements ObrasServiceJDBC {
 
     @Override
     public void delete(String descriptor) {
-        final String QUERY = "DELETE FROM obra WHERE obra.descriptor = ?";
+        final String QUERY = "DELETE FROM pago WHERE pago.obra_descriptor = ?;" +
+                "DELETE FROM obra WHERE obra.descriptor = ?";
 
         // Open a connection
         try (Connection conn = DriverManager.getConnection(JDBCUtils.DB_URL, JDBCUtils.USER, JDBCUtils.PASS);
              PreparedStatement stmt = conn.prepareStatement(QUERY)) {
             stmt.setString(1, descriptor);
-
+            stmt.setString(2, descriptor);
             stmt.executeUpdate();
 
         } catch (SQLException e) {

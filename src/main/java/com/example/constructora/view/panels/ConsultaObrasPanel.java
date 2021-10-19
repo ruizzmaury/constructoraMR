@@ -193,15 +193,22 @@ public class ConsultaObrasPanel extends JPanel {
 
                 System.out.println("entro a borral");
                 int row = tablaObras.getSelectedRow();
-                if (row != -1) {
-                    // remove worker from database
-                    obrasServiceJDBC.delete(tablaObras.getValueAt(row, 0).toString());
 
-                    // remove worker from ui table
-                    int modelIndex = tablaObras.convertRowIndexToModel(row); // converts the row index in the view to the appropriate index in the model
-                    DefaultTableModel model = (DefaultTableModel) tablaObras.getModel();
-                    model.removeRow(modelIndex);
+                if (row != -1) {
+                    int input = JOptionPane.showConfirmDialog(null, "Quieres eliminar " + tablaObras.getValueAt(row, 0).toString() + "?",
+                            "Eliminar Obra",
+                            JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);
+                    if (input == 0) {
+                        // remove worker from database
+                        obrasServiceJDBC.delete(tablaObras.getValueAt(row, 0).toString());
+
+                        // remove worker from ui table
+                        int modelIndex = tablaObras.convertRowIndexToModel(row); // converts the row index in the view to the appropriate index in the model
+                        DefaultTableModel model = (DefaultTableModel) tablaObras.getModel();
+                        model.removeRow(modelIndex);
+                    }
                 }
+
 
             }
         });

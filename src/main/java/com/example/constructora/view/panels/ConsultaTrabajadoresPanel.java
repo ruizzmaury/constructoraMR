@@ -129,13 +129,19 @@ public class ConsultaTrabajadoresPanel extends JPanel {
                 System.out.println("entro a borral");
                 int row = tablaTrabajadores.getSelectedRow();
                 if (row != -1) {
-                    // remove worker from database
-                    trabajadorServiceJDBC.delete(tablaTrabajadores.getValueAt(row, 0).toString());
+                    int input = JOptionPane.showConfirmDialog(null, "Quieres eliminar " + tablaTrabajadores.getValueAt(row, 1).toString() + "?",
+                            "Eliminar Trabajador",
+                            JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);
+                    if (input == 0){
+                        // remove worker from database
+                        trabajadorServiceJDBC.delete(tablaTrabajadores.getValueAt(row, 0).toString());
 
-                    // remove worker from ui table
-                    int modelIndex = tablaTrabajadores.convertRowIndexToModel(row); // converts the row index in the view to the appropriate index in the model
-                    DefaultTableModel model = (DefaultTableModel) tablaTrabajadores.getModel();
-                    model.removeRow(modelIndex);
+                        // remove worker from ui table
+                        int modelIndex = tablaTrabajadores.convertRowIndexToModel(row); // converts the row index in the view to the appropriate index in the model
+                        DefaultTableModel model = (DefaultTableModel) tablaTrabajadores.getModel();
+                        model.removeRow(modelIndex);
+                    }
+
                 }
 
             }
