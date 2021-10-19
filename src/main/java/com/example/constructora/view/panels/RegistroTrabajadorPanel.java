@@ -50,7 +50,7 @@ public class RegistroTrabajadorPanel extends JPanel implements ActionListener {
     private JTextArea tout;
     private JLabel res;
     private JTextArea resadd;
-
+    private boolean badInput = false;
 
     private String[] loadCatLaboralesNames() {
         List<String> catLabList = catLaboralServiceJDBC.getCatLaboralNames();
@@ -58,7 +58,7 @@ public class RegistroTrabajadorPanel extends JPanel implements ActionListener {
         String[] catLabArray = new String[catLabList.size()];
         catLabArray = catLabList.toArray(catLabArray);
 
-        for(String s : catLabArray)
+        for (String s : catLabArray)
             System.out.println(s);
 
         return catLabArray;
@@ -192,21 +192,24 @@ public class RegistroTrabajadorPanel extends JPanel implements ActionListener {
         date.setFont(new Font("Arial", Font.PLAIN, 15));
         date.setSize(50, 20);
         date.setLocation(200, 350);
-        if ( workerToUpdate.getFechaNacimiento() != null) date.setSelectedIndex(workerToUpdate.getFechaNacimiento().getDayOfMonth());
+        if (workerToUpdate.getFechaNacimiento() != null)
+            date.setSelectedIndex(workerToUpdate.getFechaNacimiento().getDayOfMonth());
         c.add(date);
 
         month = new JComboBox(ViewUtils.MONTHS);
         month.setFont(new Font("Arial", Font.PLAIN, 15));
         month.setSize(60, 20);
         month.setLocation(260, 350);
-        if ( workerToUpdate.getFechaNacimiento() != null) month.setSelectedIndex(workerToUpdate.getFechaNacimiento().getMonthValue());
+        if (workerToUpdate.getFechaNacimiento() != null)
+            month.setSelectedIndex(workerToUpdate.getFechaNacimiento().getMonthValue());
         c.add(month);
 
         year = new JComboBox(ViewUtils.DOBYEARS);
         year.setFont(new Font("Arial", Font.PLAIN, 15));
         year.setSize(60, 20);
         year.setLocation(330, 350);
-        if ( workerToUpdate.getFechaNacimiento() != null) year.setSelectedIndex(workerToUpdate.getFechaNacimiento().getYear() - 1951);
+        if (workerToUpdate.getFechaNacimiento() != null)
+            year.setSelectedIndex(workerToUpdate.getFechaNacimiento().getYear() - 1951);
         c.add(year);
 
         add = new JLabel("Dirección");
@@ -222,6 +225,7 @@ public class RegistroTrabajadorPanel extends JPanel implements ActionListener {
         tadd.setLineWrap(true);
         c.add(tadd);
 
+
         catLab = new JLabel("Cat. Laboral");
         catLab.setFont(new Font("Arial", Font.BOLD, 16));
         catLab.setSize(200, 20);
@@ -234,6 +238,17 @@ public class RegistroTrabajadorPanel extends JPanel implements ActionListener {
         tiposCatLab.setSize(200, 20);
         tiposCatLab.setLocation(200, 500);
         c.add(tiposCatLab);
+
+        if (
+                Objects.equals(tadd.getText(), "") ||
+                        Objects.equals(temail.getText(), "") ||
+                        Objects.equals(tDNI.getText(), "") ||
+                        Objects.equals(tname.getText(), "") ||
+                        tiposCatLab.getSelectedItem() == null ||
+                        date.getSelectedItem() == null ||
+                        month.getSelectedItem() == null ||
+                        year.getSelectedItem() == null
+        ) badInput = true;
 
         sub = new JButton("Registrar");
         sub.setFont(new Font("Arial", Font.PLAIN, 15));
@@ -310,39 +325,48 @@ public class RegistroTrabajadorPanel extends JPanel implements ActionListener {
                     + "/" + (String) year.getSelectedItem()
                     + "\n";
 
-            String data3 = "Dirección : " + tadd.getText() + "\n";
-            String data4 = "Categoria Laboral: " + tiposCatLab.getSelectedItem() + "\n";
+            String data3 = "";
+            String data4 = "";
+            try {
+                data3 = "Dirección : " + tadd.getText() + "\n";
+                data4 = "Categoria Laboral: " + tiposCatLab.getSelectedItem() + "\n";
 
-            res.setText("Trabajador registrado correctamente.");
-
-            tout.setText(data + data0 + data1 + data2 + data3 + data4);
-            tout.setEditable(false);
-
+            }catch (Exception ex) {
+                badInput = true;
+            }
 
             // TODO:  IMPLEMENTAR CON JDBC UNIQUE ID
-
-            Trabajador nuevo = new Trabajador(
-                    tDNI.getText(),
-                    tname.getText(),
-                    new Genero(genero),
-                    Integer.parseInt(tphone.getText()),
-                    temail.getText(),
-                    LocalDate.of(
-                            Integer.parseInt(year.getSelectedItem().toString()),
-                            month.getSelectedIndex() + 1,
-                            Integer.parseInt(date.getSelectedItem().toString())),
-                    tadd.getText(),
-                    new CategoriaLaboral(
-                            tiposCatLab.getSelectedItem().toString(),
-                            catLaboralServiceJDBC.getPrecioHora(tiposCatLab.getSelectedItem().toString())
-                    )
-            );
-            System.out.println(nuevo.getCatLaboral().getClass());
-            // TODO : IF workerToUpdate.getNombre() == "" create new worker, otherwise will update the worker
-            if (workerToUpdate.getNombre() == null) {
-                trabajadorServiceJDBC.create(nuevo);
+            if (badInput) {
+                JOptionPane.showMessageDialog(null, "Entrada incorrecta.\n Introduzca valor válido. "
+                        , "Error", JOptionPane.ERROR_MESSAGE);
             } else {
-                trabajadorServiceJDBC.update(nuevo);
+                Trabajador nuevo = new Trabajador(
+                        tDNI.getText(),
+                        tname.getText(),
+                        new Genero(genero),
+                        Integer.parseInt(tphone.getText()),
+                        temail.getText(),
+                        LocalDate.of(
+                                Integer.parseInt(year.getSelectedItem().toString()),
+                                month.getSelectedIndex() + 1,
+                                Integer.parseInt(date.getSelectedItem().toString())),
+                        tadd.getText(),
+                        new CategoriaLaboral(
+                                tiposCatLab.getSelectedItem().toString(),
+                                catLaboralServiceJDBC.getPrecioHora(tiposCatLab.getSelectedItem().toString())
+                        )
+                );
+                System.out.println(nuevo.getCatLaboral().getClass());
+                // TODO : IF workerToUpdate.getNombre() == "" create new worker, otherwise will update the worker
+                if (workerToUpdate.getNombre() == null) {
+                    trabajadorServiceJDBC.create(nuevo);
+                } else {
+                    trabajadorServiceJDBC.update(nuevo);
+                }
+                res.setText("Trabajador registrado correctamente.");
+
+                tout.setText(data + data0 + data1 + data2 + data3 + data4);
+                tout.setEditable(false);
             }
 
 

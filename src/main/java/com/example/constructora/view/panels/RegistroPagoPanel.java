@@ -3,7 +3,6 @@ package com.example.constructora.view.panels;
 import com.example.constructora.JDBCRepository.*;
 import com.example.constructora.domain.Pago;
 import com.example.constructora.domain.Trabajador;
-import com.example.constructora.exception.InputException;
 import com.example.constructora.view.utils.ViewUtils;
 
 import javax.swing.*;
@@ -39,14 +38,14 @@ public class RegistroPagoPanel extends JPanel implements ActionListener {
     private JTextArea tadd;
     private final JTextArea thoras;
     private final JTextArea tcantidad;
-    private final JTextArea tdescription;
+//    private final JTextArea tdescription;
     private final JButton sub;
     private final JButton reset;
     //    private final JButton backButton;
     private final JTextArea tout;
     private final JLabel res;
     private final JTextArea resadd;
-    private boolean badIput = false;
+    private boolean badInput = false;
 
 
     private String[] loadObrasDescriptors() {
@@ -92,12 +91,6 @@ public class RegistroPagoPanel extends JPanel implements ActionListener {
         Container c = this;
         c.setLayout(null);
 
-//        backButton = new JButton("VOLVER");
-//        backButton.setFont(new Font("Arial", Font.BOLD, 14));
-//        backButton.setSize(120, 40);
-//        backButton.setLocation(10, 10);
-//        backButton.addActionListener(this);
-//        c.add(backButton);
 
         JLabel title = new JLabel(Objects.equals(pagoToUpdate.getId(), null) ? "Registro Pago" : "Actualizar Pago");
         title.setFont(new Font("Arial", Font.PLAIN, 30));
@@ -183,7 +176,7 @@ public class RegistroPagoPanel extends JPanel implements ActionListener {
                             System.out.println("DESDE action " + toPay);
                             tcantidad.setText(String.valueOf(toPay));
                         } catch (Exception ex) {
-                            badIput = true;
+                            badInput = true;
                         }
                     }
 
@@ -248,7 +241,7 @@ public class RegistroPagoPanel extends JPanel implements ActionListener {
                     System.out.println("kfueeeeeeee " + toPay);
                     tcantidad.setText(String.valueOf(toPay));
                 } catch (Exception x) {
-                    badIput = true;
+                    badInput = true;
                 }
 
             }
@@ -260,7 +253,7 @@ public class RegistroPagoPanel extends JPanel implements ActionListener {
                     System.out.println("kfueeeeeeee " + toPay);
                     tcantidad.setText(String.valueOf(toPay));
                 } catch (Exception x) {
-                    badIput = true;
+                    badInput = true;
 
                 }
             }
@@ -272,24 +265,24 @@ public class RegistroPagoPanel extends JPanel implements ActionListener {
                     System.out.println("kfueeeeeeee " + toPay);
                     tcantidad.setText(String.valueOf(toPay));
                 } catch (Exception x) {
-                    badIput = true;
+                    badInput = true;
                 }
             }
         });
 
 
-        JLabel description = new JLabel("Información");
-        description.setFont(new Font("Arial", Font.PLAIN, 16));
-        description.setSize(100, 20);
-        description.setLocation(100, 400);
-        c.add(description);
-
-        tdescription = new JTextArea();
-        tdescription.setFont(new Font("Arial", Font.PLAIN, 15));
-        tdescription.setSize(200, 100);
-        tdescription.setLocation(200, 400);
-        tdescription.setLineWrap(true);
-        c.add(tdescription);
+//        JLabel description = new JLabel("Información");
+//        description.setFont(new Font("Arial", Font.PLAIN, 16));
+//        description.setSize(100, 20);
+//        description.setLocation(100, 400);
+//        c.add(description);
+//
+//        tdescription = new JTextArea();
+//        tdescription.setFont(new Font("Arial", Font.PLAIN, 15));
+//        tdescription.setSize(200, 100);
+//        tdescription.setLocation(200, 400);
+//        tdescription.setLineWrap(true);
+//        c.add(tdescription);
 
 
         sub = new JButton("Registrar");
@@ -356,26 +349,22 @@ public class RegistroPagoPanel extends JPanel implements ActionListener {
             String data1 = "";
             int horas = 0;
             float cantidad = 0;
+
+            String data2 = "";
+            String data3 = "";
+
             try {
                 horas = Integer.parseInt(thoras.getText());
                 cantidad = Float.parseFloat(tcantidad.getText());
                 data1 = "Horas : " + horas + " \n A pagar : " + cantidad + " € \n";
+                data2 = "Trabajador : " + trabajadorName.getSelectedItem() + "\n";
+                data3 = "Obra : " + obraDescriptor.getSelectedItem() + "\n";
             } catch (Exception exception) {
-//                JOptionPane.showMessageDialog(null, "Entrada incorrecta.\n Revise campos de horas o cantidad. "
-//                        , "Error", JOptionPane.ERROR_MESSAGE);
-
-                badIput = true;
+                badInput = true;
             }
 
 
-            String data2 = "Trabajador : " + trabajadorName.getSelectedItem() + "\n";
-
-            String data3 = "Obra : " + obraDescriptor.getSelectedItem() + "\n";
-
-            tout.setText(data + data1 + data2 + data3);
-            tout.setEditable(false);
-            res.setText("Pago registrado correctamente.");
-            if (badIput) {
+            if (badInput) {
                 JOptionPane.showMessageDialog(null, "Entrada incorrecta.\n Introduzca valor válido. "
                         , "Error", JOptionPane.ERROR_MESSAGE);
             } else {
@@ -401,13 +390,20 @@ public class RegistroPagoPanel extends JPanel implements ActionListener {
                             pago
                     );
                 }
+
+                tout.setText(data + data1 + data2 + data3);
+                tout.setEditable(false);
+                res.setText("Pago registrado correctamente.");
             }
 
 
         } else if (e.getSource() == reset) {
             String def = "";
             tadd.setText(def);
-            tdescription.setText(def);
+//            tdescription.setText(def);
+            thoras.setText(def);
+            tDNI.setText(def);
+            tcantidad.setText(def);
             res.setText(def);
             tout.setText(def);
             date.setSelectedIndex(0);

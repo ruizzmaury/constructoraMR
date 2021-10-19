@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.temporal.ValueRange;
+import java.util.Objects;
 
 public class RegistroObraPanel extends JPanel implements ActionListener {
 
@@ -36,6 +37,7 @@ public class RegistroObraPanel extends JPanel implements ActionListener {
     private JTextArea tout;
     private JLabel res;
     private JTextArea resadd;
+    private boolean badInput = false;
 
     private String days[]
             = {"1", "2", "3", "4", "5",
@@ -203,6 +205,17 @@ public class RegistroObraPanel extends JPanel implements ActionListener {
         res.setLocation(500, 525);
         c.add(res);
 
+        if (
+                Objects.equals(tadd.getText(), "") ||
+                        Objects.equals(tdescription.getText(), "") ||
+                        begDay.getSelectedItem() == null ||
+                        begMonth.getSelectedItem() == null ||
+                        begYear.getSelectedItem() == null ||
+                        endDay.getSelectedItem() == null ||
+                        endMonth.getSelectedItem() == null ||
+                        endYear.getSelectedItem() == null
+        ) badInput = true;
+
         setVisible(true);
     }
 
@@ -228,33 +241,35 @@ public class RegistroObraPanel extends JPanel implements ActionListener {
 
             String data3 = "Descripción : " + tdescription.getText() + "\n";
 
-            tout.setText(data + data1 + data2 + data3);
-            tout.setEditable(false);
-            res.setText("Obra registrada correctamente.");
-
-            Obra nueva = new Obra(
-                    tadd.getText(),
-                    tdescription.getText(),
-                    LocalDate.of(
-                            Integer.parseInt(begYear.getSelectedItem().toString()),
-                            begMonth.getSelectedIndex() + 1,
-                            Integer.parseInt(begDay.getSelectedItem().toString())
-                    ),
-                    LocalDate.of(
-                            Integer.parseInt(endYear.getSelectedItem().toString()),
-                            endMonth.getSelectedIndex() + 1,
-                            Integer.parseInt(endDay.getSelectedItem().toString())
-                    )
-            );
-
-            if (obraToUpdate.getDescriptor() == null) {
-                System.out.println("crear obra");
-                obrasServiceJDBC.create(nueva);
+            if (badInput) {
+                JOptionPane.showMessageDialog(null, "Entrada incorrecta.\n Introduzca valor válido. "
+                        , "Error", JOptionPane.ERROR_MESSAGE);
             } else {
-                System.out.println("actualizar obra");
-                obrasServiceJDBC.update(nueva);
+                Obra nueva = new Obra(
+                        tadd.getText(),
+                        tdescription.getText(),
+                        LocalDate.of(
+                                Integer.parseInt(begYear.getSelectedItem().toString()),
+                                begMonth.getSelectedIndex() + 1,
+                                Integer.parseInt(begDay.getSelectedItem().toString())
+                        ),
+                        LocalDate.of(
+                                Integer.parseInt(endYear.getSelectedItem().toString()),
+                                endMonth.getSelectedIndex() + 1,
+                                Integer.parseInt(endDay.getSelectedItem().toString())
+                        )
+                );
+                if (obraToUpdate.getDescriptor() == null) {
+                    System.out.println("crear obra");
+                    obrasServiceJDBC.create(nueva);
+                } else {
+                    System.out.println("actualizar obra");
+                    obrasServiceJDBC.update(nueva);
+                }
+                tout.setText(data + data1 + data2 + data3);
+                tout.setEditable(false);
+                res.setText("Obra registrada correctamente.");
             }
-
 
         } else if (e.getSource() == reset) {
             String def = "";
