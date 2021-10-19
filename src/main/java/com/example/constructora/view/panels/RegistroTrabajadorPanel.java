@@ -69,13 +69,17 @@ public class RegistroTrabajadorPanel extends JPanel implements ActionListener {
     // with default values.
     public RegistroTrabajadorPanel(Trabajador workerToUpdate) throws HeadlessException {
         this.workerToUpdate = workerToUpdate;
+
+        setBounds(300, 90, 1000, 800);
+
         c = this;
         c.setLayout(null);
+
 
         title = new JLabel(Objects.equals(workerToUpdate.getNombre(), null) ? "Registro Trabajador" : "Actualizar Trabajador");
         title.setFont(new Font("Arial", Font.PLAIN, 30));
         title.setSize(300, 30);
-        title.setLocation(300, 30);
+        title.setLocation(300, 0);
         c.add(title);
 
         name = new JLabel("Nombre");
@@ -266,8 +270,8 @@ public class RegistroTrabajadorPanel extends JPanel implements ActionListener {
 
         tout = new JTextArea();
         tout.setFont(new Font("Arial", Font.PLAIN, 15));
-        tout.setSize(300, 400);
-        tout.setLocation(500, 175);
+        tout.setSize(300, 600);
+        tout.setLocation(580, 50);
         tout.setLineWrap(true);
         tout.setEditable(false);
         c.add(tout);
@@ -276,7 +280,7 @@ public class RegistroTrabajadorPanel extends JPanel implements ActionListener {
         resadd = new JTextArea();
         resadd.setFont(new Font("Arial", Font.PLAIN, 15));
         resadd.setSize(200, 75);
-        resadd.setLocation(580, 175);
+        resadd.setLocation(580, 50);
         resadd.setLineWrap(true);
         c.add(resadd);
 

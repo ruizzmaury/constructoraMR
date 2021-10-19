@@ -51,6 +51,7 @@ public class MenuLateral extends JFrame implements ActionListener {
 
         add(loadLeftBar());
 
+//        defaultPanel = new WelcomePanel(); TODO : ESPECIFICAR SETBOUNDS PANELES
         defaultPanel = new JPanel();
         defaultPanel.setPreferredSize(new Dimension(width - 310, height));
         defaultPanel.setBackground(new Color(217, 235, 249));
