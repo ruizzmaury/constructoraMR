@@ -65,6 +65,8 @@ public class RegistroObraPanel extends JPanel implements ActionListener {
     // with default values.
     public RegistroObraPanel(Obra obraToUpdate) throws HeadlessException {
         this.obraToUpdate = obraToUpdate;
+        setBounds(300, 90, 1000, 800);
+        this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         c = this;
         c.setLayout(null);
@@ -153,6 +155,7 @@ public class RegistroObraPanel extends JPanel implements ActionListener {
         tadd.setSize(200, 75);
         tadd.setLocation(200, 200);
         tadd.setLineWrap(true);
+        tadd.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         c.add(tadd);
 
 
@@ -167,6 +170,7 @@ public class RegistroObraPanel extends JPanel implements ActionListener {
         tdescription.setSize(200, 100);
         tdescription.setLocation(200, 300);
         tdescription.setLineWrap(true);
+        tdescription.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         c.add(tdescription);
 
 
@@ -190,6 +194,7 @@ public class RegistroObraPanel extends JPanel implements ActionListener {
         tout.setLocation(500, 100);
         tout.setLineWrap(true);
         tout.setEditable(false);
+        tout.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         c.add(tout);
 
         resadd = new JTextArea();
@@ -197,6 +202,7 @@ public class RegistroObraPanel extends JPanel implements ActionListener {
         resadd.setSize(200, 75);
         resadd.setLocation(580, 100);
         resadd.setLineWrap(true);
+        resadd.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         c.add(resadd);
 
         res = new JLabel("");
@@ -205,16 +211,6 @@ public class RegistroObraPanel extends JPanel implements ActionListener {
         res.setLocation(500, 525);
         c.add(res);
 
-        if (
-                Objects.equals(tadd.getText(), "") ||
-                        Objects.equals(tdescription.getText(), "") ||
-                        begDay.getSelectedItem() == null ||
-                        begMonth.getSelectedItem() == null ||
-                        begYear.getSelectedItem() == null ||
-                        endDay.getSelectedItem() == null ||
-                        endMonth.getSelectedItem() == null ||
-                        endYear.getSelectedItem() == null
-        ) badInput = true;
 
         setVisible(true);
     }
@@ -241,9 +237,33 @@ public class RegistroObraPanel extends JPanel implements ActionListener {
 
             String data3 = "Descripción : " + tdescription.getText() + "\n";
 
+            if (
+                    Objects.equals(tadd.getText(), "") ||
+                            Objects.equals(tdescription.getText(), "") ||
+                            begDay.getSelectedItem() == null ||
+                            begMonth.getSelectedItem() == null ||
+                            begYear.getSelectedItem() == null ||
+                            endDay.getSelectedItem() == null ||
+                            endMonth.getSelectedItem() == null ||
+                            endYear.getSelectedItem() == null
+            ) badInput = true;
+
+
+
+            if (begDay.getSelectedItem() == "----" ||
+                    begMonth.getSelectedItem() == "----" ||
+                    begYear.getSelectedItem() == "----" ||
+                    endDay.getSelectedItem() == "----" ||
+                    endMonth.getSelectedItem() == "----" ||
+                    endYear.getSelectedItem() == "----") {
+                badInput = true;
+            }
+
+
             if (badInput) {
                 JOptionPane.showMessageDialog(null, "Entrada incorrecta.\n Introduzca valor válido. "
                         , "Error", JOptionPane.ERROR_MESSAGE);
+                badInput = false;
             } else {
                 Obra nueva = new Obra(
                         tadd.getText(),
@@ -280,6 +300,9 @@ public class RegistroObraPanel extends JPanel implements ActionListener {
             begDay.setSelectedIndex(0);
             begMonth.setSelectedIndex(0);
             begYear.setSelectedIndex(0);
+            endDay.setSelectedIndex(0);
+            endMonth.setSelectedIndex(0);
+            endYear.setSelectedIndex(0);
             resadd.setText(def);
 
         }

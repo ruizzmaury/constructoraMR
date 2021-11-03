@@ -42,10 +42,12 @@ public class ObraReportPanel extends JPanel implements ActionListener {
     }
 
     private void initComponents() {
-
+        setBounds(300, 90, 1000, 800);
         System.out.println(this.getClass());
         System.out.println(width + " " + height);
 
+        this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        this.setBackground(new Color(0xffcc99));
 
         JLabel title = new JLabel("INFORMES POR OBRA");
         title.setFont(new Font("Calibri", Font.BOLD, 32));
@@ -54,10 +56,10 @@ public class ObraReportPanel extends JPanel implements ActionListener {
         this.add(title);
 
 
-        JLabel obra = new JLabel("Seleccione una obra");
+        JLabel obra = new JLabel("- Seleccione una obra : ");
         obra.setFont(new Font("Calibri", Font.PLAIN, 26));
         obra.setSize(300, 30);
-        obra.setLocation(width / 2 - 120, height / 8);
+        obra.setLocation(width / 2 - 140, height / 8);
         this.add(obra);
 
 

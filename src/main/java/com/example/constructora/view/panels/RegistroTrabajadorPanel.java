@@ -71,7 +71,7 @@ public class RegistroTrabajadorPanel extends JPanel implements ActionListener {
         this.workerToUpdate = workerToUpdate;
 
         setBounds(300, 90, 1000, 800);
-
+        this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         c = this;
         c.setLayout(null);
 
@@ -79,7 +79,7 @@ public class RegistroTrabajadorPanel extends JPanel implements ActionListener {
         title = new JLabel(Objects.equals(workerToUpdate.getNombre(), null) ? "Registro Trabajador" : "Actualizar Trabajador");
         title.setFont(new Font("Arial", Font.PLAIN, 30));
         title.setSize(300, 30);
-        title.setLocation(300, 0);
+        title.setLocation(300, 10);
         c.add(title);
 
         name = new JLabel("Nombre");
@@ -227,6 +227,7 @@ public class RegistroTrabajadorPanel extends JPanel implements ActionListener {
         tadd.setSize(200, 75);
         tadd.setLocation(200, 400);
         tadd.setLineWrap(true);
+        tadd.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         c.add(tadd);
 
 
@@ -243,16 +244,6 @@ public class RegistroTrabajadorPanel extends JPanel implements ActionListener {
         tiposCatLab.setLocation(200, 500);
         c.add(tiposCatLab);
 
-        if (
-                Objects.equals(tadd.getText(), "") ||
-                        Objects.equals(temail.getText(), "") ||
-                        Objects.equals(tDNI.getText(), "") ||
-                        Objects.equals(tname.getText(), "") ||
-                        tiposCatLab.getSelectedItem() == null ||
-                        date.getSelectedItem() == null ||
-                        month.getSelectedItem() == null ||
-                        year.getSelectedItem() == null
-        ) badInput = true;
 
         sub = new JButton("Registrar");
         sub.setFont(new Font("Arial", Font.PLAIN, 15));
@@ -274,20 +265,22 @@ public class RegistroTrabajadorPanel extends JPanel implements ActionListener {
         tout.setLocation(580, 50);
         tout.setLineWrap(true);
         tout.setEditable(false);
+        tout.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         c.add(tout);
 
 
         resadd = new JTextArea();
         resadd.setFont(new Font("Arial", Font.PLAIN, 15));
         resadd.setSize(200, 75);
-        resadd.setLocation(580, 50);
+        resadd.setLocation(580, 60);
         resadd.setLineWrap(true);
+        resadd.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         c.add(resadd);
 
         res = new JLabel("");
         res.setFont(new Font("Arial", Font.PLAIN, 20));
         res.setSize(500, 25);
-        res.setLocation(500, 600);
+        res.setLocation(200, 620);
         c.add(res);
 
         setVisible(true);
@@ -296,6 +289,25 @@ public class RegistroTrabajadorPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == sub) {
+            if (
+                    Objects.equals(tadd.getText(), "") ||
+                            Objects.equals(temail.getText(), "") ||
+                            Objects.equals(tDNI.getText(), "") ||
+                            Objects.equals(tname.getText(), "") ||
+                            tiposCatLab.getSelectedItem() == null ||
+                            date.getSelectedItem() == null ||
+                            month.getSelectedItem() == null ||
+                            year.getSelectedItem() == null
+            ) {
+               badInput = true;
+            }
+
+            if (date.getSelectedItem() == "----" ||
+                    month.getSelectedItem() == "----" ||
+                    year.getSelectedItem() == "----") {
+                badInput = true;
+            }
+
             String genero;
             String catLaboral;
 
@@ -324,9 +336,9 @@ public class RegistroTrabajadorPanel extends JPanel implements ActionListener {
                     + "Teléfono : "
                     + tphone.getText() + "\n"
                     + "Fecha Nac. : "
-                    + (String) date.getSelectedItem()
-                    + "/" + (String) month.getSelectedItem()
-                    + "/" + (String) year.getSelectedItem()
+                    +  date.getSelectedItem()
+                    + "/" +  month.getSelectedItem()
+                    + "/" +  year.getSelectedItem()
                     + "\n";
 
             String data3 = "";
@@ -335,7 +347,7 @@ public class RegistroTrabajadorPanel extends JPanel implements ActionListener {
                 data3 = "Dirección : " + tadd.getText() + "\n";
                 data4 = "Categoria Laboral: " + tiposCatLab.getSelectedItem() + "\n";
 
-            }catch (Exception ex) {
+            } catch (Exception ex) {
                 badInput = true;
             }
 
@@ -343,6 +355,7 @@ public class RegistroTrabajadorPanel extends JPanel implements ActionListener {
             if (badInput) {
                 JOptionPane.showMessageDialog(null, "Entrada incorrecta.\n Introduzca valor válido. "
                         , "Error", JOptionPane.ERROR_MESSAGE);
+                badInput = false;
             } else {
                 Trabajador nuevo = new Trabajador(
                         tDNI.getText(),
@@ -376,8 +389,11 @@ public class RegistroTrabajadorPanel extends JPanel implements ActionListener {
 
         } else if (e.getSource() == reset) {
             String def = "";
+
+            tDNI.setText(def);
             tname.setText(def);
             tadd.setText(def);
+            temail.setText(def);
             tphone.setText(def);
             res.setText(def);
             tout.setText(def);

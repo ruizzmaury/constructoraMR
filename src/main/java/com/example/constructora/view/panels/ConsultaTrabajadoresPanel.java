@@ -33,6 +33,8 @@ public class ConsultaTrabajadoresPanel extends JPanel {
     }
 
     private void initComponents() {
+        setBounds(0, 5, 1600, 1000);
+
         Dimension size
                 = Toolkit.getDefaultToolkit().getScreenSize();
 

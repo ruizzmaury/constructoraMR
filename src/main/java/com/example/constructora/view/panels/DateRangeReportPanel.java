@@ -45,7 +45,8 @@ public class DateRangeReportPanel extends JPanel implements ActionListener {
     }
 
     private void initComponents() {
-
+        setBounds(300, 90, 1000, 800);
+        this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         System.out.println(this.getClass());
         System.out.println(width + " " + height);
 
@@ -53,41 +54,41 @@ public class DateRangeReportPanel extends JPanel implements ActionListener {
         JLabel title = new JLabel("INFORMES POR TRABAJADOR Y FECHA");
         title.setFont(new Font("Calibri", Font.BOLD, 32));
         title.setSize(200, 40);
-//        title.setLocation(400, height / 10);
+        title.setLocation(width / 2 - 230, 15);
         this.add(title);
 
-        JLabel date = new JLabel("Seleccione intervalo de fechas: ");
+        JLabel date = new JLabel("- Seleccione intervalo de fechas: ");
         date.setFont(new Font("Calibri", Font.PLAIN, 26));
         date.setSize(400, 30);
-        date.setLocation(width / 2 - 180, height / 8);
+        date.setLocation(width / 2 - 200, height / 8);
         this.add(date);
 
-        JLabel initialDateText = new JLabel("Desde : ");
+        JLabel initialDateText = new JLabel("· Desde : ");
         initialDateText.setFont(new Font("Arial", Font.PLAIN, 20));
         initialDateText.setSize(100, 20);
-        initialDateText.setLocation(width / 2 - 220, height / 8 + 50);
+        initialDateText.setLocation(width / 2 - 200, height / 8 + 50);
         this.add(initialDateText);
 
-        initialDateChooser.setBounds(width / 2 - 140, height / 8 + 44, 100, 30);
+        initialDateChooser.setBounds(width / 2 - 95, height / 8 + 44, 100, 30);
         this.add(initialDateChooser);
         initialDateChooser.setDateFormatString("yyyy-MM-dd");
 
 
-        JLabel endDateText = new JLabel("Hasta : ");
+        JLabel endDateText = new JLabel("· Hasta : ");
         endDateText.setFont(new Font("Arial", Font.PLAIN, 20));
         endDateText.setSize(100, 20);
-        endDateText.setLocation(width / 2 + 80, height / 8 + 50);
+        endDateText.setLocation(width / 2 + 100, height / 8 + 50);
         this.add(endDateText);
 
-        endDateChooser.setBounds(width / 2 + 160, height / 8 + 44, 100, 30);
+        endDateChooser.setBounds(width / 2 + 190, height / 8 + 44, 100, 30);
         this.add(endDateChooser);
         endDateChooser.setDateFormatString("yyyy-MM-dd");
 
 
-        JLabel worker = new JLabel("Seleccione una trabajador");
+        JLabel worker = new JLabel("- Seleccione una trabajador");
         worker.setFont(new Font("Calibri", Font.PLAIN, 26));
         worker.setSize(300, 30);
-        worker.setLocation(width / 2 - 180, height / 8 + 140);
+        worker.setLocation(width / 2 - 200, height / 8 + 140);
         this.add(worker);
 
 
@@ -169,7 +170,7 @@ public class DateRangeReportPanel extends JPanel implements ActionListener {
         layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
-                                .addGap(width / 2 - 245, width / 2 - 145, width / 2 - 145)
+                                .addGap(width / 2 - 245, width / 2 - 245, width / 2 - 245)
                                 .addComponent(title)
                                 .addContainerGap(213, Short.MAX_VALUE))
         );

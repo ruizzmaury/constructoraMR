@@ -34,11 +34,9 @@ public class RegistroPagoPanel extends JPanel implements ActionListener {
     private JTextArea tDNI;
     private JTextArea tCatLaboral;
     private JComboBox<String> obraDescriptor;
-    private JLabel add;
-    private JTextArea tadd;
     private final JTextArea thoras;
     private final JTextArea tcantidad;
-//    private final JTextArea tdescription;
+    //    private final JTextArea tdescription;
     private final JButton sub;
     private final JButton reset;
     //    private final JButton backButton;
@@ -86,7 +84,7 @@ public class RegistroPagoPanel extends JPanel implements ActionListener {
 
         setBounds(300, 90, 1000, 800);
 
-
+        this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         // Components of the Form
         Container c = this;
         c.setLayout(null);
@@ -146,6 +144,7 @@ public class RegistroPagoPanel extends JPanel implements ActionListener {
         tDNI.setSize(120, 20);
         tDNI.setLocation(200, 200);
         tDNI.setLineWrap(true);
+        tDNI.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         c.add(tDNI);
 
         tCatLaboral = new JTextArea(pagoToUpdate.getTrabajadorPago() == null ? "" : pagoToUpdate.getTrabajadorPago().getCatLaboral().getNombreCategoria());
@@ -153,6 +152,7 @@ public class RegistroPagoPanel extends JPanel implements ActionListener {
         tCatLaboral.setSize(120, 20);
         tCatLaboral.setLocation(340, 200);
         tCatLaboral.setLineWrap(true);
+        tCatLaboral.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         c.add(tCatLaboral);
 
         tDNI.setEditable(false);
@@ -214,6 +214,7 @@ public class RegistroPagoPanel extends JPanel implements ActionListener {
         thoras.setSize(200, 20);
         thoras.setLocation(200, 300);
         thoras.setLineWrap(true);
+        thoras.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         c.add(thoras);
 
         JLabel cantidad = new JLabel("A pagar :");
@@ -227,46 +228,31 @@ public class RegistroPagoPanel extends JPanel implements ActionListener {
         tcantidad.setSize(200, 20);
         tcantidad.setLocation(200, 350);
         tcantidad.setLineWrap(true);
+        tcantidad.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         c.add(tcantidad);
 
 
         thoras.getDocument().addDocumentListener(new DocumentListener() {
 
-
             @Override
             public void insertUpdate(DocumentEvent e) {
-
-                try {
-                    float toPay = Float.parseFloat(thoras.getText()) * catLaboralServiceJDBC.getPrecioHora(trabajadorServiceJDBC.getCategoriaLaboral(tDNI.getText()));
-                    System.out.println("kfueeeeeeee " + toPay);
-                    tcantidad.setText(String.valueOf(toPay));
-                } catch (Exception x) {
-                    badInput = true;
-                }
-
+                float toPay = Float.parseFloat(thoras.getText()) * catLaboralServiceJDBC.getPrecioHora(trabajadorServiceJDBC.getCategoriaLaboral(tDNI.getText()));
+                System.out.println("kfueeeeeeee " + toPay);
+                tcantidad.setText(String.valueOf(toPay));
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-                try {
-                    float toPay = Float.parseFloat(thoras.getText()) * catLaboralServiceJDBC.getPrecioHora(trabajadorServiceJDBC.getCategoriaLaboral(tDNI.getText()));
-                    System.out.println("kfueeeeeeee " + toPay);
-                    tcantidad.setText(String.valueOf(toPay));
-                } catch (Exception x) {
-                    badInput = true;
-
-                }
+                float toPay = Float.parseFloat(thoras.getText()) * catLaboralServiceJDBC.getPrecioHora(trabajadorServiceJDBC.getCategoriaLaboral(tDNI.getText()));
+                System.out.println("kfueeeeeeee " + toPay);
+                tcantidad.setText(String.valueOf(toPay));
             }
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-                try {
-                    float toPay = Float.parseFloat(thoras.getText()) * catLaboralServiceJDBC.getPrecioHora(trabajadorServiceJDBC.getCategoriaLaboral(tDNI.getText()));
-                    System.out.println("kfueeeeeeee " + toPay);
-                    tcantidad.setText(String.valueOf(toPay));
-                } catch (Exception x) {
-                    badInput = true;
-                }
+                float toPay = Float.parseFloat(thoras.getText()) * catLaboralServiceJDBC.getPrecioHora(trabajadorServiceJDBC.getCategoriaLaboral(tDNI.getText()));
+                System.out.println("kfueeeeeeee " + toPay);
+                tcantidad.setText(String.valueOf(toPay));
             }
         });
 
@@ -288,14 +274,14 @@ public class RegistroPagoPanel extends JPanel implements ActionListener {
         sub = new JButton("Registrar");
         sub.setFont(new Font("Arial", Font.PLAIN, 15));
         sub.setSize(100, 20);
-        sub.setLocation(150, 550);
+        sub.setLocation(150, 420);
         sub.addActionListener(this);
         c.add(sub);
 
         reset = new JButton("Reset");
         reset.setFont(new Font("Arial", Font.PLAIN, 15));
         reset.setSize(100, 20);
-        reset.setLocation(270, 550);
+        reset.setLocation(270, 420);
         reset.addActionListener(this);
         c.add(reset);
 
@@ -305,6 +291,7 @@ public class RegistroPagoPanel extends JPanel implements ActionListener {
         tout.setLocation(500, 100);
         tout.setLineWrap(true);
         tout.setEditable(false);
+        tout.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         c.add(tout);
 
         resadd = new JTextArea();
@@ -312,6 +299,7 @@ public class RegistroPagoPanel extends JPanel implements ActionListener {
         resadd.setSize(200, 75);
         resadd.setLocation(580, 100);
         resadd.setLineWrap(true);
+        resadd.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         c.add(resadd);
 
         res = new JLabel("");
@@ -340,12 +328,7 @@ public class RegistroPagoPanel extends JPanel implements ActionListener {
 
         if (e.getSource() == sub) {
 
-            String data
-                    = "Fecha : "
-                    + (String) date.getSelectedItem()
-                    + "/" + (String) month.getSelectedItem()
-                    + "/" + (String) year.getSelectedItem()
-                    + "\n";
+            String data = "";
             String data1 = "";
             int horas = 0;
             float cantidad = 0;
@@ -354,6 +337,12 @@ public class RegistroPagoPanel extends JPanel implements ActionListener {
             String data3 = "";
 
             try {
+                data = "Fecha : "
+                        + date.getSelectedItem()
+                        + "/" + month.getSelectedItem()
+                        + "/" + year.getSelectedItem()
+                        + "\n";
+
                 horas = Integer.parseInt(thoras.getText());
                 cantidad = Float.parseFloat(tcantidad.getText());
                 data1 = "Horas : " + horas + " \n A pagar : " + cantidad + " € \n";
@@ -363,10 +352,16 @@ public class RegistroPagoPanel extends JPanel implements ActionListener {
                 badInput = true;
             }
 
+            if (date.getSelectedItem() == "----" ||
+                    month.getSelectedItem() == "----" ||
+                    year.getSelectedItem() == "----") {
+                badInput = true;
+            }
 
             if (badInput) {
                 JOptionPane.showMessageDialog(null, "Entrada incorrecta.\n Introduzca valor válido. "
                         , "Error", JOptionPane.ERROR_MESSAGE);
+                badInput = false;
             } else {
                 Pago pago = new Pago(
                         pagoToUpdate.getId() == null ? UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE : pagoToUpdate.getId(),
@@ -399,8 +394,8 @@ public class RegistroPagoPanel extends JPanel implements ActionListener {
 
         } else if (e.getSource() == reset) {
             String def = "";
-            tadd.setText(def);
 //            tdescription.setText(def);
+            trabajadorName.setSelectedIndex(0);
             thoras.setText(def);
             tDNI.setText(def);
             tcantidad.setText(def);
