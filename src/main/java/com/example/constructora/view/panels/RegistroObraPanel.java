@@ -31,6 +31,7 @@ public class RegistroObraPanel extends JPanel implements ActionListener {
     private JLabel add;
     private JTextArea tadd;
     private JLabel description;
+    private JLabel ident;
     private JTextArea tdescription;
     private JButton registroButton;
     private JButton reset;
@@ -65,7 +66,16 @@ public class RegistroObraPanel extends JPanel implements ActionListener {
     // with default values.
     public RegistroObraPanel(Obra obraToUpdate) throws HeadlessException {
         this.obraToUpdate = obraToUpdate;
-        setBounds(300, 90, 1000, 800);
+
+        Dimension size
+                = Toolkit.getDefaultToolkit().getScreenSize();
+
+        // width will store the width of the screen
+        int width = (int)size.getWidth();
+
+        // height will store the height of the screen
+        int height = (int)size.getHeight();
+        setBounds(0, 5, width-310, height-10);
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         c = this;
@@ -159,11 +169,17 @@ public class RegistroObraPanel extends JPanel implements ActionListener {
         c.add(tadd);
 
 
-        description = new JLabel("Descriptor");
+        description = new JLabel("Descriptor)");
         description.setFont(new Font("Arial", Font.PLAIN, 16));
         description.setSize(100, 20);
         description.setLocation(100, 300);
         c.add(description);
+
+        ident = new JLabel("(ident.)");
+        ident.setFont(new Font("Arial", Font.PLAIN, 14));
+        ident.setSize(100, 20);
+        ident.setLocation(100, 316);
+        c.add(ident);
 
         tdescription = new JTextArea(obraToUpdate.getDescriptor() == null ? null : obraToUpdate.getDescriptor());
         tdescription.setFont(new Font("Arial", Font.PLAIN, 15));
@@ -171,6 +187,7 @@ public class RegistroObraPanel extends JPanel implements ActionListener {
         tdescription.setLocation(200, 300);
         tdescription.setLineWrap(true);
         tdescription.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        if (obraToUpdate.getDescriptor()!=null) tdescription.setEditable(false);
         c.add(tdescription);
 
 

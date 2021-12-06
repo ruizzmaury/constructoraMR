@@ -40,7 +40,7 @@ public class ConsultaObrasPanel extends JPanel {
     }
 
     private void initComponents() {
-        setBounds(0, 5, 1600, 1000);
+
         Dimension size
                 = Toolkit.getDefaultToolkit().getScreenSize();
 
@@ -49,13 +49,14 @@ public class ConsultaObrasPanel extends JPanel {
 
         // height will store the height of the screen
         int height = (int) size.getHeight();
+        setBounds(0, 5, width-300, height-10);
 
         JScrollPane jScrollPane1 = new JScrollPane();
         tablaObras = new JTable();
 
         JLabel title = new JLabel("Obras");
         title.setFont(new Font("Arial", Font.BOLD, 26));
-        title.setSize(250, 30);
+        title.setSize(200, 30);
         title.setLocation(130, 15);
         this.add(title);
 
@@ -63,13 +64,13 @@ public class ConsultaObrasPanel extends JPanel {
         JTextField tname = new HintTextField("OBRA DESCRIPTOR...");
         tname.setFont(new Font("Arial", Font.PLAIN, 13));
         tname.setSize(160, 30);
-        tname.setLocation(335, 15);
+        tname.setLocation(255, 15);
         this.add(tname);
 
 
         JButton btnGetText = new JButton();
         btnGetText.setSize(28, 30);
-        btnGetText.setLocation(495, 15);
+        btnGetText.setLocation(415, 15);
         btnGetText.addActionListener(e -> {
             searchFilter = tname.getText();
             dateFilter = new DateFilter();
@@ -85,11 +86,11 @@ public class ConsultaObrasPanel extends JPanel {
         JLabel initialDateText = new JLabel("Desde : ");
         initialDateText.setFont(new Font("Arial", Font.PLAIN, 20));
         initialDateText.setSize(100, 20);
-        initialDateText.setLocation(600, 21);
+        initialDateText.setLocation(500, 21);
         this.add(initialDateText);
 
         JDateChooser initialDateChooser = new JDateChooser();
-        initialDateChooser.setBounds(680, 15, 100, 30);
+        initialDateChooser.setBounds(580, 15, 100, 30);
         this.add(initialDateChooser);
         initialDateChooser.setDateFormatString("yyyy-MM-dd");
 
@@ -97,11 +98,11 @@ public class ConsultaObrasPanel extends JPanel {
         JLabel endDateText = new JLabel("Hasta : ");
         endDateText.setFont(new Font("Arial", Font.PLAIN, 20));
         endDateText.setSize(100, 20);
-        endDateText.setLocation(840, 21);
+        endDateText.setLocation(740, 21);
         this.add(endDateText);
 
         JDateChooser endDateChooser = new JDateChooser();
-        endDateChooser.setBounds(920, 15, 100, 30);
+        endDateChooser.setBounds(820, 15, 100, 30);
         this.add(endDateChooser);
         endDateChooser.setDateFormatString("yyyy-MM-dd");
 

@@ -82,7 +82,15 @@ public class RegistroPagoPanel extends JPanel implements ActionListener {
 
         this.pagoToUpdate = pagoToUpdate;
 
-        setBounds(300, 90, 1000, 800);
+        Dimension size
+                = Toolkit.getDefaultToolkit().getScreenSize();
+
+        // width will store the width of the screen
+        int width = (int)size.getWidth();
+
+        // height will store the height of the screen
+        int height = (int)size.getHeight();
+        setBounds(0, 5, width-310, height-10);
 
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         // Components of the Form

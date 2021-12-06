@@ -70,7 +70,15 @@ public class RegistroTrabajadorPanel extends JPanel implements ActionListener {
     public RegistroTrabajadorPanel(Trabajador workerToUpdate) throws HeadlessException {
         this.workerToUpdate = workerToUpdate;
 
-        setBounds(300, 90, 1000, 800);
+        Dimension size
+                = Toolkit.getDefaultToolkit().getScreenSize();
+
+        // width will store the width of the screen
+        int width = (int)size.getWidth();
+
+        // height will store the height of the screen
+        int height = (int)size.getHeight();
+        setBounds(0, 5, width-310, height-10);
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         c = this;
         c.setLayout(null);
@@ -79,7 +87,7 @@ public class RegistroTrabajadorPanel extends JPanel implements ActionListener {
         title = new JLabel(Objects.equals(workerToUpdate.getNombre(), null) ? "Registro Trabajador" : "Actualizar Trabajador");
         title.setFont(new Font("Arial", Font.PLAIN, 30));
         title.setSize(300, 30);
-        title.setLocation(300, 10);
+        title.setLocation(300, 30);
         c.add(title);
 
         name = new JLabel("Nombre");
@@ -261,8 +269,8 @@ public class RegistroTrabajadorPanel extends JPanel implements ActionListener {
 
         tout = new JTextArea();
         tout.setFont(new Font("Arial", Font.PLAIN, 15));
-        tout.setSize(300, 600);
-        tout.setLocation(580, 50);
+        tout.setSize(300, 400);
+        tout.setLocation(500, 100);
         tout.setLineWrap(true);
         tout.setEditable(false);
         tout.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -272,7 +280,7 @@ public class RegistroTrabajadorPanel extends JPanel implements ActionListener {
         resadd = new JTextArea();
         resadd.setFont(new Font("Arial", Font.PLAIN, 15));
         resadd.setSize(200, 75);
-        resadd.setLocation(580, 60);
+        resadd.setLocation(580, 100);
         resadd.setLineWrap(true);
         resadd.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         c.add(resadd);
@@ -280,7 +288,7 @@ public class RegistroTrabajadorPanel extends JPanel implements ActionListener {
         res = new JLabel("");
         res.setFont(new Font("Arial", Font.PLAIN, 20));
         res.setSize(500, 25);
-        res.setLocation(200, 620);
+        res.setLocation(500, 525);
         c.add(res);
 
         setVisible(true);

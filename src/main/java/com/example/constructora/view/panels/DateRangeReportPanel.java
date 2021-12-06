@@ -45,7 +45,15 @@ public class DateRangeReportPanel extends JPanel implements ActionListener {
     }
 
     private void initComponents() {
-        setBounds(300, 90, 1000, 800);
+        Dimension size
+                = Toolkit.getDefaultToolkit().getScreenSize();
+
+        // width will store the width of the screen
+        int width = (int)size.getWidth();
+
+        // height will store the height of the screen
+        int height = (int)size.getHeight();
+        setBounds(0, 5, width-310, height-10);
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         System.out.println(this.getClass());
         System.out.println(width + " " + height);
@@ -53,23 +61,23 @@ public class DateRangeReportPanel extends JPanel implements ActionListener {
 
         JLabel title = new JLabel("INFORMES POR TRABAJADOR Y FECHA");
         title.setFont(new Font("Calibri", Font.BOLD, 32));
-        title.setSize(200, 40);
-        title.setLocation(width / 2 - 230, 15);
+        title.setSize(width, 40);
+        title.setLocation(20, 20);
         this.add(title);
 
         JLabel date = new JLabel("- Seleccione intervalo de fechas: ");
         date.setFont(new Font("Calibri", Font.PLAIN, 26));
         date.setSize(400, 30);
-        date.setLocation(width / 2 - 200, height / 8);
+        date.setLocation(150, height / 8);
         this.add(date);
 
         JLabel initialDateText = new JLabel("· Desde : ");
         initialDateText.setFont(new Font("Arial", Font.PLAIN, 20));
         initialDateText.setSize(100, 20);
-        initialDateText.setLocation(width / 2 - 200, height / 8 + 50);
+        initialDateText.setLocation(150, height / 8 + 50);
         this.add(initialDateText);
 
-        initialDateChooser.setBounds(width / 2 - 95, height / 8 + 44, 100, 30);
+        initialDateChooser.setBounds(255, height / 8 + 44, 100, 30);
         this.add(initialDateChooser);
         initialDateChooser.setDateFormatString("yyyy-MM-dd");
 
@@ -77,10 +85,10 @@ public class DateRangeReportPanel extends JPanel implements ActionListener {
         JLabel endDateText = new JLabel("· Hasta : ");
         endDateText.setFont(new Font("Arial", Font.PLAIN, 20));
         endDateText.setSize(100, 20);
-        endDateText.setLocation(width / 2 + 100, height / 8 + 50);
+        endDateText.setLocation(380, height / 8 + 50);
         this.add(endDateText);
 
-        endDateChooser.setBounds(width / 2 + 190, height / 8 + 44, 100, 30);
+        endDateChooser.setBounds(470, height / 8 + 44, 100, 30);
         this.add(endDateChooser);
         endDateChooser.setDateFormatString("yyyy-MM-dd");
 
@@ -88,7 +96,7 @@ public class DateRangeReportPanel extends JPanel implements ActionListener {
         JLabel worker = new JLabel("- Seleccione una trabajador");
         worker.setFont(new Font("Calibri", Font.PLAIN, 26));
         worker.setSize(300, 30);
-        worker.setLocation(width / 2 - 200, height / 8 + 140);
+        worker.setLocation(150, height / 8 + 140);
         this.add(worker);
 
 
@@ -96,7 +104,7 @@ public class DateRangeReportPanel extends JPanel implements ActionListener {
         workerName = new JComboBox<>(workerNames);
         workerName.setFont(new Font("Calibri", Font.PLAIN, 15));
         workerName.setSize(190, 28);
-        workerName.setLocation(width / 2 - 95, height / 7 + 170);
+        workerName.setLocation(170, height / 7 + 180);
         this.add(workerName);
 
         workerName.addActionListener(new ActionListener() {
@@ -125,14 +133,14 @@ public class DateRangeReportPanel extends JPanel implements ActionListener {
         //instanciamos el modelo
         model = new DefaultListModel<>();
         scrollLista = new JScrollPane();
-        scrollLista.setBounds(width / 2 - 115, height / 3 + 85, 250, 140);
+        scrollLista.setBounds(170, height / 7 + 240, 250, 140);
         scrollLista.setViewportView(workersDisplayedJList);
         this.add(scrollLista);
 
 
         deleteWorkerFromListButton = new JButton("Borrar Trabajador");
         deleteWorkerFromListButton.setFont(new Font("Calibri", Font.BOLD, 15));
-        deleteWorkerFromListButton.setBounds(width / 2 - 150, height / 2 + 120, 145, 40);
+        deleteWorkerFromListButton.setBounds(170, height / 2 + 50, 145, 40);
         deleteWorkerFromListButton.addActionListener(this);
         deleteWorkerFromListButton.setBackground(new Color(0xbd2b2b));
         deleteWorkerFromListButton.setForeground(Color.white);
@@ -142,7 +150,7 @@ public class DateRangeReportPanel extends JPanel implements ActionListener {
 
         deleteListButton = new JButton("Borrar Lista");
         deleteListButton.setFont(new Font("Calibri", Font.BOLD, 15));
-        deleteListButton.setBounds(width / 2 + 20, height / 2 + 120, 145, 40);
+        deleteListButton.setBounds(340, height / 2 + 50, 145, 40);
         deleteListButton.addActionListener(this);
         deleteListButton.setBackground(new Color(0xbd2b2b));
         deleteListButton.setForeground(Color.white);
@@ -154,9 +162,9 @@ public class DateRangeReportPanel extends JPanel implements ActionListener {
         createReportButton = new JButton("CREAR INFORME");
         createReportButton.setFont(new Font("Calibri", Font.BOLD, 18));
         createReportButton.setSize(160, 65);
-        createReportButton.setLocation(width / 2 - 75, height / 2 + 220);
+        createReportButton.setLocation(180, height / 2 + 120);
         createReportButton.addActionListener(this);
-        createReportButton.setBackground(new Color(0x2dce98));
+        createReportButton.setBackground(new Color(0x0D4931));
         createReportButton.setForeground(Color.white);
         // customize the button with your own look
         createReportButton.setUI(new StyledButtonUI());
@@ -171,14 +179,12 @@ public class DateRangeReportPanel extends JPanel implements ActionListener {
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
                                 .addGap(width / 2 - 245, width / 2 - 245, width / 2 - 245)
-                                .addComponent(title)
                                 .addContainerGap(213, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(title)
                                 .addContainerGap(275, Short.MAX_VALUE))
         );
 

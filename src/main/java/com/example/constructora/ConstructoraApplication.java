@@ -1,20 +1,16 @@
 package com.example.constructora;
 
-
 import com.example.constructora.view.MenuLateral;
-import com.example.constructora.view.panels.WelcomePanel;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
 import javax.swing.*;
+import java.io.IOException;
 import java.time.LocalDate;
-
 
 @SpringBootApplication
 public class ConstructoraApplication {
 
-
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         LocalDate currentdate = LocalDate.now();
 
@@ -23,11 +19,10 @@ public class ConstructoraApplication {
                     , "Error", JOptionPane.ERROR_MESSAGE);
 
         } else {
-            SpringApplication.run(ConstructoraApplication.class, args);
+            // SpringApplication.run(ConstructoraApplication.class, args);
             System.setProperty("java.awt.headless", "false");
             MenuLateral menuLateral = new MenuLateral();
         }
-
 
     }
 

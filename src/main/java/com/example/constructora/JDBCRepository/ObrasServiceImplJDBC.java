@@ -393,7 +393,7 @@ public class ObrasServiceImplJDBC implements ObrasServiceJDBC {
             stmt.setString(5, obra.getDescriptor());
 
             stmt.executeUpdate();
-
+            System.out.println(stmt.toString());
             stmt.close();
 
             return obra;

@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class MenuLateral extends JFrame implements ActionListener {
     static int width;
@@ -24,13 +25,14 @@ public class MenuLateral extends JFrame implements ActionListener {
 
 
 
-    public MenuLateral() throws HeadlessException {
+    public MenuLateral() throws HeadlessException, IOException {
         getContentPane().setLayout(null);
         initComponents();
         setVisible(true);
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/images/icon.png")));
     }
 
-    private void initComponents() {
+    private void initComponents() throws IOException {
         Dimension size
                 = Toolkit.getDefaultToolkit().getScreenSize();
 
@@ -43,16 +45,17 @@ public class MenuLateral extends JFrame implements ActionListener {
         setTitle("Principal");
 //        setSize(width, height);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setResizable(false);
+        setResizable(true);
 
         setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         setLayout(new FlowLayout());
 
-        add(loadLeftBar());
+        JScrollPane scroll = new JScrollPane(loadLeftBar());
+
+        add(loadLeftBar(), BorderLayout.LINE_START);
 
         defaultPanel = new WelcomePanel(); // TODO : ESPECIFICAR SETBOUNDS PANELES
-//        defaultPanel = new JPanel();
         defaultPanel.setPreferredSize(new Dimension(width - 310, height));
         defaultPanel.setBackground(new Color(217, 235, 249));
         add(defaultPanel);
@@ -72,6 +75,7 @@ public class MenuLateral extends JFrame implements ActionListener {
     }
 
     private JPanel loadLeftBar() {
+        Box box = Box.createVerticalBox();
         JPanel leftPanel = new JPanel();
         leftPanel.setPreferredSize(new Dimension(300, height));
 //        leftPanel.setLocation(0,0);
@@ -82,7 +86,7 @@ public class MenuLateral extends JFrame implements ActionListener {
         titleMenu.setPreferredSize(new Dimension(300, 50));
         titleMenu.setForeground(Color.WHITE);
         titleMenu.setSize(300, 30);
-        leftPanel.add(titleMenu);
+        box.add(titleMenu);
 
 
         JLabel consultTitle = new JLabel(" Consulta");
@@ -90,7 +94,7 @@ public class MenuLateral extends JFrame implements ActionListener {
         consultTitle.setPreferredSize(new Dimension(200, 50));
         consultTitle.setBackground(new Color(0x2dce98));
         consultTitle.setForeground(Color.white);
-        leftPanel.add(consultTitle);
+        box.add(consultTitle);
 
         consultasPagoButton = new JButton("Pagos");
         consultasPagoButton.setFont(new Font("Calibri", Font.BOLD, 25));
@@ -98,7 +102,7 @@ public class MenuLateral extends JFrame implements ActionListener {
         consultasPagoButton.setBackground(new Color(0x245479));
         consultasPagoButton.setForeground(Color.white);
         consultasPagoButton.addActionListener(this);
-        leftPanel.add(consultasPagoButton);
+        box.add(consultasPagoButton);
 
         consultasTrabButton = new JButton("Trabajadores");
         consultasTrabButton.setFont(new Font("Calibri", Font.BOLD, 25));
@@ -106,7 +110,7 @@ public class MenuLateral extends JFrame implements ActionListener {
         consultasTrabButton.setBackground(new Color(0x245479));
         consultasTrabButton.setForeground(Color.white);
         consultasTrabButton.addActionListener(this);
-        leftPanel.add(consultasTrabButton);
+        box.add(consultasTrabButton);
 
         consultasObrasButton = new JButton("Obras");
         consultasObrasButton.setFont(new Font("Calibri", Font.BOLD, 25));
@@ -114,19 +118,21 @@ public class MenuLateral extends JFrame implements ActionListener {
         consultasObrasButton.setBackground(new Color(0x245479));
         consultasObrasButton.setForeground(Color.white);
         consultasObrasButton.addActionListener(this);
-        leftPanel.add(consultasObrasButton);
+        box.add(consultasObrasButton);
 
 
-        JLabel spacer = new JLabel();
-        spacer.setPreferredSize(new Dimension(280, 50));
-        leftPanel.add(spacer);
+//        JLabel spacer = new JLabel();
+//        spacer.setPreferredSize(new Dimension(280, 50));
+//        box.add(spacer);
+
+        box.add(Box.createRigidArea(new Dimension(0, 40)));
 
         JLabel registerTitle = new JLabel(" Registro");
         registerTitle.setFont(new Font("Calibri", Font.BOLD, 28));
         registerTitle.setPreferredSize(new Dimension(200, 50));
         registerTitle.setBackground(new Color(0x2dce98));
         registerTitle.setForeground(Color.white);
-        leftPanel.add(registerTitle);
+        box.add(registerTitle);
 
         registerPagoButton = new JButton("Pagos");
         registerPagoButton.setFont(new Font("Calibri", Font.BOLD, 25));
@@ -134,7 +140,7 @@ public class MenuLateral extends JFrame implements ActionListener {
         registerPagoButton.setBackground(new Color(0x245479));
         registerPagoButton.setForeground(Color.white);
         registerPagoButton.addActionListener(this);
-        leftPanel.add(registerPagoButton);
+        box.add(registerPagoButton);
 
         registerTrabButton = new JButton("Trabajadores");
         registerTrabButton.setFont(new Font("Calibri", Font.BOLD, 25));
@@ -142,7 +148,7 @@ public class MenuLateral extends JFrame implements ActionListener {
         registerTrabButton.setBackground(new Color(0x245479));
         registerTrabButton.setForeground(Color.white);
         registerTrabButton.addActionListener(this);
-        leftPanel.add(registerTrabButton);
+        box.add(registerTrabButton);
 
         registerObrasButton = new JButton("Obras");
         registerObrasButton.setFont(new Font("Calibri", Font.BOLD, 25));
@@ -150,54 +156,59 @@ public class MenuLateral extends JFrame implements ActionListener {
         registerObrasButton.setBackground(new Color(0x245479));
         registerObrasButton.setForeground(Color.white);
         registerObrasButton.addActionListener(this);
-        leftPanel.add(registerObrasButton);
+        box.add(registerObrasButton);
 
 
-        JLabel spacer2 = new JLabel();
-        spacer2.setPreferredSize(new Dimension(280, 50));
-        leftPanel.add(spacer2);
-
+//        JLabel spacer2 = new JLabel();
+//        spacer2.setPreferredSize(new Dimension(280, 50));
+//        box.add(spacer2);
+        box.add(Box.createRigidArea(new Dimension(0, 40)));
 
         JLabel reportTitle = new JLabel(" Informes");
         reportTitle.setFont(new Font("Calibri", Font.BOLD, 28));
         reportTitle.setPreferredSize(new Dimension(200, 50));
         reportTitle.setBackground(new Color(0x2dce98));
         reportTitle.setForeground(Color.white);
-        leftPanel.add(reportTitle);
+        box.add(reportTitle);
 
         dateReportButton = new JButton("Trabajador - Fecha");
         dateReportButton.setFont(new Font("Calibri", Font.BOLD, 25));
-        dateReportButton.setPreferredSize(new Dimension(280, 50));
+        //dateReportButton.setPreferredSize(new Dimension(280, 50));
         dateReportButton.setBackground(new Color(0x245479));
         dateReportButton.setForeground(Color.white);
         dateReportButton.addActionListener(this);
-        leftPanel.add(dateReportButton);
+        box.add(dateReportButton);
 
         obraReportButton = new JButton("Obra/s");
         obraReportButton.setFont(new Font("Calibri", Font.BOLD, 25));
-        obraReportButton.setPreferredSize(new Dimension(280, 50));
+        //obraReportButton.setPreferredSize(new Dimension(280, 50));
         obraReportButton.setBackground(new Color(0x245479));
         obraReportButton.setForeground(Color.white);
         obraReportButton.addActionListener(this);
-        leftPanel.add(obraReportButton);
+        box.add(obraReportButton);
 
-        JLabel spacer3 = new JLabel();
-        spacer3.setPreferredSize(new Dimension(280, 160));
-        leftPanel.add(spacer3);
+//        JLabel spacer3 = new JLabel();
+//        spacer3.setPreferredSize(new Dimension(280, 160));
+//        box.add(spacer3);
+
+        box.add(Box.createRigidArea(new Dimension(0, 40)));
 
         JLabel copyright = new JLabel(" © Copyright 2021 - Maurici Ruiz Plaza");
         copyright.setFont(new Font("Calibri", Font.PLAIN, 18));
-        copyright.setPreferredSize(new Dimension(300, 25));
+        //copyright.setPreferredSize(new Dimension(300, 25));
         copyright.setForeground(Color.white);
-        leftPanel.add(copyright);
+        box.add(copyright);
 
         JLabel copyright1 = new JLabel("  All Rights Reserved.");
         copyright1.setFont(new Font("Calibri", Font.PLAIN, 18));
-        copyright1.setPreferredSize(new Dimension(300, 20));
+        //copyright1.setPreferredSize(new Dimension(300, 20));
         copyright1.setForeground(Color.white);
-        leftPanel.add(copyright1);
+        box.add(copyright1);
 
-        leftPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+        leftPanel.add(box);
+        // leftPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        // leftPanel.setLayout(new BorderLayout());
 
         return leftPanel;
     }

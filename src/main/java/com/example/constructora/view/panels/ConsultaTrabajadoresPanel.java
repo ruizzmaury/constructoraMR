@@ -35,14 +35,16 @@ public class ConsultaTrabajadoresPanel extends JPanel {
     private void initComponents() {
         setBounds(0, 5, 1600, 1000);
 
+
         Dimension size
                 = Toolkit.getDefaultToolkit().getScreenSize();
 
         // width will store the width of the screen
-        int width = (int) size.getWidth();
+        int width = (int)size.getWidth();
 
         // height will store the height of the screen
-        int height = (int) size.getHeight();
+        int height = (int)size.getHeight();
+        setBounds(0, 5, width-300, height-10);
 
         JScrollPane jScrollPane1 = new JScrollPane();
         tablaTrabajadores = new JTable();

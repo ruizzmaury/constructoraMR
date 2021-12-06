@@ -1,11 +1,17 @@
 package com.example.constructora.view.panels;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.Objects;
+
 
 public class WelcomePanel extends JPanel {
     private static final long serialVersionUID = 1L;
@@ -25,11 +31,11 @@ public class WelcomePanel extends JPanel {
 //    private Image imgIcon = new ImageIcon(HomePage.class.getResource("/Images/cabinet.jpg")).getImage()
 //            .getScaledInstance(918, 510, Image.SCALE_SMOOTH);
 
-    public WelcomePanel() {
+    public WelcomePanel() throws IOException {
         guiHomePage();
     }
 
-    public void guiHomePage() {
+    public void guiHomePage() throws IOException {
         Dimension size
                 = Toolkit.getDefaultToolkit().getScreenSize();
         // width will store the width of the screen
@@ -55,10 +61,15 @@ public class WelcomePanel extends JPanel {
 
 
         labelPaymentService = new JLabel("          LOGO DE EMPRESA");
-        labelPaymentService.setBounds(0, 137, 800, 29);
+        labelPaymentService.setBounds(0, 137, width-300, 29);
         labelPaymentService.setHorizontalAlignment(SwingConstants.CENTER);
         labelPaymentService.setFont(new Font("Tahoma", Font.BOLD, 20));
         panelMain.add(labelPaymentService);
+
+
+//        BufferedImage myPicture = ImageIO.read(new File("src/main/resources/images/iconoApp.png"));
+//        JLabel picLabel = new JLabel(new ImageIcon(myPicture));
+//        add(picLabel);
 
         panelWelcome = new JPanel();
         panelWelcome.setBackground(new Color(32, 178, 170));
@@ -68,7 +79,7 @@ public class WelcomePanel extends JPanel {
 
         labelWelcome = new JLabel("          BIENVENIDO DE NUEVO");
         labelWelcome.setFont(new Font("Trebuchet MS", Font.BOLD, 24));
-        labelWelcome.setBounds(12, 13, 800, 43);
+        labelWelcome.setBounds(12, 13, width-300, 43);
         panelWelcome.add(labelWelcome);
 
 
