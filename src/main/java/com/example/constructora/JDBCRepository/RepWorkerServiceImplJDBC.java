@@ -9,8 +9,8 @@ import java.util.List;
 public class RepWorkerServiceImplJDBC implements RepWorkerServiceJDBC {
 
     final String DB_URL = "jdbc:postgresql://localhost:5432/constructorabd";
-    final String USER = "constructora";
-    final String PASS = "constructora";
+    final String USER = "postgres";
+    final String PASS = "postgres";
 
 
     @Override

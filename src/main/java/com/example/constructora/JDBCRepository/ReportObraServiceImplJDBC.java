@@ -8,8 +8,8 @@ import java.util.List;
 public class ReportObraServiceImplJDBC implements ReportObraServiceJDBC {
 
     final String DB_URL = "jdbc:postgresql://localhost:5432/constructorabd";
-    final String USER = "constructora";
-    final String PASS = "constructora";
+    final String USER = "postgres";
+    final String PASS = "postgres";
 
 
     @Override
