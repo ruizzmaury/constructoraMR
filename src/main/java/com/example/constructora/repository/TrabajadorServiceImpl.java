@@ -1,10 +1,11 @@
 package com.example.constructora.repository;
 
 import com.example.constructora.domain.Trabajador;
-import com.example.constructora.exception.NotFoundException;
 
+import com.example.constructora.exception.NotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.sis.internal.jaxb.metadata.EX_Extent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.Locale;
 
 @Service
 @AllArgsConstructor
@@ -48,16 +48,9 @@ public class TrabajadorServiceImpl implements TrabajadorService {
 
     @Override
     public Trabajador getTrabajador(String DNI) {
-//        return  trabajadorRepository
-//                .findById(id)
-//                .orElseThrow(
-//                        () -> {
-//                            NotFoundException notFoundException = new NotFoundException(
-//                                    "worker with id " + id + " not found");
-//                            log.error("error in getting worker {}", id, notFoundException);
-//                            return notFoundException;
-//                        });
-        return null;
+        return trabajadorRepository
+                .getTrabajador(DNI);
+
     }
 
 
@@ -68,7 +61,7 @@ public class TrabajadorServiceImpl implements TrabajadorService {
         return (List<Trabajador>) trabajadorRepository.findByNombreStartingWithIgnoreCase(
                 nombre.toUpperCase(),
                 Sort.by(Sort.Direction.ASC, "nombre")
-                );
+        );
     }
 
     @Override
@@ -82,35 +75,31 @@ public class TrabajadorServiceImpl implements TrabajadorService {
     }
 
 
-
-
     @Override
     public Trabajador update(@NotNull @Valid final Trabajador trabajador) {
-//        log.debug("Updating {}", trabajador);
-//        Trabajador existing = trabajadorRepository.findByD(trabajador.getTrabajador_dni())
-//                .orElseThrow(
-//                        () -> {
-//                            NotFoundException notFoundException = new NotFoundException(
-//                                    "worker with id " + trabajador.getId() + " not found");
-//                            log.error("error in getting worker {}", trabajador.getId(), notFoundException);
-//                            return notFoundException;
-//                        });
-//        return trabajadorRepository.save(trabajador);
-        return null;
+        log.debug("Updating {}", trabajador);
+
+        Trabajador existing = trabajadorRepository.getTrabajador(trabajador.getTrabajador_dni());
+
+        if (existing == null) {
+            throw new NotFoundException("Worker with DNI '" + trabajador.getTrabajador_dni() + "' not found...");
+        }
+
+        return trabajadorRepository.save(trabajador);
+
     }
 
     @Override
     public Trabajador delete(@NotNull @Valid final String DNI) {
-//        Trabajador existing = trabajadorRepository.findById(trabajador_id)
-//                .orElseThrow(
-//                        () -> {
-//                            NotFoundException notFoundException = new NotFoundException(
-//                                    "worker with id " + trabajador_id + " not found");
-//                            log.error("error in getting worker {}", trabajador_id, notFoundException);
-//                            return notFoundException;
-//                        });
-//        trabajadorRepository.delete(existing);
-//        return existing;
-        return null;
+        log.debug("Deleting worker with DNI '{}'", DNI);
+
+        Trabajador existing = trabajadorRepository.getTrabajador(DNI);
+
+        if (existing == null) {
+            throw new NotFoundException("Worker with DNI '" + DNI + "' not found...");
+        }
+
+        trabajadorRepository.delete(existing);
+        return existing;
     }
 }

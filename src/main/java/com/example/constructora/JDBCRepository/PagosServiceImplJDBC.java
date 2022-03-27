@@ -16,9 +16,6 @@ import java.util.Objects;
 
 public class PagosServiceImplJDBC implements PagosServiceJDBC {
 
-    final String DB_URL = "jdbc:postgresql://localhost:5432/constructorabd";
-    final String USER = "constructora";
-    final String PASS = "constructora";
 
     @Autowired
     private TrabajadorServiceJDBC trabajadorServiceJDBC = new TrabajadorServiceImplJDBC();
@@ -29,7 +26,7 @@ public class PagosServiceImplJDBC implements PagosServiceJDBC {
                 "(?, ?, ?, ?, ?, ?)";
 
         // Open a connection
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+        try (Connection conn = DriverManager.getConnection(JDBCUtils.DB_URL, JDBCUtils.USER, JDBCUtils.PASS);
              PreparedStatement stmt = conn.prepareStatement(QUERY)) {
 
             stmt.setLong(1, pago.getId());
@@ -57,7 +54,7 @@ public class PagosServiceImplJDBC implements PagosServiceJDBC {
         final String QUERY = "SELECT * FROM pago";
 
         // Open a connection
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+        try (Connection conn = DriverManager.getConnection(JDBCUtils.DB_URL, JDBCUtils.USER, JDBCUtils.PASS);
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(QUERY);) {
 
@@ -90,7 +87,7 @@ public class PagosServiceImplJDBC implements PagosServiceJDBC {
         final String QUERY = "SELECT * FROM pago WHERE pago.pago_id= ?";
 
         // Open a connection
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+        try (Connection conn = DriverManager.getConnection(JDBCUtils.DB_URL, JDBCUtils.USER, JDBCUtils.PASS);
              PreparedStatement stmt = conn.prepareStatement(QUERY)) {
             stmt.setLong(1, id);
 
@@ -311,7 +308,7 @@ public class PagosServiceImplJDBC implements PagosServiceJDBC {
                 "WHERE pago_id = ?";
 
         // Open a connection
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+        try (Connection conn = DriverManager.getConnection(JDBCUtils.DB_URL, JDBCUtils.USER, JDBCUtils.PASS);
              PreparedStatement stmt = conn.prepareStatement(QUERY)) {
 
 //            Trabajador referencedTrabajador = pago.getTrabajadorPago();
@@ -343,7 +340,7 @@ public class PagosServiceImplJDBC implements PagosServiceJDBC {
         final String QUERY = "DELETE FROM pago WHERE pago.pago_id = ?";
         System.out.println("BORRA O NO : " + pago_id);
         // Open a connection
-        try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+        try (Connection conn = DriverManager.getConnection(JDBCUtils.DB_URL, JDBCUtils.USER, JDBCUtils.PASS);
              PreparedStatement stmt = conn.prepareStatement(QUERY)) {
             stmt.setLong(1, pago_id);
 

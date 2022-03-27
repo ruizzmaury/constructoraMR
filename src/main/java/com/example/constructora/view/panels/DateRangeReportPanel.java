@@ -96,7 +96,7 @@ public class DateRangeReportPanel extends JPanel implements ActionListener {
         JLabel worker = new JLabel("- Seleccione una trabajador");
         worker.setFont(new Font("Calibri", Font.PLAIN, 26));
         worker.setSize(300, 30);
-        worker.setLocation(150, height / 8 + 140);
+        worker.setLocation(150, height / 8 + 130);
         this.add(worker);
 
 
@@ -104,7 +104,7 @@ public class DateRangeReportPanel extends JPanel implements ActionListener {
         workerName = new JComboBox<>(workerNames);
         workerName.setFont(new Font("Calibri", Font.PLAIN, 15));
         workerName.setSize(190, 28);
-        workerName.setLocation(170, height / 7 + 180);
+        workerName.setLocation(170, height / 7 + 160);
         this.add(workerName);
 
         workerName.addActionListener(new ActionListener() {
@@ -133,14 +133,14 @@ public class DateRangeReportPanel extends JPanel implements ActionListener {
         //instanciamos el modelo
         model = new DefaultListModel<>();
         scrollLista = new JScrollPane();
-        scrollLista.setBounds(170, height / 7 + 240, 250, 140);
+        scrollLista.setBounds(170, height / 7 + 200, 250, 140);
         scrollLista.setViewportView(workersDisplayedJList);
         this.add(scrollLista);
 
 
         deleteWorkerFromListButton = new JButton("Borrar Trabajador");
         deleteWorkerFromListButton.setFont(new Font("Calibri", Font.BOLD, 15));
-        deleteWorkerFromListButton.setBounds(170, height / 2 + 50, 145, 40);
+        deleteWorkerFromListButton.setBounds(170, height / 2 + 90, 145, 40);
         deleteWorkerFromListButton.addActionListener(this);
         deleteWorkerFromListButton.setBackground(new Color(0xbd2b2b));
         deleteWorkerFromListButton.setForeground(Color.white);
@@ -150,7 +150,7 @@ public class DateRangeReportPanel extends JPanel implements ActionListener {
 
         deleteListButton = new JButton("Borrar Lista");
         deleteListButton.setFont(new Font("Calibri", Font.BOLD, 15));
-        deleteListButton.setBounds(340, height / 2 + 50, 145, 40);
+        deleteListButton.setBounds(340, height / 2 + 90, 145, 40);
         deleteListButton.addActionListener(this);
         deleteListButton.setBackground(new Color(0xbd2b2b));
         deleteListButton.setForeground(Color.white);
@@ -162,7 +162,7 @@ public class DateRangeReportPanel extends JPanel implements ActionListener {
         createReportButton = new JButton("CREAR INFORME");
         createReportButton.setFont(new Font("Calibri", Font.BOLD, 18));
         createReportButton.setSize(160, 65);
-        createReportButton.setLocation(180, height / 2 + 120);
+        createReportButton.setLocation(180, height / 2 + 160);
         createReportButton.addActionListener(this);
         createReportButton.setBackground(new Color(0x0D4931));
         createReportButton.setForeground(Color.white);

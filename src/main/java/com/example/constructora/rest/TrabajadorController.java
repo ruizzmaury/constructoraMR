@@ -1,8 +1,8 @@
 package com.example.constructora.rest;
 
 import com.example.constructora.domain.Trabajador;
+import com.example.constructora.exception.NotFoundException;
 import com.example.constructora.repository.TrabajadorServiceImpl;
-import javassist.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
@@ -29,18 +29,20 @@ public class TrabajadorController {
         return trabajadorServiceImpl.getTrabajadores();
     }
 
-    // GET: http://localhost:8080/api/v1/trabajadores/1
-    @GetMapping(path = "{trabajadorId}")
-    Trabajador getTrabajador(@PathVariable("trabajadorId") Long id) throws NotFoundException {
-//        return trabajadorServiceImpl.getTrabajador(id);
-        return null;
+
+
+    @GetMapping(path="{trabajadorDNI}")
+    Trabajador getTrabajador(@PathVariable("trabajadorDNI") String DNI) throws NotFoundException {
+        return trabajadorServiceImpl.getTrabajador(String.valueOf(DNI));
     }
 
-    // GET: http://localhost:8080/api/v1/trabajadores/searchName?nombre=be
+
+    // @GetMapping(path = "http://localhost:8080/api/v1/trabajadores/searchName?name={name}")
     @GetMapping(path = "/searchName")
-    List<Trabajador> getTrabajadorByName(@RequestParam String nombre) {
-        Assert.isTrue(!nombre.isEmpty(), "name parameter must be present");
-        return trabajadorServiceImpl.findByNombreStartingWith(nombre);
+    @ResponseBody
+    List<Trabajador> getTrabajadorByName(@RequestParam String name) {
+        Assert.isTrue(!name.isEmpty(), "name parameter must be present");
+        return trabajadorServiceImpl.findByNombreStartingWith(name);
     }
 
     // GET: http://localhost:8080/api/v1/trabajadores/searchEmail?email=be
@@ -70,9 +72,9 @@ public class TrabajadorController {
 
 
     // DELETE: http://localhost:8080/api/v1/trabajadores/1
-    @DeleteMapping(path = "{trabajadorId}")
-    void deleteTrabajador(@PathVariable("trabajadorId") Long id) {
-        log.debug("DELETE REQUEST FOR CUSTOMER WITH ID {}", id);
-//        trabajadorServiceImpl.delete(id);
+    @DeleteMapping(path = "{trabajadorDNI}")
+    void deleteTrabajador(@PathVariable("trabajadorDNI") String DNI) {
+        log.debug("DELETE REQUEST FOR CUSTOMER WITH DNI {}", DNI);
+        trabajadorServiceImpl.delete(DNI);
     }
 }

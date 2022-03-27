@@ -14,6 +14,9 @@ public interface TrabajadorRepository extends JpaRepository<Trabajador, Long> {
     List<Trabajador> findByNombreStartingWithIgnoreCase(String nombre, Sort sort);
 
     List<Trabajador> findByEmailStartingWithIgnoreCase(String email, Sort sort);
+    
+    @Query("SELECT t FROM Trabajador t WHERE t.trabajador_dni=?1")
+    Trabajador getTrabajador(String DNI);
 
 
 }
